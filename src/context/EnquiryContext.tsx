@@ -1,33 +1,15 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { FabricItem, CustomerEnquiry } from '../types';
 import { FABRICS_DATA } from '../data/fabrics';
+import { getSupabaseBrowser } from '@/lib/supabase/client';
+import { FabricRow, rowToFabric } from '@/lib/fabrics';
 
 interface EnquiryModalData {
   isOpen: boolean;
   fabric?: FabricItem;
   defaultQty?: string;
-}
-
-interface EnquiryContextType {
-  fabrics: FabricItem[];
-  enquiries: CustomerEnquiry[];
-  modalData: EnquiryModalData;
-  openEnquiryModal: (fabric?: FabricItem, defaultQty?: string) => void;
-  closeEnquiryModal: () => void;
-  submitEnquiry: (enquiry: EnquirySubmission) => Promise<SubmitResult>;
-  updateEnquiryStatus: (id: string, status: CustomerEnquiry['status']) => void;
-  addProduct: (product: FabricItem) => void;
-  updateProduct: (product: FabricItem) => void;
-  deleteProduct: (id: string) => void;
-  generateWhatsAppUrl: (data: {
-    productCode?: string;
-    productName?: string;
-    quantity?: string;
-    customNote?: string;
-    sourcePage?: string;
-  }) => string;
 }
 
 export type EnquirySubmission = Omit<CustomerEnquiry, 'id' | 'timestamp' | 'status'> & {
@@ -38,56 +20,35 @@ export type EnquirySubmission = Omit<CustomerEnquiry, 'id' | 'timestamp' | 'stat
 
 export type SubmitResult = { ok: true } | { ok: false; error: string };
 
+interface EnquiryContextType {
+  fabrics: FabricItem[];
+  fabricsLoaded: boolean;
+  refreshFabrics: () => Promise<void>;
+  modalData: EnquiryModalData;
+  openEnquiryModal: (fabric?: FabricItem, defaultQty?: string) => void;
+  closeEnquiryModal: () => void;
+  submitEnquiry: (enquiry: EnquirySubmission) => Promise<SubmitResult>;
+  generateWhatsAppUrl: (data: {
+    productCode?: string;
+    productName?: string;
+    quantity?: string;
+    customNote?: string;
+    sourcePage?: string;
+  }) => string;
+}
+
 const EnquiryContext = createContext<EnquiryContextType | undefined>(undefined);
 
-const OFFICIAL_WHATSAPP_NUMBER = '919825123456'; // Official Khodal Fashion Surat business line
+/** WhatsApp number from env, normalised to international format (10-digit Indian numbers get 91). */
+function getWhatsAppNumber(): string {
+  const digits = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919825123456').replace(/\D/g, '');
+  return digits.length === 10 ? `91${digits}` : digits;
+}
 
 export function EnquiryProvider({ children }: { children: React.ReactNode }) {
+  // Built-in catalogue shows instantly; replaced by the live Supabase catalogue once loaded.
   const [fabrics, setFabrics] = useState<FabricItem[]>(FABRICS_DATA);
-  const [enquiries, setEnquiries] = useState<CustomerEnquiry[]>([
-    {
-      id: 'enq-101',
-      timestamp: '2026-11-22 14:30',
-      businessName: 'Royal Heritage Menswear Studio',
-      contactPerson: 'Vikramaditya Rathore',
-      phone: '+91 98290 11223',
-      email: 'vikram@royalheritagemenswear.com',
-      productCode: 'KF-ZAR-901',
-      productName: 'Royal Zardozi Floral Brocade',
-      quantity: '45 Metres',
-      enquiryType: 'fabric-price',
-      notes: 'Requiring for forthcoming Royal Jodhpur Winter Wedding Collection. Need swatch approval first.',
-      status: 'new',
-    },
-    {
-      id: 'enq-102',
-      timestamp: '2026-11-21 18:15',
-      businessName: 'The Sherwani Co. Mumbai',
-      contactPerson: 'Sameer Merchant',
-      phone: '+91 98200 44556',
-      email: 'sameer@thesherwanico.in',
-      productCode: 'KF-CUT-902',
-      productName: 'Imperial Pearl & Cutdana Jaal',
-      quantity: '120 Metres',
-      enquiryType: 'wholesale-b2b',
-      notes: 'Bulk booking enquiry for Spring grooms collection. Kindly confirm lead time.',
-      status: 'quoted',
-    },
-    {
-      id: 'enq-103',
-      timestamp: '2026-11-20 11:05',
-      businessName: 'Ananya Couture Atelier',
-      contactPerson: 'Ananya Singhania',
-      phone: '+91 99300 77889',
-      email: 'design@ananyacouture.com',
-      productCode: 'Custom Embroidery',
-      productName: 'Custom Zari Bullion on Organza',
-      quantity: '80 Metres',
-      enquiryType: 'custom-jobwork',
-      notes: 'We have our proprietary Mughal architectural motifs. Need sampling in Surat.',
-      status: 'sample-sent',
-    },
-  ]);
+  const [fabricsLoaded, setFabricsLoaded] = useState(false);
 
   const [modalData, setModalData] = useState<EnquiryModalData>({
     isOpen: false,
@@ -95,29 +56,43 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
     defaultQty: '25 Metres',
   });
 
-  // Load local storage if available on client
-  useEffect(() => {
+  const refreshFabrics = useCallback(async () => {
     try {
-      const storedFabrics = localStorage.getItem('kf_fabrics');
-      if (storedFabrics) {
-        setFabrics(JSON.parse(storedFabrics));
+      const { data, error } = await getSupabaseBrowser()
+        .from('fabrics')
+        .select('*')
+        .eq('is_published', true)
+        .order('sort_order', { ascending: true })
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      if (data && data.length > 0) {
+        setFabrics((data as FabricRow[]).map(rowToFabric));
       }
-      const storedEnquiries = localStorage.getItem('kf_enquiries');
-      if (storedEnquiries) {
-        setEnquiries(JSON.parse(storedEnquiries));
-      }
+    } catch (err) {
+      console.error('Could not load catalogue from Supabase, using built-in data.', err);
+    } finally {
+      setFabricsLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshFabrics();
+    // Clean up data left by the old browser-only version of the site.
+    try {
+      localStorage.removeItem('kf_fabrics');
+      localStorage.removeItem('kf_enquiries');
     } catch {
       // ignore
     }
-  }, []);
+  }, [refreshFabrics]);
 
   const openEnquiryModal = (fabric?: FabricItem, defaultQty = '25 Metres') => {
     setModalData({ isOpen: true, fabric, defaultQty });
   };
 
-  const closeEnquiryModal = () => {
+  const closeEnquiryModal = useCallback(() => {
     setModalData({ isOpen: false, fabric: undefined });
-  };
+  }, []);
 
   // Sends the enquiry to our server, which stores it in Supabase and emails an alert.
   const submitEnquiry = async (enquiryData: EnquirySubmission): Promise<SubmitResult> => {
@@ -141,46 +116,6 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
         ok: false,
         error: 'Network error — please check your connection and try again, or contact us on WhatsApp.',
       };
-    }
-  };
-
-  const updateEnquiryStatus = (id: string, status: CustomerEnquiry['status']) => {
-    const updated = enquiries.map((item) => (item.id === id ? { ...item, status } : item));
-    setEnquiries(updated);
-    try {
-      localStorage.setItem('kf_enquiries', JSON.stringify(updated));
-    } catch {
-      // ignore
-    }
-  };
-
-  const addProduct = (product: FabricItem) => {
-    const updated = [product, ...fabrics];
-    setFabrics(updated);
-    try {
-      localStorage.setItem('kf_fabrics', JSON.stringify(updated));
-    } catch {
-      // ignore
-    }
-  };
-
-  const updateProduct = (product: FabricItem) => {
-    const updated = fabrics.map((p) => (p.id === product.id ? product : p));
-    setFabrics(updated);
-    try {
-      localStorage.setItem('kf_fabrics', JSON.stringify(updated));
-    } catch {
-      // ignore
-    }
-  };
-
-  const deleteProduct = (id: string) => {
-    const updated = fabrics.filter((p) => p.id !== id);
-    setFabrics(updated);
-    try {
-      localStorage.setItem('kf_fabrics', JSON.stringify(updated));
-    } catch {
-      // ignore
     }
   };
 
@@ -212,22 +147,19 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
     lines.push('Please share current wholesale availability, per-meter pricing, and sample swatch dispatch details.');
 
     const text = encodeURIComponent(lines.join('\n'));
-    return `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${text}`;
+    return `https://wa.me/${getWhatsAppNumber()}?text=${text}`;
   };
 
   return (
     <EnquiryContext.Provider
       value={{
         fabrics,
-        enquiries,
+        fabricsLoaded,
+        refreshFabrics,
         modalData,
         openEnquiryModal,
         closeEnquiryModal,
         submitEnquiry,
-        updateEnquiryStatus,
-        addProduct,
-        updateProduct,
-        deleteProduct,
         generateWhatsAppUrl,
       }}
     >

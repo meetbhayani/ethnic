@@ -174,11 +174,6 @@ export default function Footer() {
                   Commercial Buyer FAQ
                 </Link>
               </li>
-              <li>
-                <Link href="/admin" className="hover:text-[#FAF8F3] transition-colors text-[#AD8A53]">
-                  Admin Dashboard Login
-                </Link>
-              </li>
             </ul>
           </div>
 

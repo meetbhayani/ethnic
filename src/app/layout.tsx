@@ -1,10 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { EnquiryProvider } from '@/context/EnquiryContext';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import WhatsAppSticky from '@/components/WhatsAppSticky';
-import EnquiryModal from '@/components/EnquiryModal';
 
 export const metadata: Metadata = {
   title: 'Khodal Fashion | The Art of Royal Textiles | Men’s Ethnic Embroidered Fabrics Surat',
@@ -43,15 +38,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="min-h-screen flex flex-col font-sans bg-[#FAF8F3] text-[#30241F]">
-        <EnquiryProvider>
-          <Navbar />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-          <WhatsAppSticky />
-          <EnquiryModal />
-        </EnquiryProvider>
-      </body>
+      {/* Public site chrome lives in (site)/layout.tsx; the admin app has its own layout. */}
+      <body className="min-h-screen font-sans bg-[#FAF8F3] text-[#30241F]">{children}</body>
     </html>
   );
 }

@@ -93,10 +93,6 @@ export default function Navbar() {
               Buyer FAQ
             </Link>
             <span className="text-[#AD8A53]/30">•</span>
-            <Link href="/admin" className="hover:text-[#AD8A53] transition-colors whitespace-nowrap">
-              Admin Portal
-            </Link>
-            <span className="text-[#AD8A53]/30">•</span>
             <a
               href={generateWhatsAppUrl({ sourcePage: 'Top Navigation Bar' })}
               target="_blank"
@@ -545,12 +541,6 @@ export default function Navbar() {
                 <MessageCircle className="w-4 h-4" />
                 <span>WhatsApp Business Desk</span>
               </a>
-              <Link
-                href="/admin"
-                className="block text-center text-xs text-[#AD8A53] underline tracking-wider"
-              >
-                Admin Operations Portal
-              </Link>
             </div>
 
             <div className="pt-4 text-center">
