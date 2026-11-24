@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   Sparkles,
-  MessageCircle,
   ShieldCheck,
   CheckCircle2,
   Clock,
@@ -17,6 +16,7 @@ import {
 import { useEnquiry } from '@/context/EnquiryContext';
 import FabricCard from '@/components/FabricCard';
 import { FabricItem } from '@/types';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 /** Interactive product view. Data is loaded on the server by app/(site)/collections/[id]/page.tsx. */
 export default function ProductDetail({ fabric, relatedFabrics }: { fabric: FabricItem; relatedFabrics: FabricItem[] }) {
@@ -243,7 +243,7 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
                   rel="noopener noreferrer"
                   className="w-full py-3.5 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-xs uppercase tracking-widest font-sans font-semibold transition-colors flex items-center justify-center gap-2 shadow"
                 >
-                  <MessageCircle className="w-4 h-4" />
+                  <WhatsAppIcon className="w-4 h-4" />
                   <span>Enquire on WhatsApp</span>
                 </a>
               </div>

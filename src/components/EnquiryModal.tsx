@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { X, MessageCircle, ArrowUpRight, CheckCircle2, Sparkles, Send } from 'lucide-react';
+import { X, ArrowUpRight, CheckCircle2, Sparkles, Send } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function EnquiryModal() {
   const { modalData, closeEnquiryModal, submitEnquiry, generateWhatsAppUrl } = useEnquiry();
@@ -103,7 +104,7 @@ export default function EnquiryModal() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-[#AD8A53] text-[#FAF8F3] py-2.5 px-6 text-xs uppercase tracking-widest font-sans font-semibold"
               >
-                <MessageCircle className="w-4 h-4" />
+                <WhatsAppIcon className="w-4 h-4" />
                 <span>Open in WhatsApp Now</span>
               </a>
               <button
@@ -259,7 +260,7 @@ export default function EnquiryModal() {
                   rel="noopener noreferrer"
                   className="flex-1 py-3 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-xs uppercase tracking-widest font-sans font-semibold transition-colors flex items-center justify-center gap-2 shadow"
                 >
-                  <MessageCircle className="w-4 h-4" />
+                  <WhatsAppIcon className="w-4 h-4" />
                   <span>Direct WhatsApp</span>
                   <ArrowUpRight className="w-3 h-3" />
                 </a>

@@ -6,13 +6,13 @@ import {
   Building2,
   Users,
   CheckCircle2,
-  MessageCircle,
   Package,
   Layers,
   ArrowRight,
   Send,
 } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function WholesaleB2BPage() {
   const { submitEnquiry, generateWhatsAppUrl, openEnquiryModal } = useEnquiry();
@@ -152,7 +152,7 @@ export default function WholesaleB2BPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-xs uppercase tracking-widest font-semibold transition-colors shadow"
             >
-              <MessageCircle className="w-4 h-4" />
+              <WhatsAppIcon className="w-4 h-4" />
               <span>Direct WhatsApp Desk</span>
             </a>
           </div>

@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Search, ChevronDown, MessageCircle, HelpCircle } from 'lucide-react';
+import { Search, ChevronDown, HelpCircle } from 'lucide-react';
 import { FAQS_DATA } from '@/data/faqs';
 import { useEnquiry } from '@/context/EnquiryContext';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function FAQPage() {
   const { generateWhatsAppUrl } = useEnquiry();
@@ -141,7 +142,7 @@ export default function FAQPage() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-8 py-3 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-xs uppercase tracking-widest font-semibold transition-colors shadow"
         >
-          <MessageCircle className="w-4 h-4" />
+          <WhatsAppIcon className="w-4 h-4" />
           <span>Chat on WhatsApp Desk</span>
         </a>
       </div>

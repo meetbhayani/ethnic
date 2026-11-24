@@ -2,8 +2,9 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, MessageCircle, Mail, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Mail, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function Footer() {
   const { generateWhatsAppUrl } = useEnquiry();
@@ -49,7 +50,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] px-5 py-2.5 text-xs uppercase tracking-widest font-sans font-medium transition-colors"
               >
-                <MessageCircle className="w-4 h-4" />
+                <WhatsAppIcon className="w-4 h-4" />
                 <span>Direct WhatsApp Enquiry</span>
               </a>
               <Link
@@ -229,7 +230,7 @@ export default function Footer() {
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <MessageCircle className="w-4 h-4 text-[#AD8A53] shrink-0" />
+                <WhatsAppIcon className="w-4 h-4 text-[#AD8A53] shrink-0" />
                 <span>WhatsApp: +91 98251 23456</span>
               </div>
               <div className="flex items-center gap-2">

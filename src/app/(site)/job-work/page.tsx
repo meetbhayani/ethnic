@@ -10,9 +10,9 @@ import {
   Clock,
   ShieldAlert,
   Send,
-  MessageCircle,
 } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function JobWorkPage() {
   const { submitEnquiry, generateWhatsAppUrl } = useEnquiry();
@@ -154,7 +154,7 @@ export default function JobWorkPage() {
                   rel="noopener noreferrer"
                   className="px-6 py-2.5 bg-[#AD8A53] text-[#FAF8F3] text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2"
                 >
-                  <MessageCircle className="w-4 h-4" />
+                  <WhatsAppIcon className="w-4 h-4" />
                   <span>Open WhatsApp Thread</span>
                 </a>
                 <button

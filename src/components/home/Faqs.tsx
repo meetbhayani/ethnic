@@ -2,11 +2,12 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, MessageCircle, Plus } from 'lucide-react';
+import { ArrowRight, Plus } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
 import { FAQS_DATA } from '@/data/faqs';
 import { fabricById } from './fabric-library';
 import { Eyebrow, Reveal, SplitWords } from './motion';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const FAQS = FAQS_DATA.slice(0, 6);
 const SIDE_FABRIC = fabricById('gold-pearl-net');
@@ -46,7 +47,7 @@ export default function Faqs() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-[#30241F] hover:text-[#713B43]"
             >
-              <MessageCircle className="w-4 h-4 text-[#25D366]" /> Ask us on WhatsApp
+              <WhatsAppIcon className="w-4 h-4 text-[#25D366]" /> Ask us on WhatsApp
             </a>
             <Link
               href="/faq"

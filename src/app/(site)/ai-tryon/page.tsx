@@ -7,7 +7,6 @@ import {
   Upload,
   RefreshCw,
   Download,
-  MessageCircle,
   CheckCircle2,
   AlertCircle,
   Eye,
@@ -17,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
 import { FabricItem } from '@/types';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 function AITryOnContent() {
   const { fabrics, generateWhatsAppUrl } = useEnquiry();
@@ -548,7 +548,7 @@ function AITryOnContent() {
                       rel="noopener noreferrer"
                       className="px-3 py-1.5 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-[12px] uppercase tracking-wider font-semibold flex items-center gap-1 shadow"
                     >
-                      <MessageCircle className="w-3 h-3" />
+                      <WhatsAppIcon className="w-3 h-3" />
                       Enquire on WhatsApp
                     </a>
                   </div>

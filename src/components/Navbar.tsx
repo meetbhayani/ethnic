@@ -8,11 +8,11 @@ import {
   X,
   ArrowUpRight,
   Sparkles,
-  MessageCircle,
   ChevronDown,
   Search,
 } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -94,7 +94,7 @@ export default function Navbar() {
     <header ref={headerRef} className="sticky top-0 z-40 w-full max-w-full overflow-x-clip bg-[#FAF8F3] transition-all duration-300">
       {/* Top Editorial Bar */}
       <div className="bg-[#252321] text-[#C9BBA7] text-[12px] tracking-[0.18em] uppercase py-2 px-4 sm:px-6 lg:px-8 border-b border-[#30241F]">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="max-w-[1600px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
             <span className="w-1.5 h-1.5 rounded-full bg-[#AD8A53] shrink-0" />
             <span className="font-sans font-medium text-[#FAF8F3]/90 text-[11px] sm:text-[12px] truncate">
@@ -112,7 +112,7 @@ export default function Navbar() {
               rel="noopener noreferrer"
               className="text-[#AD8A53] hover:text-[#C8A974] flex items-center gap-1.5 font-medium transition-colors whitespace-nowrap"
             >
-              <MessageCircle className="w-3 h-3" />
+              <WhatsAppIcon className="w-3 h-3" />
               <span>WhatsApp Desk</span>
             </a>
           </div>
@@ -125,23 +125,23 @@ export default function Navbar() {
           scrolled ? 'bg-[#FAF8F3]/98 backdrop-blur-md shadow-sm py-2.5 sm:py-3' : 'bg-[#FAF8F3] py-3 sm:py-4'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-2 sm:gap-4 lg:gap-6">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-3 sm:gap-4 xl:gap-10 2xl:gap-14">
             
             {/* 1. Brand Logo */}
             <div className="shrink-0 flex flex-col justify-center">
               <Link href="/" className="group inline-block">
-                <span className="font-editorial text-lg sm:text-2xl xl:text-[26px] tracking-[0.04em] sm:tracking-[0.06em] text-[#30241F] group-hover:text-[#713B43] transition-colors font-medium whitespace-nowrap block leading-tight">
+                <span className="font-editorial text-lg sm:text-2xl xl:text-[24px] 2xl:text-[26px] tracking-[0.04em] sm:tracking-[0.06em] text-[#30241F] group-hover:text-[#713B43] transition-colors font-medium whitespace-nowrap block leading-tight">
                   KHODAL FASHION
                 </span>
-                <span className="block text-[10px] sm:text-[11px] tracking-[0.12em] sm:tracking-[0.24em] uppercase text-[#AD8A53] font-sans font-medium mt-0.5 whitespace-nowrap">
+                <span className="block text-[10px] sm:text-[11px] tracking-[0.12em] sm:tracking-[0.2em] xl:tracking-[0.14em] 2xl:tracking-[0.18em] uppercase text-[#AD8A53] font-sans font-medium mt-1 whitespace-nowrap">
                   The Art of Royal Textiles • Surat
                 </span>
               </Link>
             </div>
 
             {/* 2. Desktop Navigation (Active on xl: 1280px+ for spacious perfection) */}
-            <div className="hidden xl:flex items-center gap-4 2xl:gap-7 flex-grow justify-center min-w-0">
+            <div className="hidden xl:flex items-center gap-6 2xl:gap-9 flex-grow justify-center">
               
               {/* Collections Dropdown */}
               <div
@@ -208,7 +208,7 @@ export default function Navbar() {
                 }`}
               >
                 <span>AI Try-On</span>
-                <span className="px-1.5 py-0.5 text-[11px] tracking-wider uppercase bg-[#AD8A53] text-[#FAF8F3] font-semibold rounded-sm inline-flex items-center gap-0.5">
+                <span className="hidden 2xl:inline-flex px-1.5 py-0.5 text-[11px] tracking-wider uppercase bg-[#AD8A53] text-[#FAF8F3] font-semibold rounded-sm items-center gap-0.5">
                   <Sparkles className="w-2.5 h-2.5" />
                   Studio
                 </span>
@@ -330,7 +330,7 @@ export default function Navbar() {
             </div>
 
             {/* 3. Right Action Buttons */}
-            <div className="shrink-0 flex items-center space-x-2 sm:space-x-3">
+            <div className="shrink-0 flex items-center gap-2 sm:gap-3 xl:gap-5">
               {/* Quick AI Studio Button for Tablets / Mid Screens */}
               <Link
                 href="/ai-tryon"
@@ -551,7 +551,7 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 className="w-full py-3 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-center text-xs tracking-widest uppercase font-sans font-semibold flex items-center justify-center gap-2 shadow"
               >
-                <MessageCircle className="w-4 h-4" />
+                <WhatsAppIcon className="w-4 h-4" />
                 <span>WhatsApp Business Desk</span>
               </a>
             </div>

@@ -2,11 +2,12 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, MessageCircle } from 'lucide-react';
+import { ArrowRight,} from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
 import FabricLoupe from './FabricLoupe';
 import { LARGE_FABRICS } from './fabric-library';
 import { SplitWords, Reveal } from './motion';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const HERO_FABRICS = LARGE_FABRICS.slice(0, 6);
 const AUTO_ADVANCE_MS = 6000;
@@ -103,7 +104,7 @@ export default function Hero() {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-[#C8A974]/60 hover:border-[#C8A974] hover:bg-[#C8A974]/10 text-[#FAF8F3] text-xs uppercase tracking-widest font-semibold transition-colors"
             >
-              <MessageCircle className="w-4 h-4 text-[#25D366]" />
+              <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
               Enquire on WhatsApp
             </a>
           </Reveal>

@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ArrowUpRight, Boxes, Clock, MessageCircle, Palette, Ruler, Truck, Wand2 } from 'lucide-react';
+import { ArrowUpRight, Boxes, Clock, Palette, Ruler, Truck, Wand2 } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
 import { fabricById } from './fabric-library';
 import { Eyebrow, Reveal, SplitWords } from './motion';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const MODES = {
   ready: {
@@ -159,7 +160,7 @@ export default function StockOrMade() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#25D366] hover:bg-[#1fb757] text-white text-[13px] uppercase tracking-widest font-semibold transition-colors"
               >
-                <MessageCircle className="w-4 h-4" />
+                <WhatsAppIcon className="w-4 h-4" />
                 {mode === 'ready' ? 'Check availability' : 'Discuss a custom design'}
               </a>
               <a

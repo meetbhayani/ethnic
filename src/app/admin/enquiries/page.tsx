@@ -2,7 +2,7 @@
 
 import React, { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Inbox, Search, Download, X, Phone, Mail, MessageCircle, Trash2, RefreshCw } from 'lucide-react';
+import { Inbox, Search, Download, X, Phone, Mail, Trash2, RefreshCw } from 'lucide-react';
 import { useAdmin } from '@/components/admin/AdminProvider';
 import {
   Button,
@@ -21,6 +21,7 @@ import {
   cx,
 } from '@/components/admin/ui';
 import { CustomerEnquiry } from '@/types';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 interface Enquiry {
   id: string;
@@ -340,7 +341,7 @@ function EnquiryDrawer({
               rel="noopener noreferrer"
               className="flex flex-col items-center gap-1 rounded-md bg-[#25D366] px-3 py-2.5 text-xs font-medium text-white hover:bg-[#1fb955]"
             >
-              <MessageCircle className="h-4 w-4" /> WhatsApp
+              <WhatsAppIcon className="h-4 w-4" /> WhatsApp
             </a>
             <a
               href={`tel:${e.phone.replace(/[^0-9+]/g, '')}`}

@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { MessageCircle, X, ArrowUpRight } from 'lucide-react';
+import { X, ArrowUpRight } from 'lucide-react';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 import { useEnquiry } from '@/context/EnquiryContext';
 
 export default function WhatsAppSticky() {
@@ -42,6 +43,7 @@ export default function WhatsAppSticky() {
             rel="noopener noreferrer"
             className="w-full inline-flex items-center justify-center gap-2 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] py-1.5 px-3 text-[13px] uppercase tracking-wider font-medium shadow-sm transition-colors"
           >
+            <WhatsAppIcon className="w-4 h-4" />
             <span>Open WhatsApp Chat</span>
             <ArrowUpRight className="w-3 h-3" />
           </a>
@@ -65,9 +67,9 @@ export default function WhatsAppSticky() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Connect with Khodal Fashion on WhatsApp"
-          className="group relative flex items-center justify-center w-12 h-12 bg-[#25D366] hover:bg-[#20b858] text-white rounded-full shadow-2xl transition-transform hover:scale-105"
+          className="group relative flex items-center justify-center w-14 h-14 bg-[#25D366] hover:bg-[#1EBE5A] text-white rounded-full shadow-[0_10px_25px_-5px_rgba(37,211,102,0.6)] transition-transform hover:scale-105"
         >
-          <MessageCircle className="w-6 h-6 fill-white text-[#25D366]" />
+          <WhatsAppIcon className="w-8 h-8" />
           <span className="sr-only">WhatsApp Enquiry</span>
         </a>
       </div>

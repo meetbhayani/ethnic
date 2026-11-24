@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, Sparkles, Eye, CheckCircle2, MessageCircle, ChevronLeft, ChevronRight, Layers } from 'lucide-react';
+import { ArrowUpRight, Sparkles, Eye, CheckCircle2, ChevronLeft, ChevronRight, Layers } from 'lucide-react';
 import { FabricItem } from '@/types';
 import { useEnquiry } from '@/context/EnquiryContext';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 interface FabricCardProps {
   fabric: FabricItem;
@@ -266,7 +267,7 @@ export default function FabricCard({ fabric }: FabricCardProps) {
               rel="noopener noreferrer"
               className="py-1.5 bg-[#25D366] hover:bg-[#20b858] text-white text-[11px] tracking-wider uppercase font-medium text-center flex items-center justify-center gap-1 shadow-sm"
             >
-              <MessageCircle className="w-3 h-3 fill-white" />
+              <WhatsAppIcon className="w-3 h-3" />
               <span>WhatsApp</span>
             </a>
           </div>

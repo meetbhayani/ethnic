@@ -7,7 +7,6 @@ import {
   ClipboardList,
   Copy,
   FileText,
-  MessageCircle,
   MousePointerClick,
   Pencil,
   Send,
@@ -16,6 +15,7 @@ import {
 import { useEnquiry } from '@/context/EnquiryContext';
 import { HOME_FABRICS, HomeFabric } from './fabric-library';
 import { Reveal, SplitWords } from './motion';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const INTENTS = [
   { id: 'ready', label: 'Ready-stock fabric', sentence: 'I would like to buy ready-stock fabric' },
@@ -142,7 +142,7 @@ export default function FinalWhatsApp() {
               <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 xl:gap-10 items-end">
                 <div className="xl:col-span-7">
                   <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#25D366]/15 border border-[#25D366]/40 text-[#7EE2A8] text-[13px] uppercase tracking-widest font-semibold">
-                    <MessageCircle className="w-3.5 h-3.5" /> WhatsApp Enquiry
+                    <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp Enquiry
                   </span>
                   <SplitWords
                     text="Get prices & samples on WhatsApp."
@@ -346,7 +346,7 @@ export default function FinalWhatsApp() {
               className="group relative mt-5 flex items-center justify-center gap-3 w-full px-8 py-4 bg-[#25D366] hover:bg-[#1fb757] text-white text-sm sm:text-[15px] font-semibold rounded-full shadow-[0_20px_50px_-12px_rgba(37,211,102,0.7)] transition-colors"
             >
               <span aria-hidden className="absolute inset-0 rounded-full border-2 border-[#25D366] animate-ring-pulse" />
-              <MessageCircle className="w-5 h-5" />
+              <WhatsAppIcon className="w-5 h-5" />
               Send on WhatsApp
               <Send className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
             </a>

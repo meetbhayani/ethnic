@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import {
   MapPin,
-  MessageCircle,
   Mail,
   Clock,
   Phone,
@@ -12,6 +11,7 @@ import {
   Building2,
 } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function ContactPage() {
   const { submitEnquiry, generateWhatsAppUrl } = useEnquiry();
@@ -93,7 +93,7 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-start gap-3">
-                <MessageCircle className="w-4 h-4 text-[#AD8A53] shrink-0 mt-0.5" />
+                <WhatsAppIcon className="w-4 h-4 text-[#AD8A53] shrink-0 mt-0.5" />
                 <div>
                   <strong className="block text-[#30241F] font-semibold">Priority WhatsApp Desk:</strong>
                   <a
@@ -135,7 +135,7 @@ export default function ContactPage() {
                 rel="noopener noreferrer"
                 className="w-full py-3 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 shadow"
               >
-                <MessageCircle className="w-4 h-4" />
+                <WhatsAppIcon className="w-4 h-4" />
                 <span>Launch WhatsApp Live Chat</span>
               </a>
             </div>

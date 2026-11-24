@@ -2,10 +2,11 @@
 
 import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, Eye, MessageCircle, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Eye, Sparkles } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
 import FabricLoupe from './FabricLoupe';
 import { Eyebrow, Reveal, SplitWords } from './motion';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function FeaturedDesigns() {
   const { fabrics, openEnquiryModal, generateWhatsAppUrl } = useEnquiry();
@@ -172,7 +173,7 @@ export default function FeaturedDesigns() {
                   rel="noopener noreferrer"
                   className="py-2.5 bg-[#25D366] hover:bg-[#1fb757] text-white text-[12px] uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5"
                 >
-                  <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
+                  <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp
                 </a>
                 <Link
                   href={`/ai-tryon?fabric=${active.id}`}

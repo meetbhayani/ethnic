@@ -2,8 +2,9 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ShieldCheck, MapPin, CheckCircle2, Building2, MessageCircle } from 'lucide-react';
+import { ShieldCheck, MapPin, CheckCircle2, Building2,} from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function AboutPage() {
   const { generateWhatsAppUrl } = useEnquiry();
@@ -105,7 +106,7 @@ export default function AboutPage() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-xs uppercase tracking-widest font-sans font-semibold transition-colors shadow"
         >
-          <MessageCircle className="w-4 h-4" />
+          <WhatsAppIcon className="w-4 h-4" />
           <span>Connect with Our Surat Sales Desk</span>
         </a>
       </div>
