@@ -5,16 +5,16 @@ import Link from 'next/link';
 import { ArrowRight, Plus } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
 import { FAQS_DATA } from '@/data/faqs';
-import { fabricById } from './fabric-library';
+import { useHomeFabrics } from './useHomeFabrics';
 import { Eyebrow, Reveal, SplitWords } from './motion';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const FAQS = FAQS_DATA.slice(0, 6);
-const SIDE_FABRIC = fabricById('gold-pearl-net');
 
 export default function Faqs() {
   const [open, setOpen] = useState<string | null>(FAQS[0]?.id ?? null);
   const { generateWhatsAppUrl } = useEnquiry();
+  const SIDE_FABRIC = useHomeFabrics().pick('gold-pearl-net', undefined, 1);
 
   return (
     <section className="relative bg-[#F4EFE6] py-20 sm:py-28">

@@ -15,7 +15,8 @@ import {
   idFromCode,
 } from '@/lib/fabrics';
 import { FABRIC_IMAGES_BUCKET } from '@/lib/supabase/client';
-import { compressImage, errorMessage, storagePathFromUrl } from '@/lib/admin-images';
+import { compressImage, errorMessage, makeSwatchTile, storagePathFromUrl } from '@/lib/admin-images';
+import SwatchTilePicker, { PendingTile } from './SwatchTilePicker';
 import { FabricItem } from '@/types';
 
 const PRESET_COLORS = [
@@ -89,6 +90,7 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
   const [form, setForm] = useState<FormState>(startState);
   const [photos, setPhotos] = useState<Photo[]>(startPhotos);
   const [removedUrls, setRemovedUrls] = useState<string[]>([]);
+  const [pendingTile, setPendingTile] = useState<PendingTile | null>(null);
   const [customName, setCustomName] = useState('');
   const [customHex, setCustomHex] = useState('#713B43');
   const [processing, setProcessing] = useState(false);
@@ -100,7 +102,8 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
 
   const dirty =
     JSON.stringify(form) !== JSON.stringify(startState) ||
-    photos.map((p) => p.url).join('|') !== startPhotos.map((p) => p.url).join('|');
+    photos.map((p) => p.url).join('|') !== startPhotos.map((p) => p.url).join('|') ||
+    !!pendingTile;
 
   // Warn before closing the tab with unsaved changes.
   useEffect(() => {
@@ -192,6 +195,27 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
         urls.push(supabase.storage.from(FABRIC_IMAGES_BUCKET).getPublicUrl(path).data.publicUrl);
       }
 
+      // Garment-preview tile: the admin's pick, or an automatic one from the cover photo.
+      let swatchTile = initial?.swatchTile || '';
+      let tileBlob: Blob | null = pendingTile?.blob ?? null;
+      if (!tileBlob && !swatchTile) {
+        try {
+          tileBlob = await makeSwatchTile(photos[0].url);
+        } catch {
+          tileBlob = null; // not fatal: the site falls back to the cover photo
+        }
+      }
+      if (tileBlob) {
+        const tilePath = `${id}/tile-${Date.now()}.jpg`;
+        const { error: tileErr } = await supabase.storage
+          .from(FABRIC_IMAGES_BUCKET)
+          .upload(tilePath, tileBlob, { contentType: 'image/jpeg', cacheControl: '31536000' });
+        if (tileErr) throw tileErr;
+        uploaded.push(tilePath);
+        swatchTile = supabase.storage.from(FABRIC_IMAGES_BUCKET).getPublicUrl(tilePath).data.publicUrl;
+      }
+      const replacedTile = tileBlob && initial?.swatchTile ? [initial.swatchTile] : [];
+
       const row = fabricToRow({
         id,
         code,
@@ -216,24 +240,40 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
         backsideImage: '',
         styledModelImage: '',
         images: urls,
+        swatchTile,
         availableColors: form.colors,
         isPublished: form.isPublished,
         sortOrder: Number(form.sortOrder) || 0,
       });
 
-      const { error: dbErr } = isEdit
-        ? await supabase.from('fabrics').update(row).eq('id', id)
-        : await supabase.from('fabrics').insert(row);
+      const write = (r: Partial<typeof row>) =>
+        isEdit ? supabase.from('fabrics').update(r).eq('id', id) : supabase.from('fabrics').insert(r);
+      let { error: dbErr } = await write(row);
+      let tileColumnMissing = false;
+      // Database without the swatch_tile column yet (migration not run): save everything else.
+      if (dbErr && /swatch_tile/.test(dbErr.message || '')) {
+        tileColumnMissing = true;
+        const { swatch_tile: _omit, ...rest } = row;
+        ({ error: dbErr } = await write(rest));
+      }
       if (dbErr) {
         if (dbErr.code === '23505') throw new Error(`Design code ${code} already exists. Use a different code.`);
         throw dbErr;
       }
 
-      const stale = removedUrls.map(storagePathFromUrl).filter((p): p is string => !!p);
+      // If the tile could not be stored, remove its upload instead of the old tile.
+      const orphanTile = tileColumnMissing && tileBlob ? [swatchTile] : [];
+      const stale = [...removedUrls, ...(tileColumnMissing ? [] : replacedTile), ...orphanTile].map(storagePathFromUrl).filter((p): p is string => !!p);
       if (stale.length) await supabase.storage.from(FABRIC_IMAGES_BUCKET).remove(stale);
 
       await revalidateSite();
       toast('success', isEdit ? `${code} saved.` : `${code} added to the catalogue.`);
+      if (tileColumnMissing) {
+        toast(
+          'error',
+          'Garment preview tile not saved: run supabase/migrations/20261125_swatch_tile.sql in the Supabase SQL Editor once.'
+        );
+      }
       router.push('/admin/products');
       router.refresh();
     } catch (err) {
@@ -375,6 +415,13 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
               <p className="mt-3 text-xs text-stone-500">JPG, PNG or WEBP. Photos are resized to 1600px automatically before upload.</p>
             </div>
           </Card>
+
+          <SwatchTilePicker
+            photos={photos}
+            currentTile={initial?.swatchTile}
+            pending={pendingTile}
+            onChange={setPendingTile}
+          />
 
           <Card>
             <CardHeader title="Colours" description="Shades this design is available in." />

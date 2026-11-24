@@ -5,14 +5,16 @@ import Link from 'next/link';
 import { ArrowRight,} from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
 import FabricLoupe from './FabricLoupe';
-import { LARGE_FABRICS } from './fabric-library';
+import { useHomeFabrics } from './useHomeFabrics';
 import { SplitWords, Reveal } from './motion';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
-const HERO_FABRICS = LARGE_FABRICS.slice(0, 6);
 const AUTO_ADVANCE_MS = 6000;
 
 export default function Hero() {
+  // Featured products first (Admin → Products); built-in photos only if the catalogue is empty.
+  const { list } = useHomeFabrics();
+  const HERO_FABRICS = list.filter((f) => f.large).slice(0, 6);
   const { generateWhatsAppUrl } = useEnquiry();
   const [index, setIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
@@ -20,8 +22,8 @@ export default function Hero() {
   const [paused, setPaused] = useState(false);
   const stageRef = useRef<HTMLDivElement | null>(null);
 
-  const active = HERO_FABRICS[index];
-  const previous = prevIndex !== null ? HERO_FABRICS[prevIndex] : null;
+  const active = HERO_FABRICS[index % HERO_FABRICS.length];
+  const previous = prevIndex !== null ? HERO_FABRICS[prevIndex % HERO_FABRICS.length] : null;
 
   const select = (next: number, from?: { x: number; y: number }) => {
     if (next === index) return;

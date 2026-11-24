@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import GarmentSilhouette, { GarmentKind } from './GarmentSilhouette';
 import { HOME_FABRICS } from './fabric-library';
+import { useHomeFabrics } from './useHomeFabrics';
 import { Eyebrow, Reveal, SplitWords } from './motion';
 
 const GARMENTS: { kind: GarmentKind; title: string; text: string; best: string }[] = [
@@ -34,11 +35,13 @@ const GARMENTS: { kind: GarmentKind; title: string; text: string; best: string }
   },
 ];
 
-const PICKER = HOME_FABRICS.filter((f) => f.id !== 'pastel-motif-thread');
 
 export default function Applications() {
-  const [fabricId, setFabricId] = useState(PICKER[1].id);
-  const fabric = PICKER.find((f) => f.id === fabricId) ?? PICKER[0];
+  // Every published product can be draped (Admin → Products); built-in photos only as a fallback.
+  const { live, list } = useHomeFabrics();
+  const PICKER = live ? list : HOME_FABRICS.filter((f) => f.id !== 'pastel-motif-thread');
+  const [fabricId, setFabricId] = useState<string | null>(null);
+  const fabric = PICKER.find((f) => f.id === fabricId) ?? PICKER[Math.min(1, PICKER.length - 1)];
 
   return (
     <section className="relative bg-[#F4EFE6] py-20 sm:py-28 overflow-hidden">
@@ -109,7 +112,9 @@ export default function Applications() {
                   <div className="absolute inset-x-[8%] top-[4%] bottom-0 rounded-t-full bg-gradient-to-b from-[#E9DFCF] to-transparent opacity-70" />
                   <GarmentSilhouette
                     kind={g.kind}
-                    fabricSrc={fabric.src}
+                    fabricSrc={fabric.tile}
+                    sway
+                    swayDelay={i * -1400}
                     className="relative w-full h-full drop-shadow-[0_20px_25px_rgba(48,36,31,0.25)] transition-transform duration-700 group-hover:scale-[1.04]"
                     title={`${g.title} in ${fabric.name}`}
                   />

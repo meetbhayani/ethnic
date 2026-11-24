@@ -22,6 +22,8 @@ export interface FabricItem {
   backsideImage: string;
   styledModelImage: string;
   images?: string[];
+  /** Seamless, evenly lit repeat of the fabric for garment previews (admin-generated). */
+  swatchTile?: string;
   availableColors: { name: string; hex: string }[];
 }
 

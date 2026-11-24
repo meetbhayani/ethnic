@@ -58,6 +58,8 @@ export interface FabricRow {
   backside_image: string;
   styled_model_image: string;
   images: string[];
+  /** Added by migrations/20261125_swatch_tile.sql — may be absent on older databases. */
+  swatch_tile?: string;
   available_colors: { name: string; hex: string }[];
   is_published: boolean;
   sort_order: number;
@@ -94,6 +96,7 @@ export function rowToFabric(r: FabricRow): AdminFabric {
     backsideImage: r.backside_image || images[3] || main,
     styledModelImage: r.styled_model_image || images[4] || main,
     images: images.length ? images : undefined,
+    swatchTile: r.swatch_tile || '',
     availableColors: r.available_colors || [],
     isPublished: r.is_published,
     sortOrder: r.sort_order,
@@ -127,6 +130,7 @@ export function fabricToRow(f: AdminFabric): FabricRow {
     backside_image: images[3] || images[0] || '',
     styled_model_image: images[4] || images[0] || '',
     images,
+    swatch_tile: f.swatchTile || '',
     available_colors: f.availableColors,
     is_published: f.isPublished,
     sort_order: f.sortOrder,

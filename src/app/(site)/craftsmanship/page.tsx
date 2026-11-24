@@ -12,10 +12,12 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import { useSiteImageResolver } from '@/context/SiteContentContext';
 import { CRAFTS_DATA } from '@/data/crafts';
 
 export default function CraftsmanshipPage() {
   const { openEnquiryModal, generateWhatsAppUrl } = useEnquiry();
+  const siteImage = useSiteImageResolver();
 
   return (
     <div className="bg-[#FAF8F3] text-[#30241F]">
@@ -51,7 +53,7 @@ export default function CraftsmanshipPage() {
               <div className={`lg:col-span-6 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
                 <div className="relative aspect-[4/3] bg-[#F4EFE6] border border-[#AD8A53]/30 overflow-hidden shadow-xl group">
                   <img
-                    src={craft.image}
+                    src={siteImage(`craft.${craft.id}`)}
                     alt={craft.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />

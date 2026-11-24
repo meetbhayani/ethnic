@@ -56,6 +56,7 @@ create table if not exists public.fabrics (
   backside_image        text not null default '',
   styled_model_image    text not null default '',
   images                text[] not null default '{}',
+  swatch_tile           text not null default '',  -- seamless garment-preview tile (see migrations/20261125_swatch_tile.sql)
   available_colors      jsonb not null default '[]'::jsonb, -- [{ "name": "...", "hex": "#..." }]
   is_published          boolean not null default true,      -- hide without deleting
   sort_order            integer not null default 0,

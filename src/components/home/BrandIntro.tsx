@@ -1,16 +1,17 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { fabricById } from './fabric-library';
+import { useHomeFabrics } from './useHomeFabrics';
 import { Counter, Eyebrow, Parallax, Reveal, SplitWords, useScrollProgress } from './motion';
 
-const COLLAGE = [
-  fabricById('purple-zari-vine'),
-  fabricById('ivory-pearl-floral'),
-  fabricById('red-sequin-lattice'),
-];
 
 export default function BrandIntro() {
+  const { pick } = useHomeFabrics();
+  const COLLAGE = [
+    pick('purple-zari-vine', undefined, 0),
+    pick('ivory-pearl-floral', undefined, 1),
+    pick('red-sequin-lattice', undefined, 2),
+  ];
   const threadRef = useRef<SVGPathElement | null>(null);
   const sectionRef = useScrollProgress<HTMLElement>((p) => {
     const path = threadRef.current;

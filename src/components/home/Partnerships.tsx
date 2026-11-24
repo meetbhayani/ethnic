@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, Building2, Gem, PencilRuler, Store } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
-import { fabricById } from './fabric-library';
+import { useHomeFabrics } from './useHomeFabrics';
 import { Eyebrow, Reveal, SplitWords } from './motion';
 
 const PARTNERS = [
@@ -13,32 +13,34 @@ const PARTNERS = [
     who: 'Retailers',
     line: 'Keep your racks fresh with ready-stock designs and quick restocks.',
     perks: ['Ready-stock catalogue', 'Low MOQ per design', 'Fast Surat dispatch'],
-    fabric: fabricById('red-sequin-lattice'),
+    fallbackId: 'red-sequin-lattice',
   },
   {
     icon: Building2,
     who: 'Wholesalers',
     line: 'Volume pricing and consistent quality across every roll you move.',
     perks: ['Bulk meterage rates', 'Consistent shade lots', 'Regular new designs'],
-    fabric: fabricById('purple-zari-vine'),
+    fallbackId: 'purple-zari-vine',
   },
   {
     icon: Gem,
     who: 'Boutiques',
     line: 'Distinctive fabrics in small runs, so your clients wear something rare.',
     perks: ['Swatch kits & sample cuts', 'Curated small runs', 'AI previews for clients'],
-    fabric: fabricById('ivory-pearl-floral'),
+    fallbackId: 'ivory-pearl-floral',
   },
   {
     icon: PencilRuler,
     who: 'Designers',
     line: 'Bring us a sketch — we digitise, sample and produce it for your label.',
     perks: ['Custom embroidery job-work', 'Colour & base of your choice', 'Strike-off before bulk'],
-    fabric: fabricById('teal-floral-applique'),
+    fallbackId: 'teal-floral-applique',
   },
 ];
 
 export default function Partnerships() {
+  const { pick } = useHomeFabrics();
+  const partners = PARTNERS.map((p, i) => ({ ...p, fabric: pick(p.fallbackId, undefined, i) }));
   const { generateWhatsAppUrl } = useEnquiry();
 
   const track = (e: React.PointerEvent<HTMLElement>) => {
@@ -69,7 +71,7 @@ export default function Partnerships() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          {PARTNERS.map((p, i) => (
+          {partners.map((p, i) => (
             <Reveal key={p.who} delay={i * 100}>
               <article
                 onPointerMove={track}

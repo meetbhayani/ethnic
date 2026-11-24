@@ -3,14 +3,16 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Cpu, PenTool, Scissors, ShieldCheck, Layers } from 'lucide-react';
-import { fabricById } from './fabric-library';
+import { useHomeFabrics } from './useHomeFabrics';
+import type { FabricItem } from '@/types';
 import { Eyebrow, Reveal, SplitWords, useScrollProgress } from './motion';
 
 const TECHNIQUES = [
   {
     id: 'zari',
     name: 'Zari',
-    fabric: fabricById('purple-zari-vine'),
+    fallbackId: 'purple-zari-vine',
+    types: ['zari'] as FabricItem['embroideryType'][],
     title: 'Zari & Dabka',
     text: 'Metallic threads laid in vines, florals and borders. Zari brings the warm, antique lustre that defines royal menswear, and holds its shine through tailoring and pressing.',
     traits: ['Antique & bright gold tones', 'Flexible for structured garments', 'Ideal for Sherwani & Jodhpuri'],
@@ -18,7 +20,8 @@ const TECHNIQUES = [
   {
     id: 'sequin',
     name: 'Sequin',
-    fabric: fabricById('red-sequin-lattice'),
+    fallbackId: 'red-sequin-lattice',
+    types: ['sequin'] as FabricItem['embroideryType'][],
     title: 'Sequin & Sitara',
     text: 'Sequins are fed and stitched by dedicated machine attachments, set in lattices or scattered like stars. Each one catches light from a different angle as the wearer moves.',
     traits: ['Uniform spacing by machine', 'Lattice, buti and all-over layouts', 'Evening & reception wear'],
@@ -26,7 +29,8 @@ const TECHNIQUES = [
   {
     id: 'pearl',
     name: 'Pearl & Bead',
-    fabric: fabricById('ivory-pearl-floral'),
+    fallbackId: 'ivory-pearl-floral',
+    types: ['bead', 'cutdana'] as FabricItem['embroideryType'][],
     title: 'Pearl, Bead & Cutdana',
     text: 'Pearls and cutdana outline motifs with a raised, jewel-like finish. Ends are secured and checked by hand so nothing loosens when the fabric is cut and stitched.',
     traits: ['Raised, dimensional surface', 'Hand-secured thread ends', 'Bridal-grade richness'],
@@ -34,7 +38,8 @@ const TECHNIQUES = [
   {
     id: 'resham',
     name: 'Resham',
-    fabric: fabricById('ivory-multicolour-sequin'),
+    fallbackId: 'ivory-multicolour-sequin',
+    types: ['thread'] as FabricItem['embroideryType'][],
     title: 'Resham Threadwork',
     text: 'Fine silk-finish threads in many shades build up florals and jaals with a painterly, hand-drawn feel — rich in colour, soft to the touch, and light enough for Kurtas.',
     traits: ['Multi-shade colour blending', 'Soft hand-feel', 'Festive Kurtas & jackets'],
@@ -42,7 +47,8 @@ const TECHNIQUES = [
   {
     id: 'applique',
     name: 'Appliqué',
-    fabric: fabricById('teal-floral-applique'),
+    fallbackId: 'teal-floral-applique',
+    types: ['multi'] as FabricItem['embroideryType'][],
     title: 'Appliqué & Cut-Work',
     text: 'Fabric shapes are layered and outlined with zari and sequins for bold, sculpted motifs. A contemporary technique made for Indo-Western silhouettes.',
     traits: ['Layered, dimensional motifs', 'Tone-on-tone or contrast', 'Modern Indo-Western looks'],
@@ -78,8 +84,14 @@ const STEPS = [
 ];
 
 export default function Embellishment() {
+  // Each technique shows a real product with that embroidery (Admin → Products).
+  const { pick } = useHomeFabrics();
+  const techniques = TECHNIQUES.map((tech, i) => ({
+    ...tech,
+    fabric: pick(tech.fallbackId, (f) => !!f.embroideryType && tech.types.includes(f.embroideryType), i),
+  }));
   const [tab, setTab] = useState(0);
-  const t = TECHNIQUES[tab];
+  const t = techniques[tab];
 
   const lineRef = React.useRef<HTMLDivElement | null>(null);
   const timelineRef = useScrollProgress<HTMLDivElement>((p) => {

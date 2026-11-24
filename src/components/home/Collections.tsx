@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
-import { fabricById } from './fabric-library';
+import { useHomeFabrics } from './useHomeFabrics';
 import { Eyebrow, Reveal, SplitWords, Tilt } from './motion';
 
 const COLLECTIONS = [
@@ -11,41 +11,44 @@ const COLLECTIONS = [
     category: 'sherwani',
     title: 'Sherwani Fabrics',
     line: 'Heavy, structured embroidery for the groom’s grandest moment.',
-    fabric: fabricById('ivory-pearl-floral'),
+    fallbackId: 'ivory-pearl-floral',
   },
   {
     category: 'jodhpuri',
     title: 'Jodhpuri & Bandhgala',
     line: 'Rich surfaces that hold a sharp shoulder and a crisp band collar.',
-    fabric: fabricById('purple-zari-vine'),
+    fallbackId: 'purple-zari-vine',
   },
   {
     category: 'kurta',
     title: 'Kurta Fabrics',
     line: 'Lighter, breathable embroidery for festive days and sangeet nights.',
-    fabric: fabricById('beige-leaf-pearl'),
+    fallbackId: 'beige-leaf-pearl',
   },
   {
     category: 'indo-western',
     title: 'Indo-Western',
     line: 'Contemporary appliqué and sequin play for the modern reception.',
-    fabric: fabricById('teal-floral-applique'),
+    fallbackId: 'teal-floral-applique',
   },
   {
     category: 'brocade',
     title: 'Royal Brocades',
     line: 'Lattices and trellises with the depth of a palace wall.',
-    fabric: fabricById('red-sequin-lattice'),
+    fallbackId: 'red-sequin-lattice',
   },
   {
     category: 'designer',
     title: 'Designer Couture',
     line: 'Statement panels and all-over jaals for signature collections.',
-    fabric: fabricById('ivory-multicolour-sequin'),
+    fallbackId: 'ivory-multicolour-sequin',
   },
 ];
 
 export default function Collections() {
+  // Each card shows a real product from that category (Admin → Products).
+  const { pick } = useHomeFabrics();
+  const items = COLLECTIONS.map((c, i) => ({ ...c, fabric: pick(c.fallbackId, (f) => f.category === c.category, i) }));
   const rail = useRef<HTMLDivElement | null>(null);
   const [progress, setProgress] = useState(0);
   const drag = useRef({ down: false, startX: 0, startScroll: 0, moved: false });
@@ -145,7 +148,7 @@ export default function Collections() {
         }}
         className="no-scrollbar flex gap-5 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth px-4 sm:px-6 lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))] pb-4 cursor-grab active:cursor-grabbing"
       >
-        {COLLECTIONS.map((c, i) => (
+        {items.map((c, i) => (
           <Reveal
             key={c.category}
             variant="right"

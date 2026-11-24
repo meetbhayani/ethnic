@@ -3,13 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, MapPin } from 'lucide-react';
-import { HOME_FABRICS } from './fabric-library';
+import type { HomeFabric } from './fabric-library';
+import { useHomeFabrics } from './useHomeFabrics';
 import { Eyebrow, Reveal, SplitWords } from './motion';
 
-const ROW_A = HOME_FABRICS.slice(0, 6);
-const ROW_B = HOME_FABRICS.slice(5).concat(HOME_FABRICS.slice(0, 1));
 
-function MarqueeRow({ items, reverse = false }: { items: typeof HOME_FABRICS; reverse?: boolean }) {
+function MarqueeRow({ items, reverse = false }: { items: HomeFabric[]; reverse?: boolean }) {
   const doubled = [...items, ...items];
   return (
     <div className="overflow-hidden">
@@ -38,6 +37,10 @@ function MarqueeRow({ items, reverse = false }: { items: typeof HOME_FABRICS; re
 }
 
 export default function AboutBrand() {
+  // Every published product scrolls past (Admin → Products).
+  const { list, take } = useHomeFabrics();
+  const ROW_A = take(Math.max(6, Math.ceil(list.length / 2)));
+  const ROW_B = take(ROW_A.length, [...list.slice(Math.ceil(list.length / 2)), ...list.slice(0, Math.ceil(list.length / 2))]);
   return (
     <section className="relative bg-[#FAF8F3] py-20 sm:py-28 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 mb-14 sm:mb-20">

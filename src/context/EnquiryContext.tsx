@@ -45,10 +45,18 @@ function getWhatsAppNumber(): string {
   return digits.length === 10 ? `91${digits}` : digits;
 }
 
-export function EnquiryProvider({ children }: { children: React.ReactNode }) {
-  // Built-in catalogue shows instantly; replaced by the live Supabase catalogue once loaded.
-  const [fabrics, setFabrics] = useState<FabricItem[]>(FABRICS_DATA);
-  const [fabricsLoaded, setFabricsLoaded] = useState(false);
+export function EnquiryProvider({
+  children,
+  initialFabrics,
+}: {
+  children: React.ReactNode;
+  /** Live catalogue rendered on the server. When given, no client fetch is needed. */
+  initialFabrics?: FabricItem[];
+}) {
+  // Real catalogue from the server when available; the built-in sample data is only a
+  // last-resort fallback for when Supabase cannot be reached.
+  const [fabrics, setFabrics] = useState<FabricItem[]>(initialFabrics ?? FABRICS_DATA);
+  const [fabricsLoaded, setFabricsLoaded] = useState(Boolean(initialFabrics));
 
   const [modalData, setModalData] = useState<EnquiryModalData>({
     isOpen: false,
@@ -76,7 +84,8 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    refreshFabrics();
+    // Only fetch in the browser if the server could not provide the catalogue.
+    if (!initialFabrics) refreshFabrics();
     // Clean up data left by the old browser-only version of the site.
     try {
       localStorage.removeItem('kf_fabrics');
@@ -84,6 +93,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // ignore
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshFabrics]);
 
   const openEnquiryModal = (fabric?: FabricItem, defaultQty = '25 Metres') => {

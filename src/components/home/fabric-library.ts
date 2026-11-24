@@ -12,12 +12,15 @@ export interface HomeFabric {
   hex: string;
   /** Photo is large enough (≥ 360px wide) for hero / magnifier use. */
   large: boolean;
+  /** Seamless, evenly lit repeat cut from a flat area of the photo — use for garment fills. */
+  tile: string;
 }
 
 export const HOME_FABRICS: HomeFabric[] = [
   {
     id: 'ivory-multicolour-sequin',
     src: '/fabrics/ivory-multicolour-sequin.jpg',
+    tile: '/fabrics/tiles/ivory-multicolour-sequin.jpg',
     name: 'Mughal Garden Jaal',
     technique: 'Multi-colour resham with sequins',
     tone: 'Sand beige',
@@ -27,6 +30,7 @@ export const HOME_FABRICS: HomeFabric[] = [
   {
     id: 'purple-zari-vine',
     src: '/fabrics/purple-zari-vine.jpg',
+    tile: '/fabrics/tiles/purple-zari-vine.jpg',
     name: 'Royal Amethyst Vine',
     technique: 'Antique zari thread embroidery',
     tone: 'Royal purple',
@@ -36,6 +40,7 @@ export const HOME_FABRICS: HomeFabric[] = [
   {
     id: 'red-sequin-lattice',
     src: '/fabrics/red-sequin-lattice.jpg',
+    tile: '/fabrics/tiles/red-sequin-lattice.jpg',
     name: 'Rajwada Lattice',
     technique: 'Sequin & zari trellis',
     tone: 'Sindoor red',
@@ -45,6 +50,7 @@ export const HOME_FABRICS: HomeFabric[] = [
   {
     id: 'teal-floral-applique',
     src: '/fabrics/teal-floral-applique.jpg',
+    tile: '/fabrics/tiles/teal-floral-applique.jpg',
     name: 'Peacock Bloom',
     technique: 'Organza appliqué with sequin cores',
     tone: 'Peacock teal',
@@ -54,6 +60,7 @@ export const HOME_FABRICS: HomeFabric[] = [
   {
     id: 'ivory-pearl-floral',
     src: '/fabrics/ivory-pearl-floral.jpg',
+    tile: '/fabrics/tiles/ivory-pearl-floral.jpg',
     name: 'Moti Mahal Floral',
     technique: 'Pearl, cutdana & sequin handwork look',
     tone: 'Pearl ivory',
@@ -63,6 +70,7 @@ export const HOME_FABRICS: HomeFabric[] = [
   {
     id: 'gold-pearl-net',
     src: '/fabrics/gold-pearl-net.jpg',
+    tile: '/fabrics/tiles/gold-pearl-net.jpg',
     name: 'Sona Sitara Net',
     technique: 'Scattered sequin & pearl on net',
     tone: 'Champagne gold',
@@ -72,6 +80,7 @@ export const HOME_FABRICS: HomeFabric[] = [
   {
     id: 'gold-pearl-geometric',
     src: '/fabrics/gold-pearl-geometric.jpg',
+    tile: '/fabrics/tiles/gold-pearl-geometric.jpg',
     name: 'Darbar Panel',
     technique: 'Pearl outline with resham fill',
     tone: 'Gold tissue',
@@ -81,6 +90,7 @@ export const HOME_FABRICS: HomeFabric[] = [
   {
     id: 'beige-leaf-pearl',
     src: '/fabrics/beige-leaf-pearl.jpg',
+    tile: '/fabrics/tiles/beige-leaf-pearl.jpg',
     name: 'Peepal Leaf Stripe',
     technique: 'Pearl-edged leaf appliqué',
     tone: 'Stone beige',
@@ -90,6 +100,7 @@ export const HOME_FABRICS: HomeFabric[] = [
   {
     id: 'navy-star-sequin',
     src: '/fabrics/navy-star-sequin.jpg',
+    tile: '/fabrics/tiles/navy-star-sequin.jpg',
     name: 'Midnight Sitara',
     technique: 'Star sequin trails',
     tone: 'Midnight navy',
@@ -99,6 +110,7 @@ export const HOME_FABRICS: HomeFabric[] = [
   {
     id: 'lotus-resham-border',
     src: '/fabrics/lotus-resham-border.jpg',
+    tile: '/fabrics/tiles/lotus-resham-border.jpg',
     name: 'Kamal Border',
     technique: 'Resham lotus border',
     tone: 'Dune gold',
@@ -108,6 +120,7 @@ export const HOME_FABRICS: HomeFabric[] = [
   {
     id: 'pastel-motif-thread',
     src: '/fabrics/pastel-motif-thread.jpg',
+    tile: '/fabrics/tiles/pastel-motif-thread.jpg',
     name: 'Pastel Buti',
     technique: 'Fine thread buti',
     tone: 'Blush ivory',

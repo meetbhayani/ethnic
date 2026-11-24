@@ -15,11 +15,13 @@ import {
   Key,
 } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import { useSiteImageResolver } from '@/context/SiteContentContext';
 import { FabricItem } from '@/types';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 function AITryOnContent() {
   const { fabrics, generateWhatsAppUrl } = useEnquiry();
+  const siteImage = useSiteImageResolver();
   const searchParams = useSearchParams();
   const initialFabricId = searchParams.get('fabric');
 
@@ -61,22 +63,22 @@ function AITryOnContent() {
     {
       id: 'preset-groom',
       name: 'Royal Heritage Groom',
-      image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80',
+      image: siteImage('tryon.preset-groom'),
     },
     {
       id: 'preset-evening',
       name: 'Regal Jodhpuri Model',
-      image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80',
+      image: siteImage('tryon.preset-evening'),
     },
     {
       id: 'preset-modern',
       name: 'Modern Indo-Western Model',
-      image: 'https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?auto=format&fit=crop&w=600&q=80',
+      image: siteImage('tryon.preset-modern'),
     },
     {
       id: 'preset-festive',
       name: 'Festive Kurta Model',
-      image: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=80',
+      image: siteImage('tryon.preset-festive'),
     },
   ];
 

@@ -3,11 +3,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Eye, X, ArrowUpRight, Sparkles, Filter } from 'lucide-react';
-import { GALLERY_DATA } from '@/data/gallery';
 import { GalleryItem } from '@/types';
 import { useEnquiry } from '@/context/EnquiryContext';
+import { useGallery } from '@/context/SiteContentContext';
 
 export default function GalleryPage() {
+  // Managed in Admin → Gallery (built-in photos until the first item is published).
+  const GALLERY_DATA = useGallery();
   const { openEnquiryModal, generateWhatsAppUrl } = useEnquiry();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeLightboxItem, setActiveLightboxItem] = useState<GalleryItem | null>(null);

@@ -4,10 +4,12 @@ import React from 'react';
 import Link from 'next/link';
 import { ShieldCheck, MapPin, CheckCircle2, Building2,} from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import { useSiteImage } from '@/context/SiteContentContext';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function AboutPage() {
   const { generateWhatsAppUrl } = useEnquiry();
+  const storyImage = useSiteImage('about.hero');
 
   return (
     <div className="bg-[#FAF8F3] text-[#30241F] py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -49,7 +51,7 @@ export default function AboutPage() {
         <div className="lg:col-span-6">
           <div className="relative aspect-[4/3] bg-[#F4EFE6] border border-[#AD8A53]/30 overflow-hidden shadow-xl">
             <img
-              src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1200&q=85"
+              src={storyImage}
               alt="Artisan checking embroidery at Khodal Fashion Surat"
               className="w-full h-full object-cover"
             />

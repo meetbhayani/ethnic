@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, Boxes, Clock, Palette, Ruler, Truck, Wand2 } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
-import { fabricById } from './fabric-library';
+import { useHomeFabrics } from './useHomeFabrics';
 import { Eyebrow, Reveal, SplitWords } from './motion';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
@@ -18,7 +18,7 @@ const MODES = {
       { icon: Boxes, k: 'Best for', v: 'Retail restocks & fast seasons' },
     ],
     steps: ['Pick a design code', 'Confirm metres & colour', 'Packed & dispatched from Surat'],
-    images: [fabricById('red-sequin-lattice'), fabricById('purple-zari-vine'), fabricById('gold-pearl-net')],
+    fallbackIds: ['red-sequin-lattice', 'purple-zari-vine', 'gold-pearl-net'],
     note: 'Hello Khodal Fashion, I would like to check ready-stock availability for your fabrics.',
   },
   custom: {
@@ -31,7 +31,7 @@ const MODES = {
       { icon: Palette, k: 'Customise', v: 'Colour, base, motif, placement' },
     ],
     steps: ['Share sketch or reference', 'Digitising & sample strike-off', 'Approval, then bulk production'],
-    images: [fabricById('teal-floral-applique'), fabricById('gold-pearl-geometric'), fabricById('beige-leaf-pearl')],
+    fallbackIds: ['teal-floral-applique', 'gold-pearl-geometric', 'beige-leaf-pearl'],
     note: 'Hello Khodal Fashion, I would like to discuss a made-to-order / custom embroidery fabric.',
   },
 } as const;
@@ -41,7 +41,13 @@ type Mode = keyof typeof MODES;
 export default function StockOrMade() {
   const [mode, setMode] = useState<Mode>('ready');
   const { generateWhatsAppUrl } = useEnquiry();
+  const { live, list, take, pick } = useHomeFabrics();
   const m = MODES[mode];
+  // Ready Stock shows products marked ready stock; Made to Order shows the others (Admin → Products).
+  const matching = list.filter((f) => (mode === 'ready' ? f.readyStock !== false : f.readyStock === false));
+  const images = live
+    ? take(3, matching.length ? matching : list)
+    : m.fallbackIds.map((id) => pick(id));
 
   return (
     <section className="relative bg-[#FAF8F3] py-20 sm:py-28 overflow-hidden">
@@ -86,7 +92,7 @@ export default function StockOrMade() {
           {/* Fanned fabric stack */}
           <div className="lg:col-span-6 order-2 lg:order-1">
             <div className="relative h-[360px] sm:h-[440px] flex items-center justify-center">
-              {m.images.map((f, i) => {
+              {images.map((f, i) => {
                 const rot = [-10, 4, 14][i];
                 const x = [-30, 0, 30][i];
                 return (

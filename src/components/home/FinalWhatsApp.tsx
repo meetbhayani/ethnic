@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
 import { HOME_FABRICS, HomeFabric } from './fabric-library';
+import { useHomeFabrics } from './useHomeFabrics';
 import { Reveal, SplitWords } from './motion';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
@@ -26,7 +27,6 @@ const INTENTS = [
 
 const GARMENTS = ['Sherwani', 'Kurta', 'Jodhpuri', 'Indo-Western', 'Not sure yet'];
 const QUANTITIES = ['Sample cut', '25 metres (MOQ)', '50 metres', '100+ metres'];
-const SWATCHES = HOME_FABRICS.filter((f) => f.id !== 'pastel-motif-thread').slice(0, 8);
 
 const HOW_IT_WORKS = [
   { icon: MousePointerClick, title: 'Choose what you need', text: 'Tell us the purpose, garment and quantity.' },
@@ -69,6 +69,8 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
 
 export default function FinalWhatsApp() {
   const { generateWhatsAppUrl, openEnquiryModal } = useEnquiry();
+  const { live, list } = useHomeFabrics();
+  const SWATCHES = (live ? list : HOME_FABRICS.filter((f) => f.id !== 'pastel-motif-thread')).slice(0, 8);
   const [intent, setIntent] = useState<(typeof INTENTS)[number]['id']>('ready');
   const [garment, setGarment] = useState(GARMENTS[0]);
   const [quantity, setQuantity] = useState(QUANTITIES[1]);
@@ -116,7 +118,7 @@ export default function FinalWhatsApp() {
     }
   };
 
-  const stubFabric = fabric ?? SWATCHES[1];
+  const stubFabric = fabric ?? SWATCHES[Math.min(1, SWATCHES.length - 1)];
 
   return (
     <section id="whatsapp-enquiry" className="relative bg-[#FAF8F3] py-14 sm:py-20 overflow-hidden">

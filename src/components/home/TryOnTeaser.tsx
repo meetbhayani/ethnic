@@ -4,17 +4,18 @@ import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, ImagePlus, MoveHorizontal, Shirt, Sparkles, Wand2 } from 'lucide-react';
 import GarmentSilhouette, { GARMENT_LABELS, GarmentKind } from './GarmentSilhouette';
-import { LARGE_FABRICS } from './fabric-library';
+import { useHomeFabrics } from './useHomeFabrics';
 import { Eyebrow, Reveal, SplitWords } from './motion';
 
 const KINDS: GarmentKind[] = ['sherwani', 'jodhpuri', 'kurta', 'indo-western'];
-const SWATCHES = LARGE_FABRICS.slice(0, 6);
 
 export default function TryOnTeaser() {
   const [split, setSplit] = useState(55);
   const [kind, setKind] = useState<GarmentKind>('sherwani');
-  const [fabricId, setFabricId] = useState(SWATCHES[2].id);
-  const fabric = SWATCHES.find((f) => f.id === fabricId) ?? SWATCHES[0];
+  const { list } = useHomeFabrics();
+  const SWATCHES = list.filter((f) => f.large).slice(0, 6);
+  const [fabricId, setFabricId] = useState<string | null>(null);
+  const fabric = SWATCHES.find((f) => f.id === fabricId) ?? SWATCHES[Math.min(2, SWATCHES.length - 1)];
   const box = useRef<HTMLDivElement | null>(null);
   const dragging = useRef(false);
 
@@ -115,7 +116,7 @@ export default function TryOnTeaser() {
               <div aria-hidden className="absolute inset-0 weave-texture opacity-30" />
               {/* After: fabric-filled */}
               <div className="absolute inset-0 flex items-center justify-center p-6">
-                <GarmentSilhouette kind={kind} fabricSrc={fabric.src} className="h-full w-auto" />
+                <GarmentSilhouette kind={kind} fabricSrc={fabric.tile} className="h-full w-auto" />
               </div>
               {/* Before: pattern sketch, clipped to the left of the handle */}
               <div
