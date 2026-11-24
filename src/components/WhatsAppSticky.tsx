@@ -21,13 +21,13 @@ export default function WhatsAppSticky() {
           <div className="flex items-center justify-between border-b border-[#AD8A53]/20 pb-1.5 mb-2">
             <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[10px] uppercase tracking-widest font-semibold text-[#713B43]">
+              <span className="text-[12px] uppercase tracking-widest font-semibold text-[#713B43]">
                 Surat Sales Desk
               </span>
             </div>
             <button
               onClick={() => setMinimized(true)}
-              className="text-[#C9BBA7] hover:text-[#30241F] p-1"
+              className="text-[#7A6A58] hover:text-[#30241F] p-1"
               aria-label="Minimize desk notice"
             >
               <X className="w-3.5 h-3.5" />
@@ -40,7 +40,7 @@ export default function WhatsAppSticky() {
             href={directUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full inline-flex items-center justify-center gap-2 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] py-1.5 px-3 text-[11px] uppercase tracking-wider font-medium shadow-sm transition-colors"
+            className="w-full inline-flex items-center justify-center gap-2 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] py-1.5 px-3 text-[13px] uppercase tracking-wider font-medium shadow-sm transition-colors"
           >
             <span>Open WhatsApp Chat</span>
             <ArrowUpRight className="w-3 h-3" />
@@ -53,7 +53,7 @@ export default function WhatsAppSticky() {
         {minimized && (
           <button
             onClick={() => setMinimized(false)}
-            className="hidden sm:inline-flex items-center gap-1.5 bg-[#FAF8F3]/95 border border-[#AD8A53]/40 shadow-lg px-2.5 py-1 text-[10px] uppercase tracking-wider font-semibold text-[#30241F] hover:bg-[#FAF8F3] transition-colors rounded-full"
+            className="hidden sm:inline-flex items-center gap-1.5 bg-[#FAF8F3]/95 border border-[#AD8A53]/40 shadow-lg px-2.5 py-1 text-[12px] uppercase tracking-wider font-semibold text-[#30241F] hover:bg-[#FAF8F3] transition-colors rounded-full"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>Surat Desk</span>

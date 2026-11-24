@@ -14,7 +14,7 @@ export default function Footer() {
         {/* Top Editorial Banner */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 border-b border-[#30241F]/80">
           <div className="lg:col-span-6 space-y-4">
-            <p className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-sans font-semibold">
+            <p className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-sans font-semibold">
               The Sovereign Fabric House • Surat, India
             </p>
             <h3 className="font-editorial text-3xl sm:text-4xl md:text-5xl tracking-wide text-[#FAF8F3]">
@@ -24,7 +24,7 @@ export default function Footer() {
               Specialized master weavers and computerized embroidery artisans delivering royal embroidered fabrics to prestigious Indian menswear labels, Sherwani manufacturers, boutique couturiers, and textile merchants across the globe.
             </p>
             <div className="pt-2 flex items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#30241F] border border-[#AD8A53]/30 text-[#AD8A53] text-[10px] tracking-widest uppercase">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#30241F] border border-[#AD8A53]/30 text-[#AD8A53] text-[12px] tracking-widest uppercase">
                 <ShieldCheck className="w-3.5 h-3.5" />
                 B2B Verified Textile Partner
               </span>
@@ -34,7 +34,7 @@ export default function Footer() {
 
           <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
             <div className="bg-[#30241F] p-6 border border-[#AD8A53]/20">
-              <p className="text-[11px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-2">
+              <p className="text-[13px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-2">
                 Important Business Clarification
               </p>
               <p className="text-xs text-[#C9BBA7] leading-relaxed">
@@ -67,7 +67,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 py-12 border-b border-[#30241F]/80 text-xs">
           {/* Col 1: Fabric Categories */}
           <div>
-            <h4 className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-4">
+            <h4 className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-4">
               Fabric Collections
             </h4>
             <ul className="space-y-2.5 font-sans text-[#C9BBA7]">
@@ -106,7 +106,7 @@ export default function Footer() {
 
           {/* Col 2: Embroidery Crafts */}
           <div>
-            <h4 className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-4">
+            <h4 className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-4">
               Embroidery Crafts
             </h4>
             <ul className="space-y-2.5 font-sans text-[#C9BBA7]">
@@ -145,7 +145,7 @@ export default function Footer() {
 
           {/* Col 3: Business & Buyers */}
           <div>
-            <h4 className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-4">
+            <h4 className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-4">
               B2B & Partnerships
             </h4>
             <ul className="space-y-2.5 font-sans text-[#C9BBA7]">
@@ -179,7 +179,7 @@ export default function Footer() {
 
           {/* Col 4: Legal & Policies */}
           <div>
-            <h4 className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-4">
+            <h4 className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-4">
               Policies & Governance
             </h4>
             <ul className="space-y-2.5 font-sans text-[#C9BBA7]">
@@ -218,7 +218,7 @@ export default function Footer() {
 
           {/* Col 5: Surat Contact */}
           <div className="col-span-2 md:col-span-4 lg:col-span-1">
-            <h4 className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-4">
+            <h4 className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-4">
               Atelier Address
             </h4>
             <div className="space-y-3 font-sans text-[#C9BBA7]">
@@ -236,7 +236,7 @@ export default function Footer() {
                 <Mail className="w-4 h-4 text-[#AD8A53] shrink-0" />
                 <span>b2b@khodalfashion.com</span>
               </div>
-              <p className="text-[11px] text-[#C9BBA7]/70 pt-1">
+              <p className="text-[13px] text-[#C9BBA7]/70 pt-1">
                 Visiting Hours: Mon – Sat, 10:30 AM – 7:30 PM (By prior appointment)
               </p>
             </div>
@@ -246,7 +246,7 @@ export default function Footer() {
         {/* Bottom Editorial Legal Bar */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-[#C9BBA7]/70 font-sans gap-4">
           <p>© {new Date().getFullYear()} KHODAL FASHION. All Rights Reserved. Surat, Gujarat, India.</p>
-          <p className="text-center md:text-right text-[11px]">
+          <p className="text-center md:text-right text-[13px]">
             Master Craftsmen in Royal Men’s Ethnic Embroidered Fabrics & Custom Job-Work.
           </p>
         </div>

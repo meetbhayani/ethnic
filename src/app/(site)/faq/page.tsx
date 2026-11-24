@@ -41,7 +41,7 @@ export default function FAQPage() {
     <div className="bg-[#FAF8F3] text-[#30241F] py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
       {/* Editorial Header */}
       <div className="border-b border-[#AD8A53]/25 pb-8 mb-10 text-center">
-        <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
+        <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
           Buyer Knowledge Base
         </span>
         <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-[#30241F] mb-4">
@@ -96,7 +96,7 @@ export default function FAQPage() {
                   className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 hover:bg-[#F4EFE6]/50 transition-colors"
                 >
                   <div>
-                    <span className="text-[9px] uppercase tracking-wider text-[#AD8A53] font-mono block mb-0.5">
+                    <span className="text-[11px] uppercase tracking-wider text-[#AD8A53] font-mono block mb-0.5">
                       {faq.category}
                     </span>
                     <span className="font-serif text-base sm:text-lg text-[#30241F] font-medium">
@@ -121,7 +121,7 @@ export default function FAQPage() {
           })
         ) : (
           <div className="text-center py-12 bg-[#F4EFE6] border border-[#AD8A53]/30 p-6">
-            <p className="text-sm font-serif text-[#30241F]">No questions match your query.</p>
+            <p className="text-[17px] font-serif text-[#30241F]">No questions match your query.</p>
             <p className="text-xs text-[#30241F]/70 mt-1">
               Ask our Surat commercial desk directly on WhatsApp.
             </p>
@@ -132,7 +132,7 @@ export default function FAQPage() {
       {/* Unresolved Questions Banner */}
       <div className="bg-[#252321] text-[#FAF8F3] p-8 border border-[#AD8A53]/30 text-center">
         <h3 className="font-editorial text-2xl text-[#FAF8F3] mb-2">Have a Specific Commercial Query?</h3>
-        <p className="text-xs text-[#C9BBA7] font-sans max-w-md mx-auto mb-6">
+        <p className="text-xs text-[#7A6A58] font-sans max-w-md mx-auto mb-6">
           Our Surat sales managers are available on WhatsApp to answer meterage, strike-off, and custom embroidery queries.
         </p>
         <a

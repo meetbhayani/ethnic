@@ -22,7 +22,7 @@ export default function CraftsmanshipPage() {
       {/* Editorial Header */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-[#AD8A53]/25">
         <div className="max-w-3xl">
-          <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
+          <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
             The Surat Atelier Standards
           </span>
           <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-[#30241F] mb-6 leading-tight">
@@ -55,7 +55,7 @@ export default function CraftsmanshipPage() {
                     alt={craft.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute bottom-3 left-3 right-3 bg-[#252321]/80 backdrop-blur-sm text-[#FAF8F3] p-2.5 text-[10px] uppercase tracking-wider flex justify-between items-center">
+                  <div className="absolute bottom-3 left-3 right-3 bg-[#252321]/80 backdrop-blur-sm text-[#FAF8F3] p-2.5 text-[12px] uppercase tracking-wider flex justify-between items-center">
                     <span>Surat Atelier Specimen</span>
                     <span className="text-[#AD8A53] font-mono">CRAFT #{idx + 1}</span>
                   </div>
@@ -64,7 +64,7 @@ export default function CraftsmanshipPage() {
 
               {/* Text Description */}
               <div className={`lg:col-span-6 ${isEven ? 'lg:order-2' : 'lg:order-1'} space-y-4`}>
-                <span className="text-[10px] uppercase tracking-widest text-[#713B43] font-semibold">
+                <span className="text-[12px] uppercase tracking-widest text-[#713B43] font-semibold">
                   {craft.subtitle}
                 </span>
                 <h2 className="font-editorial text-3xl sm:text-4xl text-[#30241F]">
@@ -78,13 +78,13 @@ export default function CraftsmanshipPage() {
 
                 <div className="bg-[#F4EFE6] border border-[#AD8A53]/25 p-4 space-y-2 text-xs font-sans">
                   <div>
-                    <strong className="text-[#30241F] block text-[11px] uppercase tracking-wider text-[#AD8A53]">
+                    <strong className="text-[#30241F] block text-[13px] uppercase tracking-wider text-[#AD8A53]">
                       Computerized Machinery Execution:
                     </strong>
                     <span className="text-[#30241F]/80">{craft.machineTech}</span>
                   </div>
                   <div className="pt-2 border-t border-[#AD8A53]/15">
-                    <strong className="text-[#30241F] block text-[11px] uppercase tracking-wider text-[#713B43]">
+                    <strong className="text-[#30241F] block text-[13px] uppercase tracking-wider text-[#713B43]">
                       Artisanal Hand Touch:
                     </strong>
                     <span className="text-[#30241F]/80">{craft.handTouch}</span>
@@ -92,7 +92,7 @@ export default function CraftsmanshipPage() {
                 </div>
 
                 <div className="pt-2">
-                  <span className="block text-[10px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-2">
+                  <span className="block text-[12px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-2">
                     Key Fabric Attributes:
                   </span>
                   <div className="grid grid-cols-2 gap-2 text-xs font-sans text-[#30241F]">
@@ -113,7 +113,7 @@ export default function CraftsmanshipPage() {
       {/* Production & Workshop Integrity */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[#AD8A53]/20 bg-[#F4EFE6]/50">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
+          <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
             Factory Floor Standards
           </span>
           <h2 className="font-editorial text-3xl sm:text-4xl text-[#30241F]">

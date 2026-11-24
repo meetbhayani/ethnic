@@ -66,7 +66,7 @@ export default function WholesaleB2BPage() {
     <div className="bg-[#FAF8F3] text-[#30241F] py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Editorial Header */}
       <div className="border-b border-[#AD8A53]/25 pb-8 mb-12">
-        <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
+        <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
           Commercial Procurement Portal
         </span>
         <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-[#30241F] mb-4">
@@ -85,7 +85,7 @@ export default function WholesaleB2BPage() {
           <p className="text-xs text-[#30241F]/80 font-sans leading-relaxed">
             Access 44&quot; heavy zardozi brocades, continuous panel rolls, and coordinated border trims engineered for high-volume automated cutting bays.
           </p>
-          <span className="text-[10px] text-[#713B43] uppercase tracking-wider font-semibold block pt-2">
+          <span className="text-[12px] text-[#713B43] uppercase tracking-wider font-semibold block pt-2">
             MOQ: 25M ready / 100M custom
           </span>
         </div>
@@ -96,7 +96,7 @@ export default function WholesaleB2BPage() {
           <p className="text-xs text-[#30241F]/80 font-sans leading-relaxed">
             Order flexible trial lengths (from 20 metres) for bespoke bridal groom capsules, festive Sangeet lookbooks, and luxury pop-up exhibits.
           </p>
-          <span className="text-[10px] text-[#713B43] uppercase tracking-wider font-semibold block pt-2">
+          <span className="text-[12px] text-[#713B43] uppercase tracking-wider font-semibold block pt-2">
             Swatch Kits Available
           </span>
         </div>
@@ -107,7 +107,7 @@ export default function WholesaleB2BPage() {
           <p className="text-xs text-[#30241F]/80 font-sans leading-relaxed">
             Partner on exclusive regional design codes with staggered roll dispatch schedules and priority access to seasonal festive launches.
           </p>
-          <span className="text-[10px] text-[#713B43] uppercase tracking-wider font-semibold block pt-2">
+          <span className="text-[12px] text-[#713B43] uppercase tracking-wider font-semibold block pt-2">
             Volume Discount Tiers
           </span>
         </div>
@@ -160,7 +160,7 @@ export default function WholesaleB2BPage() {
 
         {/* B2B Onboarding Form */}
         <div className="lg:col-span-6 bg-[#FAF8F3] border-2 border-[#AD8A53]/35 p-6 sm:p-8 shadow-xl">
-          <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-1">
+          <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-1">
             Buyer Registration
           </span>
           <h2 className="font-editorial text-2xl sm:text-3xl text-[#30241F] mb-6">
@@ -187,7 +187,7 @@ export default function WholesaleB2BPage() {
             <form onSubmit={handleSubmit} className="space-y-4 font-sans text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Business / Brand Name *
                   </label>
                   <input
@@ -200,7 +200,7 @@ export default function WholesaleB2BPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Business Classification *
                   </label>
                   <select
@@ -219,7 +219,7 @@ export default function WholesaleB2BPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Contact Person Name *
                   </label>
                   <input
@@ -232,7 +232,7 @@ export default function WholesaleB2BPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     WhatsApp Phone Number *
                   </label>
                   <input
@@ -248,7 +248,7 @@ export default function WholesaleB2BPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Operating City / State
                   </label>
                   <input
@@ -260,7 +260,7 @@ export default function WholesaleB2BPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Estimated Monthly Meterage:
                   </label>
                   <select
@@ -277,7 +277,7 @@ export default function WholesaleB2BPage() {
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                   Specific Designs / Swatch Requests:
                 </label>
                 <textarea
@@ -318,7 +318,7 @@ export default function WholesaleB2BPage() {
                 </button>
               </div>
 
-              <p className="text-[10px] text-[#C9BBA7] text-center pt-2">
+              <p className="text-[12px] text-[#7A6A58] text-center pt-2">
                 Verification ensures wholesale rates remain strictly confidential between trade partners.
               </p>
             </form>

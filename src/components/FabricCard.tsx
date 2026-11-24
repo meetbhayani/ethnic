@@ -48,21 +48,21 @@ export default function FabricCard({ fabric }: FabricCardProps) {
     <div className="group relative flex flex-col bg-[#FAF8F3] border border-[#AD8A53]/25 hover:border-[#AD8A53] transition-all duration-300 shadow-sm hover:shadow-md">
       
       {/* 1. TOP BAR: Design Code & Stock Status */}
-      <div className="flex items-center justify-between px-3.5 py-2 border-b border-[#AD8A53]/20 bg-[#F4EFE6]/60 text-[10px] tracking-wider uppercase font-sans">
+      <div className="flex items-center justify-between px-3.5 py-2 border-b border-[#AD8A53]/20 bg-[#F4EFE6]/60 text-[12px] tracking-wide uppercase font-sans gap-2">
         <div className="flex items-center gap-1.5">
-          <span className="text-[#C9BBA7]">CODE:</span>
-          <span className="font-mono font-bold text-[#AD8A53] tracking-widest bg-[#FAF8F3] px-1.5 py-0.5 border border-[#AD8A53]/30">
+          <span className="text-[#7A6A58] hidden sm:inline">CODE:</span>
+          <span className="font-mono font-bold text-[#AD8A53] tracking-normal whitespace-nowrap bg-[#FAF8F3] px-1.5 py-0.5 border border-[#AD8A53]/30">
             {fabric.code}
           </span>
         </div>
 
         {fabric.readyStock ? (
-          <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-300">
+          <span className="inline-flex shrink-0 whitespace-nowrap items-center gap-1 text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-300">
             <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" />
             Ready Stock
           </span>
         ) : (
-          <span className="inline-flex items-center text-[9px] font-semibold text-[#713B43] bg-rose-50 px-2 py-0.5 rounded border border-[#713B43]/30">
+          <span className="inline-flex shrink-0 whitespace-nowrap items-center text-[11px] font-semibold text-[#713B43] bg-rose-50 px-2 py-0.5 rounded border border-[#713B43]/30">
             Made to Order
           </span>
         )}
@@ -96,14 +96,14 @@ export default function FabricCard({ fabric }: FabricCardProps) {
             </button>
 
             {/* Image Dots / Count indicator */}
-            <div className="absolute top-2.5 right-2.5 bg-[#252321]/80 backdrop-blur-sm text-[#FAF8F3] px-2 py-0.5 text-[9px] font-mono rounded tracking-wider border border-[#AD8A53]/30 z-10">
+            <div className="absolute top-2.5 right-2.5 bg-[#252321]/80 backdrop-blur-sm text-[#FAF8F3] px-2 py-0.5 text-[11px] font-mono rounded tracking-wider border border-[#AD8A53]/30 z-10">
               {activeImageIndex + 1}/{allImages.length}
             </div>
           </>
         )}
 
         {/* Category Pill */}
-        <div className="absolute top-2.5 left-2.5 bg-[#252321]/80 backdrop-blur-sm text-[#FAF8F3] px-2 py-0.5 text-[8.5px] uppercase tracking-widest font-sans border border-[#AD8A53]/30 z-10">
+        <div className="absolute top-2.5 left-2.5 bg-[#252321]/80 backdrop-blur-sm text-[#FAF8F3] px-2 py-0.5 text-[11px] uppercase tracking-widest font-sans border border-[#AD8A53]/30 z-10">
           {fabric.categoryLabel}
         </div>
 
@@ -112,7 +112,7 @@ export default function FabricCard({ fabric }: FabricCardProps) {
           <div className="flex flex-col gap-2 w-full max-w-[190px]">
             <Link
               href={`/collections/${fabric.id}`}
-              className="w-full py-2 bg-[#FAF8F3] hover:bg-white text-[#30241F] text-[10.5px] tracking-widest uppercase font-sans font-semibold text-center shadow flex items-center justify-center gap-1.5"
+              className="w-full py-2 bg-[#FAF8F3] hover:bg-white text-[#30241F] text-[12px] tracking-widest uppercase font-sans font-semibold text-center shadow flex items-center justify-center gap-1.5"
             >
               <Eye className="w-3.5 h-3.5 text-[#AD8A53]" />
               View Full Details
@@ -120,7 +120,7 @@ export default function FabricCard({ fabric }: FabricCardProps) {
 
             <Link
               href={`/ai-tryon?fabric=${fabric.id}`}
-              className="w-full py-2 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-[10.5px] tracking-widest uppercase font-sans font-semibold text-center shadow flex items-center justify-center gap-1.5"
+              className="w-full py-2 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-[12px] tracking-widest uppercase font-sans font-semibold text-center shadow flex items-center justify-center gap-1.5"
             >
               <Sparkles className="w-3.5 h-3.5 text-[#FAF8F3]" />
               Try With AI
@@ -146,7 +146,7 @@ export default function FabricCard({ fabric }: FabricCardProps) {
             </button>
           ))}
           {allImages.length > 5 && (
-            <span className="text-[9px] text-[#AD8A53] font-mono pl-1">
+            <span className="text-[11px] text-[#AD8A53] font-mono pl-1">
               +{allImages.length - 5}
             </span>
           )}
@@ -167,32 +167,32 @@ export default function FabricCard({ fabric }: FabricCardProps) {
           <div className="space-y-1.5 text-xs text-[#30241F] border-t border-[#AD8A53]/20 pt-2.5 mb-3">
             
             {/* Fabric Type */}
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="text-[#C9BBA7] font-medium">Fabric Type:</span>
+            <div className="flex items-center justify-between text-[13px]">
+              <span className="text-[#7A6A58] font-medium">Fabric Type:</span>
               <span className="font-semibold text-[#30241F] text-right truncate max-w-[170px]">
                 {fabric.baseFabric}
               </span>
             </div>
 
             {/* Embroidery Type */}
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="text-[#C9BBA7] font-medium">Embroidery:</span>
+            <div className="flex items-center justify-between text-[13px]">
+              <span className="text-[#7A6A58] font-medium">Embroidery:</span>
               <span className="font-semibold text-[#713B43] text-right truncate max-w-[170px]">
                 {fabric.embroideryTypeLabel}
               </span>
             </div>
 
             {/* Fabric Width */}
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="text-[#C9BBA7] font-medium">Fabric Width:</span>
+            <div className="flex items-center justify-between text-[13px]">
+              <span className="text-[#7A6A58] font-medium">Fabric Width:</span>
               <span className="font-semibold text-[#30241F]">
                 {fabric.width || '44 Inches'}
               </span>
             </div>
 
             {/* Minimum Order Quantity (MOQ) */}
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="text-[#C9BBA7] font-medium">Wholesale MOQ:</span>
+            <div className="flex items-center justify-between text-[13px]">
+              <span className="text-[#7A6A58] font-medium">Wholesale MOQ:</span>
               <span className="font-bold text-[#AD8A53]">
                 {fabric.moq || '25 Metres'}
               </span>
@@ -202,10 +202,10 @@ export default function FabricCard({ fabric }: FabricCardProps) {
           {/* Available Colors Swatches */}
           <div className="pt-2 border-t border-[#AD8A53]/15 mb-4">
             <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[10px] uppercase tracking-wider text-[#C9BBA7] font-semibold">
+              <span className="text-[12px] uppercase tracking-wider text-[#7A6A58] font-semibold">
                 Available Colors:
               </span>
-              <span className="text-[10px] font-medium text-[#30241F]">
+              <span className="text-[12px] font-medium text-[#30241F]">
                 {fabric.availableColors?.[selectedColorIndex]?.name || fabric.color}
               </span>
             </div>
@@ -227,7 +227,7 @@ export default function FabricCard({ fabric }: FabricCardProps) {
                   />
                 ))
               ) : (
-                <span className="text-[10.5px] text-[#30241F]/80">
+                <span className="text-[12px] text-[#30241F]/80">
                   {fabric.color}
                 </span>
               )}
@@ -240,7 +240,7 @@ export default function FabricCard({ fabric }: FabricCardProps) {
           {/* Prominent Enquire for Price Button */}
           <button
             onClick={() => openEnquiryModal(fabric)}
-            className="w-full py-2.5 bg-[#30241F] hover:bg-[#252321] text-[#FAF8F3] text-[10.5px] tracking-[0.16em] uppercase font-sans font-semibold transition-colors text-center shadow-sm flex items-center justify-center gap-1.5"
+            className="w-full py-2.5 bg-[#30241F] hover:bg-[#252321] text-[#FAF8F3] text-[12px] tracking-[0.16em] uppercase font-sans font-semibold transition-colors text-center shadow-sm flex items-center justify-center gap-1.5"
           >
             <span>Enquire for Price</span>
             <ArrowUpRight className="w-3.5 h-3.5 text-[#AD8A53]" />
@@ -250,7 +250,7 @@ export default function FabricCard({ fabric }: FabricCardProps) {
           <div className="grid grid-cols-2 gap-2">
             <Link
               href={`/ai-tryon?fabric=${fabric.id}`}
-              className="py-1.5 border border-[#AD8A53] text-[#30241F] hover:bg-[#F4EFE6] text-[9.5px] tracking-wider uppercase font-semibold text-center flex items-center justify-center gap-1"
+              className="py-1.5 border border-[#AD8A53] text-[#30241F] hover:bg-[#F4EFE6] text-[11px] tracking-wider uppercase font-semibold text-center flex items-center justify-center gap-1"
             >
               <Sparkles className="w-3 h-3 text-[#AD8A53]" />
               <span>AI Try-On</span>
@@ -264,7 +264,7 @@ export default function FabricCard({ fabric }: FabricCardProps) {
               })}
               target="_blank"
               rel="noopener noreferrer"
-              className="py-1.5 bg-[#25D366] hover:bg-[#20b858] text-white text-[9.5px] tracking-wider uppercase font-medium text-center flex items-center justify-center gap-1 shadow-sm"
+              className="py-1.5 bg-[#25D366] hover:bg-[#20b858] text-white text-[11px] tracking-wider uppercase font-medium text-center flex items-center justify-center gap-1 shadow-sm"
             >
               <MessageCircle className="w-3 h-3 fill-white" />
               <span>WhatsApp</span>

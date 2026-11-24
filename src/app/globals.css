@@ -102,3 +102,268 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #AD8A53;
 }
+
+/* ==========================================================================
+   HOME PAGE MOTION SYSTEM
+   Reveal-on-scroll, fabric sheen, marquee and float effects used by
+   src/components/home/*. Everything is disabled under prefers-reduced-motion.
+   ========================================================================== */
+
+.reveal {
+  --reveal-delay: 0ms;
+  opacity: 0;
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay),
+    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay),
+    clip-path 1.3s cubic-bezier(0.77, 0, 0.18, 1) var(--reveal-delay),
+    filter 1.1s ease var(--reveal-delay);
+  will-change: opacity, transform;
+}
+.reveal[data-variant='up'] { transform: translate3d(0, 40px, 0); }
+.reveal[data-variant='down'] { transform: translate3d(0, -30px, 0); }
+.reveal[data-variant='left'] { transform: translate3d(-48px, 0, 0); }
+.reveal[data-variant='right'] { transform: translate3d(48px, 0, 0); }
+.reveal[data-variant='scale'] { transform: scale(0.92); filter: blur(6px); }
+.reveal[data-variant='unfurl'],
+.reveal[data-variant='unroll'] { opacity: 1; }
+.reveal-clip {
+  transition: clip-path 1.3s cubic-bezier(0.77, 0, 0.18, 1) var(--reveal-delay);
+}
+.reveal[data-variant='unfurl'] > .reveal-clip { clip-path: inset(0 0 100% 0); }
+.reveal[data-variant='unroll'] > .reveal-clip { clip-path: inset(0 100% 0 0); }
+.reveal[data-shown='true'] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+.reveal[data-shown='true'] > .reveal-clip { clip-path: inset(-80px -80px -80px -80px); }
+
+/* Word-by-word headline reveal */
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.split-word > span {
+  display: inline-block;
+  transform: translate3d(0, 110%, 0) rotate(4deg);
+  transform-origin: left bottom;
+  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--word-delay, 0ms);
+}
+[data-shown='true'] .split-word > span { transform: none; }
+
+/* Silk sheen sweeping across fabric surfaces */
+.fabric-sheen { position: relative; overflow: hidden; isolation: isolate; }
+.fabric-sheen::after {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 244, 220, 0.0) 42%,
+    rgba(255, 244, 220, 0.35) 50%,
+    rgba(255, 244, 220, 0.0) 58%,
+    transparent 65%
+  );
+  transform: translateX(-100%);
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: soft-light;
+}
+.fabric-sheen:hover::after,
+.fabric-sheen[data-sheen='auto']::after {
+  animation: sheen-sweep 2.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fabric-sheen[data-sheen='auto']::after { animation-iteration-count: infinite; animation-duration: 5s; }
+
+@keyframes sheen-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Gentle breathing / billowing of draped fabric */
+@keyframes fabric-breathe {
+  0%, 100% { transform: scale(1.04) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(0.6deg); }
+}
+.animate-fabric-breathe { animation: fabric-breathe 14s ease-in-out infinite; }
+
+/* Circular "unfold" transition when a new fabric is selected */
+@keyframes fabric-unfold {
+  from { clip-path: circle(0% at var(--ox, 50%) var(--oy, 50%)); }
+  to { clip-path: circle(150% at var(--ox, 50%) var(--oy, 50%)); }
+}
+.animate-fabric-unfold { animation: fabric-unfold 1.1s cubic-bezier(0.77, 0, 0.18, 1) both; }
+
+/* Fabric falling into place on garment silhouettes */
+@keyframes fabric-drape {
+  from { clip-path: inset(0 0 100% 0); transform: translateY(-6px); }
+  to { clip-path: inset(0 0 0 0); transform: none; }
+}
+.animate-fabric-drape { animation: fabric-drape 1s cubic-bezier(0.77, 0, 0.18, 1) both; }
+
+/* Fabric dropping onto an SVG garment */
+@keyframes svg-fabric-drop {
+  from { opacity: 0; transform: translateY(-14px) scale(1.04); }
+  to { opacity: 1; transform: none; }
+}
+.svg-fabric-drop {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: svg-fabric-drop 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Hoop rotation for embroidery technique swaps */
+@keyframes hoop-in {
+  from { transform: rotate(-35deg) scale(0.85); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.animate-hoop-in { animation: hoop-in 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes slow-spin { to { transform: rotate(360deg); } }
+.animate-slow-spin { animation: slow-spin 60s linear infinite; }
+
+@keyframes fade-up-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-fade-up-in { animation: fade-up-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Infinite fabric marquee */
+@keyframes marquee-x { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.animate-marquee { animation: marquee-x 45s linear infinite; }
+.animate-marquee-reverse { animation: marquee-x 55s linear infinite reverse; }
+.marquee-pause:hover .animate-marquee,
+.marquee-pause:hover .animate-marquee-reverse { animation-play-state: paused; }
+
+/* Floating swatches */
+@keyframes float-a {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(var(--rot, -6deg)); }
+  50% { transform: translate3d(0, -18px, 0) rotate(calc(var(--rot, -6deg) + 3deg)); }
+}
+.animate-float { animation: float-a 7s ease-in-out infinite; }
+
+/* Running stitch line */
+@keyframes stitch-run { to { stroke-dashoffset: -40; } }
+.animate-stitch { stroke-dasharray: 8 6; animation: stitch-run 1.6s linear infinite; }
+
+/* Scroll cue */
+@keyframes thread-drop {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45% { transform: scaleY(1); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+.animate-thread-drop { animation: thread-drop 2.2s cubic-bezier(0.77, 0, 0.18, 1) infinite; }
+
+/* WhatsApp pulse ring */
+@keyframes ring-pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.animate-ring-pulse { animation: ring-pulse 2s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+
+/* Subtle woven texture overlay */
+.weave-texture {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(173, 138, 83, 0.05) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(173, 138, 83, 0.05) 0 1px, transparent 1px 4px);
+}
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-clip,
+  .split-word > span {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+  .animate-fabric-breathe,
+  .animate-fabric-unfold,
+  .animate-fabric-drape,
+  .animate-hoop-in,
+  .animate-slow-spin,
+  .animate-marquee,
+  .animate-marquee-reverse,
+  .animate-float,
+  .animate-stitch,
+  .animate-thread-drop,
+  .animate-ring-pulse,
+  .animate-fade-up-in,
+  .svg-fabric-drop,
+  .fabric-sheen::after {
+    animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   TICKET SHAPE (home WhatsApp enquiry)
+   Real transparent cut-outs via CSS masks: concave corners on the main body,
+   half-notches where the stub tears off, and a postage-stamp scalloped edge.
+   Desktop: stub on the right. Below lg: stub underneath.
+   ========================================================================== */
+.ticket {
+  --notch: 22px;
+  --scallop: 7px;
+  filter: drop-shadow(0 30px 45px rgba(48, 36, 31, 0.28)) drop-shadow(0 4px 8px rgba(48, 36, 31, 0.12));
+}
+.ticket-main,
+.ticket-stub {
+  --c: transparent var(--notch), #000 calc(var(--notch) + 0.5px);
+}
+.ticket-main {
+  -webkit-mask:
+    radial-gradient(circle at top left, var(--c)) top left / 51% 51% no-repeat,
+    radial-gradient(circle at top right, var(--c)) top right / 51% 51% no-repeat,
+    radial-gradient(circle at bottom left, var(--c)) bottom left / 51% 51% no-repeat,
+    radial-gradient(circle at bottom right, var(--c)) bottom right / 51% 51% no-repeat;
+  mask:
+    radial-gradient(circle at top left, var(--c)) top left / 51% 51% no-repeat,
+    radial-gradient(circle at top right, var(--c)) top right / 51% 51% no-repeat,
+    radial-gradient(circle at bottom left, var(--c)) bottom left / 51% 51% no-repeat,
+    radial-gradient(circle at bottom right, var(--c)) bottom right / 51% 51% no-repeat;
+}
+/* Stub (mobile: below the main body) — notches on its top corners */
+.ticket-stub {
+  -webkit-mask:
+    radial-gradient(circle at top left, var(--c)) left / 51% 100% no-repeat,
+    radial-gradient(circle at top right, var(--c)) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle at top left, var(--c)) left / 51% 100% no-repeat,
+    radial-gradient(circle at top right, var(--c)) right / 51% 100% no-repeat;
+}
+/* Scalloped outer edge (mobile: bottom edge) */
+.ticket-stub-edge {
+  -webkit-mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--scallop)) no-repeat,
+    radial-gradient(circle at bottom, transparent var(--scallop), #000 calc(var(--scallop) + 0.5px)) bottom / 22px calc(var(--scallop) * 2 + 2px) repeat-x;
+  mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--scallop)) no-repeat,
+    radial-gradient(circle at bottom, transparent var(--scallop), #000 calc(var(--scallop) + 0.5px)) bottom / 22px calc(var(--scallop) * 2 + 2px) repeat-x;
+}
+@media (min-width: 1024px) {
+  .ticket-stub {
+    -webkit-mask:
+      radial-gradient(circle at top left, var(--c)) top / 100% 51% no-repeat,
+      radial-gradient(circle at bottom left, var(--c)) bottom / 100% 51% no-repeat;
+    mask:
+      radial-gradient(circle at top left, var(--c)) top / 100% 51% no-repeat,
+      radial-gradient(circle at bottom left, var(--c)) bottom / 100% 51% no-repeat;
+  }
+  .ticket-stub-edge {
+    -webkit-mask:
+      linear-gradient(#000 0 0) left / calc(100% - var(--scallop)) 100% no-repeat,
+      radial-gradient(circle at right, transparent var(--scallop), #000 calc(var(--scallop) + 0.5px)) right / calc(var(--scallop) * 2 + 2px) 22px repeat-y;
+    mask:
+      linear-gradient(#000 0 0) left / calc(100% - var(--scallop)) 100% no-repeat,
+      radial-gradient(circle at right, transparent var(--scallop), #000 calc(var(--scallop) + 0.5px)) right / calc(var(--scallop) * 2 + 2px) 22px repeat-y;
+  }
+}

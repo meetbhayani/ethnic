@@ -29,7 +29,7 @@ export default function GalleryPage() {
     <div className="bg-[#FAF8F3] text-[#30241F] py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Editorial Header */}
       <div className="border-b border-[#AD8A53]/25 pb-8 mb-10">
-        <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
+        <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
           Visual Heritage & Machine Bays
         </span>
         <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-[#30241F] mb-4">
@@ -83,12 +83,12 @@ export default function GalleryPage() {
             </div>
 
             <div className="absolute inset-0 bg-gradient-to-t from-[#252321]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-[#FAF8F3]">
-              <span className="text-[9px] uppercase tracking-widest text-[#AD8A53] font-mono">
+              <span className="text-[11px] uppercase tracking-widest text-[#AD8A53] font-mono">
                 {item.tag}
               </span>
               <h3 className="font-editorial text-xl font-medium mt-0.5">{item.title}</h3>
-              <p className="text-[11px] text-[#C9BBA7] line-clamp-2 mt-1">{item.caption}</p>
-              <div className="mt-2 flex items-center gap-1 text-[10px] uppercase tracking-wider text-[#FAF8F3] font-semibold">
+              <p className="text-[13px] text-[#C9BBA7] line-clamp-2 mt-1">{item.caption}</p>
+              <div className="mt-2 flex items-center gap-1 text-[12px] uppercase tracking-wider text-[#FAF8F3] font-semibold">
                 <Eye className="w-3.5 h-3.5 text-[#AD8A53]" />
                 Inspect Photograph
               </div>
@@ -119,7 +119,7 @@ export default function GalleryPage() {
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-[#AD8A53]/20 pt-4">
               <div>
-                <span className="text-[10px] uppercase tracking-widest text-[#AD8A53] font-mono font-semibold">
+                <span className="text-[12px] uppercase tracking-widest text-[#AD8A53] font-mono font-semibold">
                   {activeLightboxItem.tag}
                 </span>
                 <h2 className="font-editorial text-2xl text-[#30241F]">

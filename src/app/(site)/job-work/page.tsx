@@ -67,7 +67,7 @@ export default function JobWorkPage() {
     <div className="bg-[#FAF8F3] text-[#30241F] py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Editorial Header */}
       <div className="border-b border-[#AD8A53]/25 pb-8 mb-12">
-        <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
+        <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
           Surat Facility B2B Services
         </span>
         <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-[#30241F] mb-4">
@@ -131,7 +131,7 @@ export default function JobWorkPage() {
 
         {/* Custom Job-Work Inquiry Form */}
         <div className="lg:col-span-6 bg-[#FAF8F3] border-2 border-[#AD8A53]/40 p-6 sm:p-8 shadow-xl">
-          <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-1">
+          <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-1">
             Commercial Project Intake
           </span>
           <h2 className="font-editorial text-2xl sm:text-3xl text-[#30241F] mb-6">
@@ -169,7 +169,7 @@ export default function JobWorkPage() {
             <form onSubmit={handleSubmit} className="space-y-4 font-sans text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Brand / Business Name *
                   </label>
                   <input
@@ -182,7 +182,7 @@ export default function JobWorkPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Contact Person *
                   </label>
                   <input
@@ -198,7 +198,7 @@ export default function JobWorkPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     WhatsApp Phone Number *
                   </label>
                   <input
@@ -211,7 +211,7 @@ export default function JobWorkPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Email Address
                   </label>
                   <input
@@ -226,7 +226,7 @@ export default function JobWorkPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Embroidery Craft Needed:
                   </label>
                   <select
@@ -243,7 +243,7 @@ export default function JobWorkPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Fabric Sourcing Preference:
                   </label>
                   <select
@@ -259,7 +259,7 @@ export default function JobWorkPage() {
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                   Approximate Production Quantity (Metres)
                 </label>
                 <input
@@ -272,7 +272,7 @@ export default function JobWorkPage() {
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                   Project Details & Motif References:
                 </label>
                 <textarea
@@ -313,7 +313,7 @@ export default function JobWorkPage() {
                 </button>
               </div>
 
-              <p className="text-[10px] text-[#C9BBA7] text-center pt-2">
+              <p className="text-[12px] text-[#7A6A58] text-center pt-2">
                 All client proprietary artwork and motifs remain strictly confidential under business ethics.
               </p>
             </form>

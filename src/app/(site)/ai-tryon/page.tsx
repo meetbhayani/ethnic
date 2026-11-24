@@ -184,7 +184,7 @@ function AITryOnContent() {
       {/* Editorial Header */}
       <div className="border-b border-[#AD8A53]/25 pb-6 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-2">
+          <div className="flex items-center gap-2 text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-2">
             <Sparkles className="w-4 h-4" />
             <span>Interactive Visualization Studio</span>
           </div>
@@ -199,12 +199,12 @@ function AITryOnContent() {
         {/* Live Backend Key Status Badge */}
         <div className="shrink-0">
           {apiStatus?.configured ? (
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-[11px] font-sans rounded shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-[13px] font-sans rounded shadow-sm">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Google Gemini &amp; Imagen 3: <strong>Live AI Connected</strong></span>
             </div>
           ) : (
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 border border-amber-300 text-amber-900 text-[11px] font-sans rounded shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 border border-amber-300 text-amber-900 text-[13px] font-sans rounded shadow-sm">
               <Key className="w-3.5 h-3.5 text-amber-700" />
               <span>Backend Ready • Add <strong>GEMINI_API_KEY</strong> in <code>.env.local</code></span>
             </div>
@@ -218,10 +218,10 @@ function AITryOnContent() {
           {/* Step 1: Model Silhouette */}
           <div className="bg-[#FAF8F3] border border-[#AD8A53]/30 p-5 shadow-sm">
             <div className="flex items-center justify-between mb-3 border-b border-[#AD8A53]/20 pb-2">
-              <span className="text-[10px] uppercase tracking-widest text-[#AD8A53] font-semibold">
+              <span className="text-[12px] uppercase tracking-widest text-[#AD8A53] font-semibold">
                 Step 1: Model Silhouette
               </span>
-              <span className="text-[10px] text-[#C9BBA7] font-mono">Input Frame</span>
+              <span className="text-[12px] text-[#7A6A58] font-mono">Input Frame</span>
             </div>
 
             <label className="block text-xs font-medium text-[#30241F] mb-2">
@@ -244,7 +244,7 @@ function AITryOnContent() {
                   <div className="aspect-[3/4] w-full overflow-hidden bg-gray-100 mb-1">
                     <img src={preset.image} alt={preset.name} className="w-full h-full object-cover" />
                   </div>
-                  <span className="text-[8px] font-sans text-center text-[#30241F] line-clamp-1">
+                  <span className="text-[11px] font-sans text-center text-[#30241F] line-clamp-1">
                     {preset.name}
                   </span>
                 </button>
@@ -263,7 +263,7 @@ function AITryOnContent() {
                 />
               </label>
               {uploadedImage && (
-                <p className="text-[10px] text-emerald-700 mt-1 font-sans flex items-center gap-1">
+                <p className="text-[12px] text-emerald-700 mt-1 font-sans flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3" />
                   Custom client image loaded.
                 </p>
@@ -274,10 +274,10 @@ function AITryOnContent() {
           {/* Step 2: Garment Configuration */}
           <div className="bg-[#FAF8F3] border border-[#AD8A53]/30 p-5 shadow-sm">
             <div className="flex items-center justify-between mb-3 border-b border-[#AD8A53]/20 pb-2">
-              <span className="text-[10px] uppercase tracking-widest text-[#AD8A53] font-semibold">
+              <span className="text-[12px] uppercase tracking-widest text-[#AD8A53] font-semibold">
                 Step 2: Garment Configuration
               </span>
-              <span className="text-[10px] text-[#C9BBA7] font-mono">Silhouette</span>
+              <span className="text-[12px] text-[#7A6A58] font-mono">Silhouette</span>
             </div>
 
             <div className="space-y-4">
@@ -340,7 +340,7 @@ function AITryOnContent() {
           {/* Step 3: Select Fabric */}
           <div className="bg-[#FAF8F3] border border-[#AD8A53]/30 p-5 shadow-sm">
             <div className="flex items-center justify-between mb-3 border-b border-[#AD8A53]/20 pb-2">
-              <span className="text-[10px] uppercase tracking-widest text-[#AD8A53] font-semibold">
+              <span className="text-[12px] uppercase tracking-widest text-[#AD8A53] font-semibold">
                 Step 3: Select Catalogue Fabric
               </span>
               <span className="font-mono text-xs text-[#AD8A53] font-semibold">
@@ -369,7 +369,7 @@ function AITryOnContent() {
                   <div className="aspect-square w-full overflow-hidden bg-gray-200">
                     <img src={f.mainImage} alt={f.code} className="w-full h-full object-cover" />
                   </div>
-                  <span className="text-[8px] font-mono mt-0.5 text-[#30241F] font-semibold">
+                  <span className="text-[11px] font-mono mt-0.5 text-[#30241F] font-semibold">
                     {f.code}
                   </span>
                 </button>
@@ -386,7 +386,7 @@ function AITryOnContent() {
                 onChange={(e) => setConsentGiven(e.target.checked)}
                 className="accent-[#AD8A53] mt-0.5"
               />
-              <span className="text-[11px] text-[#30241F]/80 leading-tight">
+              <span className="text-[13px] text-[#30241F]/80 leading-tight">
                 I understand AI previews are conceptual visual aids and do not replace physical swatch approval. Any photo I upload stays in my browser and is not sent to Khodal Fashion’s servers.
               </span>
             </label>
@@ -430,7 +430,7 @@ function AITryOnContent() {
                   <h3 className="font-editorial text-2xl text-[#FAF8F3]">
                     Synthesizing Royal Drape
                   </h3>
-                  <p className="text-xs text-[#C9BBA7] font-mono mt-1">{generationStep}</p>
+                  <p className="text-xs text-[#7A6A58] font-mono mt-1">{generationStep}</p>
                 </div>
                 <div className="w-48 h-1.5 bg-[#30241F] rounded-full overflow-hidden">
                   <div
@@ -445,7 +445,7 @@ function AITryOnContent() {
                 <div className="absolute top-4 right-4 z-20 flex items-center gap-2 bg-[#252321]/90 backdrop-blur-md px-2.5 py-1 border border-[#AD8A53]/40">
                   <button
                     onClick={() => setShowCompare(!showCompare)}
-                    className="text-[10px] uppercase tracking-wider text-[#FAF8F3] hover:text-[#AD8A53] flex items-center gap-1 font-sans"
+                    className="text-[12px] uppercase tracking-wider text-[#FAF8F3] hover:text-[#AD8A53] flex items-center gap-1 font-sans"
                   >
                     <SlidersHorizontal className="w-3 h-3 text-[#AD8A53]" />
                     <span>{showCompare ? 'Exit Compare' : 'Before / After'}</span>
@@ -473,12 +473,12 @@ function AITryOnContent() {
                         className="absolute inset-0 w-full h-full object-cover max-w-none"
                         style={{ width: '100%', height: '100%' }}
                       />
-                      <span className="absolute bottom-16 left-4 bg-black/70 text-white text-[9px] uppercase px-2 py-0.5 tracking-wider font-mono">
+                      <span className="absolute bottom-16 left-4 bg-black/70 text-white text-[11px] uppercase px-2 py-0.5 tracking-wider font-mono">
                         Original Model
                       </span>
                     </div>
 
-                    <span className="absolute bottom-16 right-4 bg-[#713B43]/80 text-white text-[9px] uppercase px-2 py-0.5 tracking-wider font-mono">
+                    <span className="absolute bottom-16 right-4 bg-[#713B43]/80 text-white text-[11px] uppercase px-2 py-0.5 tracking-wider font-mono">
                       AI Drape Preview
                     </span>
 
@@ -516,19 +516,19 @@ function AITryOnContent() {
                 <div className="absolute top-4 left-4 bg-[#252321]/90 backdrop-blur-sm text-[#FAF8F3] p-2.5 border border-[#AD8A53]/40 max-w-xs text-xs z-10">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    <span className="font-mono text-[10px] text-[#AD8A53] font-semibold uppercase">
+                    <span className="font-mono text-[12px] text-[#AD8A53] font-semibold uppercase">
                       {generationMeta.provider || 'AI RENDER COMPLETE'}
                     </span>
                   </div>
-                  <p className="font-serif text-sm text-[#FAF8F3] mt-0.5">{selectedFabric.name}</p>
-                  <p className="text-[10px] text-[#C9BBA7]">
+                  <p className="font-serif text-[17px] text-[#FAF8F3] mt-0.5">{selectedFabric.name}</p>
+                  <p className="text-[12px] text-[#7A6A58]">
                     Mapped on {outfitStyle.toUpperCase()} • Tone-on-tone illumination
                   </p>
                 </div>
 
                 {/* Bottom Action Drawer */}
                 <div className="absolute bottom-4 left-4 right-4 bg-[#252321]/85 backdrop-blur-sm p-3 border border-[#AD8A53]/30 flex flex-wrap items-center justify-between gap-3 text-xs z-10">
-                  <span className="text-[#C9BBA7] text-[11px] font-sans">
+                  <span className="text-[#7A6A58] text-[13px] font-sans">
                     Illustrative render for commercial visualization only.
                   </span>
                   <div className="flex items-center gap-2">
@@ -537,7 +537,7 @@ function AITryOnContent() {
                       download={`khodal-${selectedFabric.code}-ai-preview.jpg`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-3 py-1.5 bg-[#FAF8F3] hover:bg-[#F4EFE6] text-[#30241F] text-[10px] uppercase tracking-wider font-semibold flex items-center gap-1 shadow"
+                      className="px-3 py-1.5 bg-[#FAF8F3] hover:bg-[#F4EFE6] text-[#30241F] text-[12px] uppercase tracking-wider font-semibold flex items-center gap-1 shadow"
                     >
                       <Download className="w-3 h-3" />
                       Save Image
@@ -546,7 +546,7 @@ function AITryOnContent() {
                       href={directWhatsAppLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-3 py-1.5 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-[10px] uppercase tracking-wider font-semibold flex items-center gap-1 shadow"
+                      className="px-3 py-1.5 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-[12px] uppercase tracking-wider font-semibold flex items-center gap-1 shadow"
                     >
                       <MessageCircle className="w-3 h-3" />
                       Enquire on WhatsApp

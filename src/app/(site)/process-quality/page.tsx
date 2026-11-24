@@ -45,7 +45,7 @@ export default function ProcessQualityPage() {
     <div className="bg-[#FAF8F3] text-[#30241F] py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Editorial Header */}
       <div className="border-b border-[#AD8A53]/25 pb-8 mb-12">
-        <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
+        <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
           Transparent B2B Journey
         </span>
         <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-[#30241F] mb-4">
@@ -70,7 +70,7 @@ export default function ProcessQualityPage() {
               <h3 className="font-editorial text-xl text-[#30241F] mb-2">{step.title}</h3>
               <p className="text-xs text-[#30241F]/80 font-sans leading-relaxed">{step.desc}</p>
             </div>
-            <div className="mt-4 pt-3 border-t border-[#AD8A53]/15 flex items-center gap-1.5 text-[10px] text-[#713B43] uppercase tracking-wider font-semibold">
+            <div className="mt-4 pt-3 border-t border-[#AD8A53]/15 flex items-center gap-1.5 text-[12px] text-[#713B43] uppercase tracking-wider font-semibold">
               <CheckCircle2 className="w-3.5 h-3.5" />
               Verified Protocol
             </div>
@@ -81,13 +81,13 @@ export default function ProcessQualityPage() {
       {/* Quality Control Parameters */}
       <div className="bg-[#252321] text-[#FAF8F3] p-8 sm:p-12 border border-[#AD8A53]/30 mb-16">
         <div className="max-w-2xl mb-8">
-          <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-1">
+          <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-1">
             Inspection Protocol
           </span>
           <h2 className="font-editorial text-3xl text-[#FAF8F3]">
             Surat Quality Gate Checkpoints
           </h2>
-          <p className="text-xs text-[#C9BBA7] font-sans mt-2">
+          <p className="text-xs text-[#7A6A58] font-sans mt-2">
             Every metre undergoes strict multi-point physical scrutiny before roll packaging.
           </p>
         </div>
@@ -95,21 +95,21 @@ export default function ProcessQualityPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs font-sans">
           <div className="p-4 bg-[#30241F] border border-[#AD8A53]/20 space-y-2">
             <h4 className="font-semibold text-sm text-[#FAF8F3]">1. Light-Table Transparency</h4>
-            <p className="text-[#C9BBA7] leading-relaxed">
+            <p className="text-[#7A6A58] leading-relaxed">
               Detection of pinholes, weft slubs, or irregular yarn counts before mounting onto embroidery machine bays.
             </p>
           </div>
 
           <div className="p-4 bg-[#30241F] border border-[#AD8A53]/20 space-y-2">
             <h4 className="font-semibold text-sm text-[#FAF8F3]">2. Bullion & Bead Anchor Audit</h4>
-            <p className="text-[#C9BBA7] leading-relaxed">
+            <p className="text-[#7A6A58] leading-relaxed">
               Ensuring lockstitches are secure so cutdana and sequins do not detach during garment cutting or edge serging.
             </p>
           </div>
 
           <div className="p-4 bg-[#30241F] border border-[#AD8A53]/20 space-y-2">
             <h4 className="font-semibold text-sm text-[#FAF8F3]">3. Moisture-Proof Roll Packing</h4>
-            <p className="text-[#C9BBA7] leading-relaxed">
+            <p className="text-[#7A6A58] leading-relaxed">
               Textiles are rolled on heavy cardboard tubes and enveloped in triple-layer poly film to prevent humidity ingress in transit.
             </p>
           </div>

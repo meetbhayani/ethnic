@@ -12,7 +12,7 @@ export default function AboutPage() {
     <div className="bg-[#FAF8F3] text-[#30241F] py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Editorial Header */}
       <div className="border-b border-[#AD8A53]/25 pb-8 mb-12">
-        <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
+        <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
           The House of Khodal Fashion
         </span>
         <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-[#30241F] mb-6 leading-tight">
@@ -40,7 +40,7 @@ export default function AboutPage() {
             Our fabrics are designed with tailoring realities in mind. We balance embroidery stitch density against base fabric tensile strength, ensuring that tailored collars stand crisp, shoulders fall clean, and seams resist pull stress.
           </p>
 
-          <div className="border-l-2 border-[#713B43] pl-4 italic font-serif text-sm text-[#30241F]">
+          <div className="border-l-2 border-[#713B43] pl-4 italic font-serif text-[17px] text-[#30241F]">
             &ldquo;We do not claim centuries of forgotten lineage. We offer genuine, verified craftsmanship engineered today in our Surat facility with transparent business practices.&rdquo;
           </div>
         </div>
@@ -52,7 +52,7 @@ export default function AboutPage() {
               alt="Artisan checking embroidery at Khodal Fashion Surat"
               className="w-full h-full object-cover"
             />
-            <div className="absolute bottom-3 left-3 right-3 bg-[#252321]/80 backdrop-blur-sm text-[#FAF8F3] p-2.5 text-[10px] uppercase tracking-wider">
+            <div className="absolute bottom-3 left-3 right-3 bg-[#252321]/80 backdrop-blur-sm text-[#FAF8F3] p-2.5 text-[12px] uppercase tracking-wider">
               Surat Ring Road Atelier Workshop
             </div>
           </div>
@@ -62,7 +62,7 @@ export default function AboutPage() {
       {/* Trust & Transparency Commitments */}
       <div className="bg-[#F4EFE6] border border-[#AD8A53]/30 p-8 sm:p-12 mb-16">
         <div className="max-w-2xl mx-auto text-center mb-8">
-          <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-1">
+          <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-1">
             B2B Integrity Standard
           </span>
           <h2 className="font-editorial text-3xl text-[#30241F]">

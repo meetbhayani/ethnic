@@ -62,7 +62,7 @@ export default function ContactPage() {
     <div className="bg-[#FAF8F3] text-[#30241F] py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Editorial Header */}
       <div className="border-b border-[#AD8A53]/25 pb-8 mb-12">
-        <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
+        <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-2">
           Surat Commercial Headquarters
         </span>
         <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-[#30241F] mb-4">
@@ -143,20 +143,20 @@ export default function ContactPage() {
 
           {/* Interactive Stylized Map View */}
           <div className="border border-[#AD8A53]/30 bg-[#252321] text-[#FAF8F3] p-6">
-            <span className="text-[10px] uppercase tracking-widest text-[#AD8A53] font-semibold block mb-1">
+            <span className="text-[12px] uppercase tracking-widest text-[#AD8A53] font-semibold block mb-1">
               Surat Logistics Gateway
             </span>
             <h3 className="font-editorial text-xl text-[#FAF8F3] mb-2">
               Textile Hub Logistics Access
             </h3>
-            <p className="text-xs text-[#C9BBA7] font-sans leading-relaxed mb-4">
+            <p className="text-xs text-[#7A6A58] font-sans leading-relaxed mb-4">
               Conveniently located 15 minutes from Surat Railway Station and 30 minutes from Surat Airport (STV), enabling same-day cargo dispatch to major transport hubs across India.
             </p>
             <div className="aspect-[16/9] w-full bg-[#30241F] border border-[#AD8A53]/20 flex items-center justify-center text-center p-4">
               <div className="space-y-1">
                 <Building2 className="w-6 h-6 text-[#AD8A53] mx-auto mb-1" />
                 <p className="text-xs font-semibold text-[#FAF8F3]">Khodal Fashion Atelier Bay</p>
-                <p className="text-[10px] text-[#C9BBA7]">Ring Road Commercial Textile Zone, Surat</p>
+                <p className="text-[12px] text-[#7A6A58]">Ring Road Commercial Textile Zone, Surat</p>
               </div>
             </div>
           </div>
@@ -164,7 +164,7 @@ export default function ContactPage() {
 
         {/* Commercial Inquiry Form */}
         <div className="lg:col-span-7 bg-[#FAF8F3] border-2 border-[#AD8A53]/35 p-6 sm:p-8 shadow-xl">
-          <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-1">
+          <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-1">
             Official Commercial Form
           </span>
           <h2 className="font-editorial text-2xl sm:text-3xl text-[#30241F] mb-6">
@@ -189,7 +189,7 @@ export default function ContactPage() {
             <form onSubmit={handleSubmit} className="space-y-4 font-sans text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Business / Label Name *
                   </label>
                   <input
@@ -202,7 +202,7 @@ export default function ContactPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Contact Person *
                   </label>
                   <input
@@ -218,7 +218,7 @@ export default function ContactPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     WhatsApp Phone Number *
                   </label>
                   <input
@@ -231,7 +231,7 @@ export default function ContactPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Work Email Address
                   </label>
                   <input
@@ -245,7 +245,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                   Enquiry Subject:
                 </label>
                 <select
@@ -262,7 +262,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                   Message / Requirement Details:
                 </label>
                 <textarea

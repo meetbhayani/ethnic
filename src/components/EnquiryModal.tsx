@@ -120,7 +120,7 @@ export default function EnquiryModal() {
         ) : (
           <div>
             <div className="border-b border-[#AD8A53]/20 pb-4 mb-6">
-              <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold">
+              <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold">
                 Official B2B Inquiry Desk
               </span>
               <h2 className="font-editorial text-2xl sm:text-3xl text-[#30241F] mt-1">
@@ -131,9 +131,9 @@ export default function EnquiryModal() {
                   <span className="font-mono bg-[#F4EFE6] px-2 py-0.5 border border-[#AD8A53]/30 text-[#AD8A53] font-semibold">
                     {fabric.code}
                   </span>
-                  <span className="text-[#C9BBA7]">•</span>
+                  <span className="text-[#7A6A58]">•</span>
                   <span className="text-[#713B43] font-medium">{fabric.embroideryTypeLabel}</span>
-                  <span className="text-[#C9BBA7]">•</span>
+                  <span className="text-[#7A6A58]">•</span>
                   <span className="text-[#30241F]/70">MOQ: {fabric.moq}</span>
                 </div>
               )}
@@ -142,7 +142,7 @@ export default function EnquiryModal() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Business / Label Name *
                   </label>
                   <input
@@ -156,7 +156,7 @@ export default function EnquiryModal() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Contact Person *
                   </label>
                   <input
@@ -172,7 +172,7 @@ export default function EnquiryModal() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     WhatsApp Phone Number *
                   </label>
                   <input
@@ -186,7 +186,7 @@ export default function EnquiryModal() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                  <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                     Work Email Address
                   </label>
                   <input
@@ -200,7 +200,7 @@ export default function EnquiryModal() {
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                   Estimated Requirement Quantity (Metres)
                 </label>
                 <input
@@ -213,7 +213,7 @@ export default function EnquiryModal() {
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
+                <label className="block text-[13px] uppercase tracking-wider text-[#30241F] font-semibold mb-1">
                   Specific Specifications / Colorway Requests
                 </label>
                 <textarea
@@ -265,7 +265,7 @@ export default function EnquiryModal() {
                 </a>
               </div>
 
-              <p className="text-[10px] text-[#C9BBA7] text-center pt-2">
+              <p className="text-[12px] text-[#7A6A58] text-center pt-2">
                 We respect confidentiality. Swatch details are shared exclusively with verified B2B buyers.
               </p>
             </form>

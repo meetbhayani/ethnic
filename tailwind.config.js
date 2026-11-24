@@ -27,6 +27,11 @@ module.exports = {
         sans: ["var(--font-dm-sans)", "system-ui", "-apple-system", "sans-serif"],
         editorial: ["var(--font-cinzel)", "var(--font-cormorant)", "serif"],
       },
+      // Slightly larger small sizes for readability (defaults: xs 12px, sm 14px).
+      fontSize: {
+        xs: ['0.8125rem', { lineHeight: '1.25rem' }],
+        sm: ['0.9375rem', { lineHeight: '1.5rem' }],
+      },
       letterSpacing: {
         widest: ".25em",
         ultra: ".35em",

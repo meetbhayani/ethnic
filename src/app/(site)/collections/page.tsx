@@ -94,7 +94,7 @@ function CollectionsContent() {
       <div className="border-b border-[#AD8A53]/25 pb-8 mb-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <span className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-1">
+            <span className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold block mb-1">
               Surat Textile Catalogue
             </span>
             <h1 className="font-editorial text-3xl sm:text-4xl md:text-5xl text-[#30241F]">
@@ -131,7 +131,7 @@ function CollectionsContent() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-2.5 text-[#C9BBA7] hover:text-[#30241F]"
+                className="absolute right-3 top-2.5 text-[#7A6A58] hover:text-[#30241F]"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -152,7 +152,7 @@ function CollectionsContent() {
             {hasActiveFilters && (
               <button
                 onClick={resetFilters}
-                className="text-[11px] text-[#713B43] uppercase tracking-wider font-semibold flex items-center gap-1 hover:underline"
+                className="text-[13px] text-[#713B43] uppercase tracking-wider font-semibold flex items-center gap-1 hover:underline"
               >
                 <RotateCcw className="w-3 h-3" />
                 Reset Filters
@@ -162,7 +162,7 @@ function CollectionsContent() {
         </div>
 
         <div>
-          <span className="block text-[10px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-2">
+          <span className="block text-[12px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-2">
             Garment Classification:
           </span>
           <div className="flex flex-wrap gap-2">
@@ -184,7 +184,7 @@ function CollectionsContent() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#AD8A53]/20">
           <div>
-            <label className="block text-[10px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-1.5">
+            <label className="block text-[12px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-1.5">
               Embroidery Craft:
             </label>
             <select
@@ -201,7 +201,7 @@ function CollectionsContent() {
           </div>
 
           <div>
-            <label className="block text-[10px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-1.5">
+            <label className="block text-[12px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-1.5">
               Colour Palette:
             </label>
             <select
@@ -219,11 +219,11 @@ function CollectionsContent() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between mb-6 text-xs text-[#C9BBA7] font-sans">
+      <div className="flex items-center justify-between mb-6 text-xs text-[#7A6A58] font-sans">
         <div>
           Showing <span className="font-semibold text-[#30241F]">{filteredFabrics.length}</span> verified fabric designs
         </div>
-        <div className="text-[11px] text-[#713B43] uppercase tracking-wider font-semibold">
+        <div className="text-[13px] text-[#713B43] uppercase tracking-wider font-semibold">
           Prices Quoted on Wholesale Enquiry
         </div>
       </div>
@@ -251,10 +251,10 @@ function CollectionsContent() {
 
       <div className="mt-16 bg-[#252321] text-[#FAF8F3] p-6 border border-[#AD8A53]/30 flex flex-col md:flex-row items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-serif text-[#F4EFE6] italic">
+          <p className="text-base font-serif text-[#F4EFE6] italic">
             &ldquo;Every roll is inspected over calibrated light-tables in Surat to guarantee structural uniformity and stitch tension before dispatch.&rdquo;
           </p>
-          <p className="text-[10px] uppercase tracking-widest text-[#AD8A53] mt-1">
+          <p className="text-[12px] uppercase tracking-widest text-[#AD8A53] mt-1">
             Standard Width: 44&quot; to 48&quot; Full Cuttable • Fabric Unstitched
           </p>
         </div>

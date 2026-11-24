@@ -93,15 +93,15 @@ export default function Navbar() {
   return (
     <header ref={headerRef} className="sticky top-0 z-40 w-full max-w-full overflow-x-clip bg-[#FAF8F3] transition-all duration-300">
       {/* Top Editorial Bar */}
-      <div className="bg-[#252321] text-[#C9BBA7] text-[10px] tracking-[0.18em] uppercase py-2 px-4 sm:px-6 lg:px-8 border-b border-[#30241F]">
+      <div className="bg-[#252321] text-[#C9BBA7] text-[12px] tracking-[0.18em] uppercase py-2 px-4 sm:px-6 lg:px-8 border-b border-[#30241F]">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
             <span className="w-1.5 h-1.5 rounded-full bg-[#AD8A53] shrink-0" />
-            <span className="font-sans font-medium text-[#FAF8F3]/90 text-[9.5px] sm:text-[10px] truncate">
+            <span className="font-sans font-medium text-[#FAF8F3]/90 text-[11px] sm:text-[12px] truncate">
               Surat Textile House • Men&apos;s Ethnic Embroidered Fabrics & Job-Work
             </span>
           </div>
-          <div className="hidden md:flex items-center space-x-5 text-[#FAF8F3] shrink-0 text-[10px]">
+          <div className="hidden md:flex items-center space-x-5 text-[#FAF8F3] shrink-0 text-[12px]">
             <Link href="/faq" className="hover:text-[#AD8A53] transition-colors whitespace-nowrap">
               Buyer FAQ
             </Link>
@@ -131,17 +131,17 @@ export default function Navbar() {
             {/* 1. Brand Logo */}
             <div className="shrink-0 flex flex-col justify-center">
               <Link href="/" className="group inline-block">
-                <span className="font-editorial text-xl sm:text-2xl xl:text-[26px] tracking-[0.06em] text-[#30241F] group-hover:text-[#713B43] transition-colors font-medium whitespace-nowrap block leading-tight">
+                <span className="font-editorial text-lg sm:text-2xl xl:text-[26px] tracking-[0.04em] sm:tracking-[0.06em] text-[#30241F] group-hover:text-[#713B43] transition-colors font-medium whitespace-nowrap block leading-tight">
                   KHODAL FASHION
                 </span>
-                <span className="block text-[8px] sm:text-[9px] tracking-[0.24em] uppercase text-[#AD8A53] font-sans font-medium mt-0.5 whitespace-nowrap">
+                <span className="block text-[10px] sm:text-[11px] tracking-[0.12em] sm:tracking-[0.24em] uppercase text-[#AD8A53] font-sans font-medium mt-0.5 whitespace-nowrap">
                   The Art of Royal Textiles • Surat
                 </span>
               </Link>
             </div>
 
             {/* 2. Desktop Navigation (Active on xl: 1280px+ for spacious perfection) */}
-            <div className="hidden xl:flex items-center gap-5 2xl:gap-7 flex-grow justify-center min-w-0">
+            <div className="hidden xl:flex items-center gap-4 2xl:gap-7 flex-grow justify-center min-w-0">
               
               {/* Collections Dropdown */}
               <div
@@ -156,7 +156,7 @@ export default function Navbar() {
               >
                 <Link
                   href="/collections"
-                  className={`text-[11px] uppercase tracking-[0.14em] font-sans font-medium transition-colors whitespace-nowrap inline-flex items-center gap-1 ${
+                  className={`text-[12px] uppercase tracking-[0.1em] font-sans font-medium transition-colors whitespace-nowrap inline-flex items-center gap-1 ${
                     pathname.startsWith('/collections')
                       ? 'text-[#713B43] font-semibold'
                       : 'text-[#30241F]/85 hover:text-[#AD8A53]'
@@ -168,7 +168,7 @@ export default function Navbar() {
 
                 {collectionsDropdown && (
                   <div className="absolute top-full left-0 w-72 bg-[#FAF8F3] border border-[#AD8A53]/35 shadow-xl p-3 animate-fadeIn z-50">
-                    <div className="text-[9px] uppercase tracking-wider text-[#AD8A53] font-semibold pb-1.5 mb-2 border-b border-[#AD8A53]/20">
+                    <div className="text-[11px] uppercase tracking-wider text-[#AD8A53] font-semibold pb-1.5 mb-2 border-b border-[#AD8A53]/20">
                       Fabric Classifications
                     </div>
                     <div className="space-y-1">
@@ -179,15 +179,15 @@ export default function Navbar() {
                           className="block p-1.5 hover:bg-[#F4EFE6] transition-colors rounded-sm"
                           onClick={() => setCollectionsDropdown(false)}
                         >
-                          <p className="text-xs font-serif font-medium text-[#30241F]">{cat.label}</p>
-                          <p className="text-[10px] text-[#C9BBA7] font-sans">{cat.desc}</p>
+                          <p className="text-base font-serif font-medium text-[#30241F]">{cat.label}</p>
+                          <p className="text-[12px] text-[#7A6A58] font-sans">{cat.desc}</p>
                         </Link>
                       ))}
                     </div>
                     <div className="pt-2 mt-2 border-t border-[#AD8A53]/20">
                       <Link
                         href="/collections"
-                        className="text-[10px] uppercase tracking-wider font-semibold text-[#713B43] hover:underline flex items-center justify-between p-1"
+                        className="text-[12px] uppercase tracking-wider font-semibold text-[#713B43] hover:underline flex items-center justify-between p-1"
                         onClick={() => setCollectionsDropdown(false)}
                       >
                         <span>View All 85+ Weaves</span>
@@ -201,14 +201,14 @@ export default function Navbar() {
               {/* AI Try-On */}
               <Link
                 href="/ai-tryon"
-                className={`text-[11px] uppercase tracking-[0.14em] font-sans font-medium transition-colors whitespace-nowrap inline-flex items-center gap-1.5 ${
+                className={`text-[12px] uppercase tracking-[0.1em] font-sans font-medium transition-colors whitespace-nowrap inline-flex items-center gap-1.5 ${
                   pathname === '/ai-tryon'
                     ? 'text-[#713B43] font-semibold'
                     : 'text-[#30241F]/85 hover:text-[#AD8A53]'
                 }`}
               >
                 <span>AI Try-On</span>
-                <span className="px-1.5 py-0.5 text-[8px] tracking-wider uppercase bg-[#AD8A53] text-[#FAF8F3] font-semibold rounded-sm inline-flex items-center gap-0.5">
+                <span className="px-1.5 py-0.5 text-[11px] tracking-wider uppercase bg-[#AD8A53] text-[#FAF8F3] font-semibold rounded-sm inline-flex items-center gap-0.5">
                   <Sparkles className="w-2.5 h-2.5" />
                   Studio
                 </span>
@@ -217,7 +217,7 @@ export default function Navbar() {
               {/* Craftsmanship */}
               <Link
                 href="/craftsmanship"
-                className={`text-[11px] uppercase tracking-[0.14em] font-sans font-medium transition-colors whitespace-nowrap ${
+                className={`text-[12px] uppercase tracking-[0.1em] font-sans font-medium transition-colors whitespace-nowrap ${
                   pathname === '/craftsmanship'
                     ? 'text-[#713B43] font-semibold'
                     : 'text-[#30241F]/85 hover:text-[#AD8A53]'
@@ -239,7 +239,7 @@ export default function Navbar() {
               >
                 <button
                   type="button"
-                  className={`text-[11px] uppercase tracking-[0.14em] font-sans font-medium transition-colors whitespace-nowrap inline-flex items-center gap-1 ${
+                  className={`text-[12px] uppercase tracking-[0.1em] font-sans font-medium transition-colors whitespace-nowrap inline-flex items-center gap-1 ${
                     pathname === '/job-work' || pathname === '/wholesale-b2b'
                       ? 'text-[#713B43] font-semibold'
                       : 'text-[#30241F]/85 hover:text-[#AD8A53]'
@@ -251,7 +251,7 @@ export default function Navbar() {
 
                 {servicesDropdown && (
                   <div className="absolute top-full left-0 w-64 bg-[#FAF8F3] border border-[#AD8A53]/35 shadow-xl p-3 animate-fadeIn z-50">
-                    <div className="text-[9px] uppercase tracking-wider text-[#AD8A53] font-semibold pb-1.5 mb-2 border-b border-[#AD8A53]/20">
+                    <div className="text-[11px] uppercase tracking-wider text-[#AD8A53] font-semibold pb-1.5 mb-2 border-b border-[#AD8A53]/20">
                       Commercial & Job-Work
                     </div>
                     <div className="space-y-1">
@@ -262,8 +262,8 @@ export default function Navbar() {
                           className="block p-1.5 hover:bg-[#F4EFE6] transition-colors rounded-sm"
                           onClick={() => setServicesDropdown(false)}
                         >
-                          <p className="text-xs font-serif font-medium text-[#30241F]">{item.label}</p>
-                          <p className="text-[10px] text-[#C9BBA7] font-sans">{item.desc}</p>
+                          <p className="text-base font-serif font-medium text-[#30241F]">{item.label}</p>
+                          <p className="text-[12px] text-[#7A6A58] font-sans">{item.desc}</p>
                         </Link>
                       ))}
                     </div>
@@ -284,7 +284,7 @@ export default function Navbar() {
               >
                 <button
                   type="button"
-                  className={`text-[11px] uppercase tracking-[0.14em] font-sans font-medium transition-colors whitespace-nowrap inline-flex items-center gap-1 ${
+                  className={`text-[12px] uppercase tracking-[0.1em] font-sans font-medium transition-colors whitespace-nowrap inline-flex items-center gap-1 ${
                     pathname === '/about' || pathname === '/process-quality' || pathname === '/gallery'
                       ? 'text-[#713B43] font-semibold'
                       : 'text-[#30241F]/85 hover:text-[#AD8A53]'
@@ -296,7 +296,7 @@ export default function Navbar() {
 
                 {atelierDropdown && (
                   <div className="absolute top-full left-0 w-64 bg-[#FAF8F3] border border-[#AD8A53]/35 shadow-xl p-3 animate-fadeIn z-50">
-                    <div className="text-[9px] uppercase tracking-wider text-[#AD8A53] font-semibold pb-1.5 mb-2 border-b border-[#AD8A53]/20">
+                    <div className="text-[11px] uppercase tracking-wider text-[#AD8A53] font-semibold pb-1.5 mb-2 border-b border-[#AD8A53]/20">
                       House of Khodal Fashion
                     </div>
                     <div className="space-y-1">
@@ -307,8 +307,8 @@ export default function Navbar() {
                           className="block p-1.5 hover:bg-[#F4EFE6] transition-colors rounded-sm"
                           onClick={() => setAtelierDropdown(false)}
                         >
-                          <p className="text-xs font-serif font-medium text-[#30241F]">{item.label}</p>
-                          <p className="text-[10px] text-[#C9BBA7] font-sans">{item.desc}</p>
+                          <p className="text-base font-serif font-medium text-[#30241F]">{item.label}</p>
+                          <p className="text-[12px] text-[#7A6A58] font-sans">{item.desc}</p>
                         </Link>
                       ))}
                     </div>
@@ -319,7 +319,7 @@ export default function Navbar() {
               {/* Contact */}
               <Link
                 href="/contact"
-                className={`text-[11px] uppercase tracking-[0.14em] font-sans font-medium transition-colors whitespace-nowrap ${
+                className={`text-[12px] uppercase tracking-[0.1em] font-sans font-medium transition-colors whitespace-nowrap ${
                   pathname === '/contact'
                     ? 'text-[#713B43] font-semibold'
                     : 'text-[#30241F]/85 hover:text-[#AD8A53]'
@@ -334,7 +334,7 @@ export default function Navbar() {
               {/* Quick AI Studio Button for Tablets / Mid Screens */}
               <Link
                 href="/ai-tryon"
-                className="hidden md:inline-flex xl:hidden items-center gap-1 px-2.5 py-1 text-[9.5px] uppercase tracking-wider border border-[#AD8A53]/50 text-[#AD8A53] rounded-sm font-semibold"
+                className="hidden md:inline-flex xl:hidden items-center gap-1 px-2.5 py-1 text-[11px] uppercase tracking-wider border border-[#AD8A53]/50 text-[#AD8A53] rounded-sm font-semibold"
               >
                 <Sparkles className="w-3 h-3" />
                 <span>AI Studio</span>
@@ -355,7 +355,7 @@ export default function Navbar() {
                 href={generateWhatsAppUrl({ sourcePage: 'Main Header CTA' })}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 border border-[#AD8A53] bg-[#FAF8F3] hover:bg-[#AD8A53] text-[#30241F] hover:text-[#FAF8F3] px-2.5 sm:px-3.5 py-1.5 text-[9.5px] sm:text-[10.5px] tracking-[0.14em] uppercase transition-all duration-300 font-sans font-medium shadow-sm whitespace-nowrap shrink-0"
+                className="hidden sm:inline-flex items-center gap-1.5 border border-[#AD8A53] bg-[#FAF8F3] hover:bg-[#AD8A53] text-[#30241F] hover:text-[#FAF8F3] px-2.5 sm:px-3.5 py-1.5 text-[12px] tracking-[0.08em] sm:tracking-[0.14em] uppercase transition-all duration-300 font-sans font-medium shadow-sm whitespace-nowrap shrink-0"
               >
                 <span>Enquire Now</span>
                 <ArrowUpRight className="w-3 h-3 text-[#AD8A53] group-hover:text-white" />
@@ -368,7 +368,7 @@ export default function Navbar() {
                 className="xl:hidden p-1.5 sm:p-2 text-[#30241F] hover:text-[#AD8A53] transition-colors flex items-center gap-1 border border-[#AD8A53]/25 px-2.5 py-1"
               >
                 {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                <span className="text-[10px] uppercase tracking-wider font-semibold hidden sm:inline">
+                <span className="text-[12px] uppercase tracking-wider font-semibold hidden sm:inline">
                   Menu
                 </span>
               </button>
@@ -392,7 +392,7 @@ export default function Navbar() {
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-3 top-2 text-[#C9BBA7] hover:text-[#30241F]"
+                    className="absolute right-3 top-2 text-[#7A6A58] hover:text-[#30241F]"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -411,24 +411,24 @@ export default function Navbar() {
                           onClick={() => setSearchOpen(false)}
                         >
                           <div className="flex items-center gap-3">
-                            <span className="font-mono text-[11px] text-[#AD8A53] font-semibold bg-[#F4EFE6] px-2 py-0.5 border border-[#AD8A53]/30">
+                            <span className="font-mono text-[13px] text-[#AD8A53] font-semibold bg-[#F4EFE6] px-2 py-0.5 border border-[#AD8A53]/30">
                               {f.code}
                             </span>
                             <div>
                               <p className="text-xs font-medium text-[#30241F]">{f.name}</p>
-                              <p className="text-[10px] text-[#C9BBA7]">
+                              <p className="text-[12px] text-[#7A6A58]">
                                 {f.embroideryTypeLabel} • {f.categoryLabel}
                               </p>
                             </div>
                           </div>
-                          <span className="text-[10px] text-[#713B43] uppercase tracking-wider font-medium">
+                          <span className="text-[12px] text-[#713B43] uppercase tracking-wider font-medium">
                             View Fabric →
                           </span>
                         </Link>
                       ))}
                     </div>
                   ) : (
-                    <p className="text-xs text-[#C9BBA7] p-3 text-center">
+                    <p className="text-xs text-[#7A6A58] p-3 text-center">
                       No matching design code found for &ldquo;{searchQuery}&rdquo;. Contact us on WhatsApp for custom lookups.
                     </p>
                   )}
@@ -443,7 +443,7 @@ export default function Navbar() {
       {isOpen && (
         <div style={{ top: menuTop }} className="xl:hidden fixed inset-x-0 bottom-0 z-50 bg-[#FAF8F3] border-t border-[#AD8A53]/20 overflow-y-auto pb-16 px-6 pt-5 animate-fadeIn shadow-2xl">
           <div className="flex flex-col space-y-4 max-w-lg mx-auto">
-            <p className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold border-b border-[#AD8A53]/20 pb-2">
+            <p className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold border-b border-[#AD8A53]/20 pb-2">
               Menu & Navigation
             </p>
 
@@ -465,7 +465,7 @@ export default function Navbar() {
             >
               <div className="flex items-center gap-2">
                 <span>AI Virtual Try-On Studio</span>
-                <span className="px-1.5 py-0.5 text-[8px] bg-[#AD8A53] text-[#FAF8F3] uppercase tracking-wider rounded font-sans">
+                <span className="px-1.5 py-0.5 text-[11px] bg-[#AD8A53] text-[#FAF8F3] uppercase tracking-wider rounded font-sans">
                   NEW
                 </span>
               </div>
@@ -503,31 +503,31 @@ export default function Navbar() {
             </Link>
 
             <div className="pt-2">
-              <p className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-2">
+              <p className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-2">
                 The Atelier
               </p>
               <div className="pl-3 border-l-2 border-[#AD8A53]/30 space-y-2.5">
                 <Link
                   href="/about"
-                  className="block text-sm font-serif text-[#30241F] hover:text-[#713B43]"
+                  className="block text-[17px] font-serif text-[#30241F] hover:text-[#713B43]"
                 >
                   About Khodal Fashion
                 </Link>
                 <Link
                   href="/process-quality"
-                  className="block text-sm font-serif text-[#30241F] hover:text-[#713B43]"
+                  className="block text-[17px] font-serif text-[#30241F] hover:text-[#713B43]"
                 >
                   Our Process & Quality Standards
                 </Link>
                 <Link
                   href="/gallery"
-                  className="block text-sm font-serif text-[#30241F] hover:text-[#713B43]"
+                  className="block text-[17px] font-serif text-[#30241F] hover:text-[#713B43]"
                 >
                   Photographic Archive & Lookbook
                 </Link>
                 <Link
                   href="/faq"
-                  className="block text-sm font-serif text-[#30241F] hover:text-[#713B43]"
+                  className="block text-[17px] font-serif text-[#30241F] hover:text-[#713B43]"
                 >
                   Commercial Buyer FAQ
                 </Link>
@@ -557,7 +557,7 @@ export default function Navbar() {
             </div>
 
             <div className="pt-4 text-center">
-              <p className="text-[11px] text-[#C9BBA7]">
+              <p className="text-[13px] text-[#7A6A58]">
                 Ring Road Textile Zone, Surat, Gujarat • Men’s Ethnic Fabrics
               </p>
             </div>

@@ -42,7 +42,7 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
   return (
     <div className="bg-[#FAF8F3] text-[#30241F] py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Breadcrumb Line */}
-      <div className="flex items-center gap-2 text-[11px] font-sans text-[#C9BBA7] uppercase tracking-widest mb-8 border-b border-[#AD8A53]/20 pb-3">
+      <div className="flex items-center gap-2 text-[13px] font-sans text-[#7A6A58] uppercase tracking-widest mb-8 border-b border-[#AD8A53]/20 pb-3">
         <Link href="/" className="hover:text-[#30241F]">Home</Link>
         <span>/</span>
         <Link href="/collections" className="hover:text-[#30241F]">Collections</Link>
@@ -67,7 +67,7 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
             />
 
             {/* Active Perspective Badge */}
-            <div className="absolute top-4 left-4 bg-[#252321]/90 backdrop-blur-sm text-[#FAF8F3] text-[9px] uppercase tracking-widest px-3 py-1 font-mono border border-[#AD8A53]/30">
+            <div className="absolute top-4 left-4 bg-[#252321]/90 backdrop-blur-sm text-[#FAF8F3] text-[11px] uppercase tracking-widest px-3 py-1 font-mono border border-[#AD8A53]/30">
               {activeImageTab === 'main' && 'Primary Fabric Texture'}
               {activeImageTab === 'close' && 'Detailed Embroidery Stitches'}
               {activeImageTab === 'macro' && '10x Macro Stitch & Bead Density'}
@@ -76,7 +76,7 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
             </div>
 
             {fabric.readyStock && (
-              <div className="absolute top-4 right-4 bg-emerald-900/90 text-white text-[9px] uppercase tracking-wider px-2.5 py-1 font-semibold flex items-center gap-1">
+              <div className="absolute top-4 right-4 bg-emerald-900/90 text-white text-[11px] uppercase tracking-wider px-2.5 py-1 font-semibold flex items-center gap-1">
                 <CheckCircle2 className="w-3 h-3 text-emerald-400" />
                 Ready Stock
               </div>
@@ -104,14 +104,14 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
                 <div className="aspect-square w-full overflow-hidden bg-gray-100 mb-1">
                   <img src={tab.img} alt={tab.label} className="w-full h-full object-cover" />
                 </div>
-                <span className="text-[9px] uppercase tracking-wider font-sans text-[#30241F]">
+                <span className="text-[11px] uppercase tracking-wider font-sans text-[#30241F]">
                   {tab.label}
                 </span>
               </button>
             ))}
           </div>
 
-          <p className="text-[10px] text-[#C9BBA7] italic text-center pt-1 font-sans">
+          <p className="text-[12px] text-[#7A6A58] italic text-center pt-1 font-sans">
             * All images show unstitched fabric rolls from our Surat workshop. Garment shots indicate tailored draping suitability.
           </p>
         </div>
@@ -123,7 +123,7 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
               <span className="font-mono text-xs uppercase tracking-widest text-[#AD8A53] font-semibold bg-[#F4EFE6] px-2.5 py-1 border border-[#AD8A53]/30">
                 CODE: {fabric.code}
               </span>
-              <span className="text-[10px] uppercase tracking-ultra text-[#713B43] font-semibold">
+              <span className="text-[12px] uppercase tracking-ultra text-[#713B43] font-semibold">
                 {fabric.categoryLabel}
               </span>
             </div>
@@ -143,17 +143,17 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
             {/* AI Try-On Prominent Action Banner */}
             <div className="bg-[#252321] text-[#FAF8F3] p-4 border border-[#AD8A53]/40 mb-6 flex items-center justify-between shadow-lg">
               <div>
-                <span className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-[#AD8A53] font-semibold">
+                <span className="flex items-center gap-1.5 text-[12px] uppercase tracking-widest text-[#AD8A53] font-semibold">
                   <Sparkles className="w-3.5 h-3.5" />
                   Virtual Visualization
                 </span>
-                <p className="text-xs text-[#FAF8F3] font-serif mt-0.5">
+                <p className="text-base text-[#FAF8F3] font-serif mt-0.5">
                   Preview this fabric on a 3D Sherwani or Kurta avatar
                 </p>
               </div>
               <Link
                 href={`/ai-tryon?fabric=${fabric.id}`}
-                className="whitespace-nowrap px-4 py-2 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-[10px] uppercase tracking-widest font-semibold transition-colors shadow"
+                className="whitespace-nowrap px-4 py-2 bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3] text-[12px] uppercase tracking-widest font-semibold transition-colors shadow"
               >
                 TRY WITH AI
               </Link>
@@ -161,34 +161,34 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
 
             {/* Specifications Table */}
             <div className="border border-[#AD8A53]/25 bg-[#F4EFE6]/50 p-4 mb-6">
-              <h3 className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-3 border-b border-[#AD8A53]/20 pb-1">
+              <h3 className="text-[12px] uppercase tracking-ultra text-[#AD8A53] font-semibold mb-3 border-b border-[#AD8A53]/20 pb-1">
                 Technical Specifications
               </h3>
               <div className="divide-y divide-[#AD8A53]/15 text-xs font-sans">
                 <div className="py-2 flex justify-between">
-                  <span className="text-[#C9BBA7]">Base Fabric:</span>
+                  <span className="text-[#7A6A58]">Base Fabric:</span>
                   <span className="text-[#30241F] font-medium">{fabric.baseFabric}</span>
                 </div>
                 <div className="py-2 flex justify-between">
-                  <span className="text-[#C9BBA7]">Embroidery Technique:</span>
+                  <span className="text-[#7A6A58]">Embroidery Technique:</span>
                   <span className="text-[#30241F] font-medium">{fabric.embroideryTypeLabel}</span>
                 </div>
                 <div className="py-2 flex justify-between">
-                  <span className="text-[#C9BBA7]">Full Cuttable Width:</span>
+                  <span className="text-[#7A6A58]">Full Cuttable Width:</span>
                   <span className="text-[#30241F] font-medium">{fabric.width}</span>
                 </div>
                 <div className="py-2 flex justify-between">
-                  <span className="text-[#C9BBA7]">Minimum Order Qty (MOQ):</span>
+                  <span className="text-[#7A6A58]">Minimum Order Qty (MOQ):</span>
                   <span className="text-[#AD8A53] font-semibold">{fabric.moq}</span>
                 </div>
                 <div className="py-2 flex justify-between">
-                  <span className="text-[#C9BBA7]">Availability:</span>
+                  <span className="text-[#7A6A58]">Availability:</span>
                   <span className="text-[#30241F] font-medium">
                     {fabric.readyStock ? 'In-Stock at Surat Mill' : 'Custom Production Run'}
                   </span>
                 </div>
                 <div className="py-2 flex justify-between">
-                  <span className="text-[#C9BBA7]">Price Structure:</span>
+                  <span className="text-[#7A6A58]">Price Structure:</span>
                   <span className="text-[#713B43] font-semibold">Available on Commercial Enquiry</span>
                 </div>
               </div>
@@ -196,14 +196,14 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
 
             {/* Garment Applications Pills */}
             <div className="mb-6">
-              <span className="block text-[10px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-2">
+              <span className="block text-[12px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-2">
                 Ideal Tailoring Applications:
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {fabric.suitableFor.map((app, idx) => (
                   <span
                     key={idx}
-                    className="px-2.5 py-1 bg-[#FAF8F3] border border-[#AD8A53]/30 text-[10px] font-sans text-[#30241F]"
+                    className="px-2.5 py-1 bg-[#FAF8F3] border border-[#AD8A53]/30 text-[12px] font-sans text-[#30241F]"
                   >
                     {app}
                   </span>
@@ -252,7 +252,7 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
 
           {/* Artisan & Weave Heritage */}
           <div className="border-t border-[#AD8A53]/20 pt-4 text-xs font-sans text-[#30241F]/80">
-            <span className="block text-[10px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-1">
+            <span className="block text-[12px] uppercase tracking-widest text-[#AD8A53] font-semibold mb-1">
               Surat Atelier Notes:
             </span>
             <p className="leading-relaxed italic">{fabric.artisanStory}</p>
