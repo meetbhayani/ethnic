@@ -16,30 +16,13 @@ import {
 } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
 import FabricCard from '@/components/FabricCard';
+import { FabricItem } from '@/types';
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  const { fabrics, openEnquiryModal, generateWhatsAppUrl } = useEnquiry();
+/** Interactive product view. Data is loaded on the server by app/(site)/collections/[id]/page.tsx. */
+export default function ProductDetail({ fabric, relatedFabrics }: { fabric: FabricItem; relatedFabrics: FabricItem[] }) {
+  const { openEnquiryModal, generateWhatsAppUrl } = useEnquiry();
   const [activeImageTab, setActiveImageTab] = useState<'main' | 'close' | 'macro' | 'back' | 'styled'>('main');
   const [orderQuantity, setOrderQuantity] = useState('25 Metres');
-
-  const fabric = fabrics.find((f) => f.id === params.id) || fabrics[0];
-
-  if (!fabric) {
-    return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center p-8 text-center bg-[#FAF8F3]">
-        <h1 className="font-editorial text-3xl text-[#30241F] mb-4">Fabric Design Not Found</h1>
-        <p className="text-xs text-[#30241F]/80 mb-6">
-          The requested fabric design code may have been archived or updated in our Surat registry.
-        </p>
-        <Link
-          href="/collections"
-          className="px-6 py-2.5 bg-[#30241F] text-[#FAF8F3] text-xs uppercase tracking-widest font-semibold"
-        >
-          Return to Catalogue
-        </Link>
-      </div>
-    );
-  }
 
   const imageMap = {
     main: fabric.mainImage,
@@ -55,10 +38,6 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     quantity: orderQuantity,
     sourcePage: `Product Details Page (${fabric.code})`,
   });
-
-  const relatedFabrics = fabrics
-    .filter((f) => f.id !== fabric.id && (f.category === fabric.category || f.embroideryType === fabric.embroideryType))
-    .slice(0, 3);
 
   return (
     <div className="bg-[#FAF8F3] text-[#30241F] py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">

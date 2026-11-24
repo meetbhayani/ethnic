@@ -30,7 +30,7 @@ function AITryOnContent() {
   const [previewMode, setPreviewMode] = useState<'complete' | 'fabric-only'>('complete');
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [selectedPresetModel, setSelectedPresetModel] = useState<string>('preset-groom');
-  const [consentGiven, setConsentGiven] = useState<boolean>(true);
+  const [consentGiven, setConsentGiven] = useState<boolean>(false);
 
   // Generation state
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -128,18 +128,26 @@ function AITryOnContent() {
         headers: {
           'Content-Type': 'application/json',
         },
+        // Only the fabric ID is sent; the server looks up the fabric itself.
+        // The uploaded photo never leaves the browser.
         body: JSON.stringify({
           outfitStyle,
           previewMode,
-          fabric: selectedFabric,
-          modelImage: activeSourceImage,
+          fabricId: selectedFabric.id,
         }),
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       clearTimeout(stepTimer1);
       clearTimeout(stepTimer2);
+
+      if (!response.ok) {
+        setIsGenerating(false);
+        setGenerationProgress(0);
+        alert(data.error || 'Could not generate a preview right now. Please try again later.');
+        return;
+      }
 
       setGenerationProgress(100);
       setGenerationStep('Finalizing royal drape render...');
@@ -379,7 +387,7 @@ function AITryOnContent() {
                 className="accent-[#AD8A53] mt-0.5"
               />
               <span className="text-[11px] text-[#30241F]/80 leading-tight">
-                I understand AI previews are conceptual visual aids and do not replace physical swatch approval. Uploaded images are processed securely and automatically purged after session.
+                I understand AI previews are conceptual visual aids and do not replace physical swatch approval. Any photo I upload stays in my browser and is not sent to Khodal Fashion’s servers.
               </span>
             </label>
           </div>

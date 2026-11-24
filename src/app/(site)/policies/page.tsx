@@ -94,7 +94,7 @@ export default function PoliciesPage() {
           <p className="mb-3">
             <strong>Dispatch Timelines:</strong> In-stock fabrics are dispatched from our Surat warehouse within 24 to 48 business hours via insured courier or dedicated transport cargo. Tracking airway bills (AWB) are shared directly with the buyer.
           </p>
-          <p className="mb-3">
+          <p id="returns" className="mb-3 scroll-mt-32">
             <strong>Inspection & Claims:</strong> Fabric rolls must be inspected over a cutting table prior to scissors cutting or garment processing. Any verified manufacturing defects must be reported to our Surat desk within 7 days of delivery prior to fabric cutting.
           </p>
         </section>

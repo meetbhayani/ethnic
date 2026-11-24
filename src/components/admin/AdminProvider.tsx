@@ -28,6 +28,8 @@ interface AdminContextValue {
   toast: (type: ToastType, message: string) => void;
   confirm: (opts: ConfirmOptions) => Promise<boolean>;
   signOut: () => Promise<void>;
+  /** Purge the website's cached product pages after a catalogue change. */
+  revalidateSite: () => Promise<void>;
 }
 
 const AdminContext = createContext<AdminContextValue | null>(null);
@@ -103,6 +105,18 @@ export default function AdminProvider({ children }: { children: React.ReactNode 
     []
   );
 
+  const revalidateSite = useCallback(async () => {
+    try {
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
+      if (!token) return;
+      const res = await fetch('/api/revalidate', { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) console.warn('Site revalidation failed:', res.status);
+    } catch (err) {
+      console.warn('Site revalidation failed:', err); // site still refreshes within 5 minutes
+    }
+  }, [supabase]);
+
   const closeConfirm = (value: boolean) => {
     confirmState?.resolve(value);
     setConfirmState(null);
@@ -138,7 +152,7 @@ export default function AdminProvider({ children }: { children: React.ReactNode 
 
   return (
     <AdminContext.Provider
-      value={{ supabase, email: session?.user.email || '', newEnquiryCount, refreshCounts, toast, confirm, signOut }}
+      value={{ supabase, email: session?.user.email || '', newEnquiryCount, refreshCounts, toast, confirm, signOut, revalidateSite }}
     >
       {children}
 

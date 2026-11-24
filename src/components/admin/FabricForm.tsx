@@ -72,7 +72,7 @@ function initialState(f: AdminFabric | null): FormState {
 }
 
 export default function FabricForm({ initial }: { initial: AdminFabric | null }) {
-  const { supabase, toast, confirm } = useAdmin();
+  const { supabase, toast, confirm, revalidateSite } = useAdmin();
   const router = useRouter();
   const isEdit = !!initial;
 
@@ -232,6 +232,7 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
       const stale = removedUrls.map(storagePathFromUrl).filter((p): p is string => !!p);
       if (stale.length) await supabase.storage.from(FABRIC_IMAGES_BUCKET).remove(stale);
 
+      await revalidateSite();
       toast('success', isEdit ? `${code} saved.` : `${code} added to the catalogue.`);
       router.push('/admin/products');
       router.refresh();

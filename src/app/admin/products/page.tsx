@@ -10,7 +10,7 @@ import { FABRIC_IMAGES_BUCKET } from '@/lib/supabase/client';
 import { storagePathFromUrl } from '@/lib/admin-images';
 
 export default function ProductsPage() {
-  const { supabase, toast, confirm } = useAdmin();
+  const { supabase, toast, confirm, revalidateSite } = useAdmin();
   const [rows, setRows] = useState<FabricRow[] | null>(null);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
@@ -52,6 +52,7 @@ export default function ProductsPage() {
       return load();
     }
     toast('success', msg);
+    revalidateSite();
   };
 
   const remove = async (row: FabricRow) => {
@@ -68,6 +69,7 @@ export default function ProductsPage() {
     if (paths.length) await supabase.storage.from(FABRIC_IMAGES_BUCKET).remove(paths);
     setRows((prev) => prev?.filter((r) => r.id !== row.id) || null);
     toast('success', `${row.code} deleted.`);
+    revalidateSite();
   };
 
   if (!rows) return <LoadingBlock label="Loading products…" />;

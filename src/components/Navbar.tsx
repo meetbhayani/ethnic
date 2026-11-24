@@ -26,6 +26,19 @@ export default function Navbar() {
   const collectionsTimeout = useRef<NodeJS.Timeout | null>(null);
   const servicesTimeout = useRef<NodeJS.Timeout | null>(null);
   const atelierTimeout = useRef<NodeJS.Timeout | null>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const [menuTop, setMenuTop] = useState(0);
+
+  // Position the mobile drawer exactly below the header (its height varies) and lock page scroll.
+  useEffect(() => {
+    if (!isOpen) return;
+    setMenuTop(headerRef.current?.getBoundingClientRect().bottom ?? 0);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [isOpen, searchOpen]);
 
   const pathname = usePathname();
   const { fabrics, generateWhatsAppUrl } = useEnquiry();
@@ -78,7 +91,7 @@ export default function Navbar() {
     : [];
 
   return (
-    <header className="sticky top-0 z-40 w-full max-w-full overflow-x-clip bg-[#FAF8F3] transition-all duration-300">
+    <header ref={headerRef} className="sticky top-0 z-40 w-full max-w-full overflow-x-clip bg-[#FAF8F3] transition-all duration-300">
       {/* Top Editorial Bar */}
       <div className="bg-[#252321] text-[#C9BBA7] text-[10px] tracking-[0.18em] uppercase py-2 px-4 sm:px-6 lg:px-8 border-b border-[#30241F]">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -428,7 +441,7 @@ export default function Navbar() {
 
       {/* Mobile / Tablet Drawer Menu */}
       {isOpen && (
-        <div className="xl:hidden fixed inset-0 top-[90px] z-50 bg-[#FAF8F3] border-t border-[#AD8A53]/20 overflow-y-auto pb-16 px-6 pt-5 animate-fadeIn shadow-2xl">
+        <div style={{ top: menuTop }} className="xl:hidden fixed inset-x-0 bottom-0 z-50 bg-[#FAF8F3] border-t border-[#AD8A53]/20 overflow-y-auto pb-16 px-6 pt-5 animate-fadeIn shadow-2xl">
           <div className="flex flex-col space-y-4 max-w-lg mx-auto">
             <p className="text-[10px] uppercase tracking-ultra text-[#AD8A53] font-semibold border-b border-[#AD8A53]/20 pb-2">
               Menu & Navigation
