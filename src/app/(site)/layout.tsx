@@ -3,7 +3,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import WhatsAppSticky from '@/components/WhatsAppSticky';
 import EnquiryModal from '@/components/EnquiryModal';
-import { getGalleryItems, getPublishedFabrics, getSiteImages } from '@/lib/catalog';
+import { getCraftTechniques, getGalleryItems, getHiddenCategories, getPublishedFabrics, getSiteImages } from '@/lib/catalog';
+import { builtInTechniques, craftAnchor } from '@/lib/craftsmanship';
 import { SiteContentProvider } from '@/context/SiteContentContext';
 
 /**
@@ -12,9 +13,17 @@ import { SiteContentProvider } from '@/context/SiteContentContext';
  * so every page renders real products immediately — no sample-data flash.
  */
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const [fabrics, siteImages, gallery] = await Promise.all([getPublishedFabrics(), getSiteImages(), getGalleryItems()]);
+  const [fabrics, siteImages, gallery, hiddenCategories, techniques] = await Promise.all([
+    getPublishedFabrics(),
+    getSiteImages(),
+    getGalleryItems(),
+    getHiddenCategories(),
+    getCraftTechniques(),
+  ]);
+  // Footer links to the Craftsmanship sections (Admin → Craftsmanship).
+  const craftLinks = (techniques ?? builtInTechniques(siteImages)).map((t) => ({ title: t.title, anchor: craftAnchor(t.title) }));
   return (
-    <SiteContentProvider value={{ siteImages, gallery }}>
+    <SiteContentProvider value={{ siteImages, gallery, hiddenCategories, craftLinks }}>
     <EnquiryProvider initialFabrics={fabrics}>
       <div className="min-h-screen flex flex-col">
         <Navbar />

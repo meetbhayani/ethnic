@@ -5,20 +5,20 @@ import Link from 'next/link';
 import { ArrowUpRight, Eye, Sparkles } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
 import FabricLoupe from './FabricLoupe';
+import { productPhotos } from '@/lib/fabrics';
 import { Eyebrow, Reveal, SplitWords } from './motion';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function FeaturedDesigns() {
   const { fabrics, openEnquiryModal, generateWhatsAppUrl } = useEnquiry();
-  const featured = useMemo(() => {
-    const list = fabrics.filter((f) => f.featured);
-    return (list.length >= 3 ? list : fabrics).slice(0, 5);
-  }, [fabrics]);
+  // Exactly the products switched to "Featured" in Admin → Products, in their sort order.
+  // The section is hidden when none are featured.
+  const featured = useMemo(() => fabrics.filter((f) => f.featured), [fabrics]);
   const [activeId, setActiveId] = useState<string | null>(null);
 
   if (featured.length === 0) return null;
   const active = featured.find((f) => f.id === activeId) ?? featured[0];
-  const gallery = [active.mainImage, active.closeUpImage, active.macroImage].filter(Boolean);
+  const gallery = productPhotos(active).slice(0, 3).map((p) => p.src);
 
   return (
     <section className="relative bg-[#FAF8F3] py-20 sm:py-28">

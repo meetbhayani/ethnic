@@ -4,17 +4,23 @@ import React, { useState, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Search, Filter, X, Sparkles, CheckCircle2, RotateCcw, ArrowRight } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import { useCategoryShown } from '@/context/SiteContentContext';
 import FabricCard from '@/components/FabricCard';
 
 function CollectionsContent() {
   const { fabrics, openEnquiryModal } = useEnquiry();
   const searchParams = useSearchParams();
-  const initialCategory = searchParams.get('category') || 'all';
+  const isCategoryShown = useCategoryShown();
+  const requestedCategory = searchParams.get('category') || 'all';
+  // A link to a hidden category falls back to all collections.
+  const initialCategory = isCategoryShown(requestedCategory) ? requestedCategory : 'all';
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [selectedWorkType, setSelectedWorkType] = useState<string>('all');
   const [selectedColor, setSelectedColor] = useState<string>('all');
   const [onlyReadyStock, setOnlyReadyStock] = useState<boolean>(false);
+  const [onlyExclusive, setOnlyExclusive] = useState<boolean>(false);
+  const hasExclusive = fabrics.some((f) => f.exclusive);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const categories = [
@@ -23,9 +29,8 @@ function CollectionsContent() {
     { id: 'kurta', label: 'Kurta Fabrics' },
     { id: 'jodhpuri', label: 'Jodhpuri Fabrics' },
     { id: 'indo-western', label: 'Indo-Western Fabrics' },
-    { id: 'brocade', label: 'Premium Brocade' },
     { id: 'designer', label: 'Designer Ethnic' },
-  ];
+  ].filter((c) => c.id === 'all' || isCategoryShown(c.id));
 
   const workTypes = [
     { id: 'all', label: 'All Embroidery' },
@@ -61,6 +66,9 @@ function CollectionsContent() {
       if (onlyReadyStock && !fabric.readyStock) {
         return false;
       }
+      if (onlyExclusive && !fabric.exclusive) {
+        return false;
+      }
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         const matchesCode = fabric.code.toLowerCase().includes(q);
@@ -71,13 +79,14 @@ function CollectionsContent() {
       }
       return true;
     });
-  }, [fabrics, selectedCategory, selectedWorkType, selectedColor, onlyReadyStock, searchQuery]);
+  }, [fabrics, selectedCategory, selectedWorkType, selectedColor, onlyReadyStock, onlyExclusive, searchQuery]);
 
   const resetFilters = () => {
     setSelectedCategory('all');
     setSelectedWorkType('all');
     setSelectedColor('all');
     setOnlyReadyStock(false);
+    setOnlyExclusive(false);
     setSearchQuery('');
   };
 
@@ -86,6 +95,7 @@ function CollectionsContent() {
     selectedWorkType !== 'all' ||
     selectedColor !== 'all' ||
     onlyReadyStock ||
+    onlyExclusive ||
     searchQuery.trim() !== '';
 
   return (
@@ -148,6 +158,19 @@ function CollectionsContent() {
               />
               <span className="font-medium text-[#30241F]">Ready-Stock Only</span>
             </label>
+
+            {/* Shown only once at least one product is tagged Exclusive in admin */}
+            {hasExclusive && (
+              <label className="flex items-center gap-2 cursor-pointer text-xs font-sans select-none">
+                <input
+                  type="checkbox"
+                  checked={onlyExclusive}
+                  onChange={(e) => setOnlyExclusive(e.target.checked)}
+                  className="accent-[#AD8A53] w-4 h-4"
+                />
+                <span className="font-medium text-[#30241F]">Exclusive Only</span>
+              </label>
+            )}
 
             {hasActiveFilters && (
               <button

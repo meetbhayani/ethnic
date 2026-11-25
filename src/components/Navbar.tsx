@@ -12,9 +12,11 @@ import {
   Search,
 } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import { useCategoryShown } from '@/context/SiteContentContext';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function Navbar() {
+  const isCategoryShown = useCategoryShown();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -60,12 +62,12 @@ export default function Navbar() {
   }, [pathname]);
 
   const collectionCategories = [
-    { label: 'Sherwani Fabrics', href: '/collections?category=sherwani', desc: 'Heavy zardozi, raw silk & brocades' },
+    { label: 'Sherwani Fabrics', href: '/collections?category=sherwani', desc: 'Heavy zardozi, zari & sequin work' },
     { label: 'Kurta Fabrics', href: '/collections?category=kurta', desc: 'Chanderi & tone-on-tone resham' },
     { label: 'Jodhpuri & Bandhgala', href: '/collections?category=jodhpuri', desc: 'Micro-velvet & structured suiting' },
-    { label: 'Indo-Western & Designer', href: '/collections?category=indo-western', desc: 'Modern lattices & micro-sequins' },
-    { label: 'Benarasi Tissue Brocade', href: '/collections?category=brocade', desc: 'Mughal crest & antique zari' },
-  ];
+    { label: 'Indo-Western Fabrics', href: '/collections?category=indo-western', desc: 'Modern lattices & micro-sequins' },
+    { label: 'Designer Ethnic Fabrics', href: '/collections?category=designer', desc: 'Statement panels & signature jaals' },
+  ].filter((c) => isCategoryShown(c.href.split('category=')[1])); // hide categories switched off in Admin → Products
 
   const serviceLinks = [
     { label: 'Custom Job-Work Bay', href: '/job-work', desc: 'CAD digitizing & custom multi-needle embroidery' },

@@ -10,7 +10,7 @@ export const FAQS_DATA: FAQItem[] = [
     id: 'faq-1',
     category: 'Products & Fabric Offerings',
     question: 'What types of men’s ethnic fabrics do you specialize in?',
-    answer: 'Khodal Fashion specializes exclusively in unstitched and semi-embellished premium fabrics for men’s ethnic wear. Our catalogue includes heavy embroidered Sherwani fabrics, Kurta lengths, Jodhpuri and Bandhgala materials, modern Indo-Western fabrics, Benarasi-style brocades, and custom designer textiles featuring zari, cutdana, beadwork, and resham.',
+    answer: 'Khodal Fashion specializes exclusively in unstitched and semi-embellished premium fabrics for men’s ethnic wear. Our catalogue includes heavy embroidered Sherwani fabrics, Kurta lengths, Jodhpuri and Bandhgala materials, modern Indo-Western fabrics, and custom designer textiles featuring zari, cutdana, beadwork, and resham.',
   },
   {
     id: 'faq-2',

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Inbox, Package, Images, GalleryHorizontalEnd, Settings, ExternalLink, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Inbox, Package, Images, GalleryHorizontalEnd, Scissors, Settings, ExternalLink, LogOut, Menu, X } from 'lucide-react';
 import { useAdmin } from './AdminProvider';
 import { cx } from './ui';
 
@@ -13,6 +13,7 @@ const NAV = [
   { href: '/admin/products', label: 'Products', icon: Package },
   { href: '/admin/site-images', label: 'Site Images', icon: Images },
   { href: '/admin/gallery', label: 'Gallery', icon: GalleryHorizontalEnd },
+  { href: '/admin/craftsmanship', label: 'Craftsmanship', icon: Scissors },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 

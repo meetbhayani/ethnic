@@ -4,7 +4,7 @@ export const GALLERY_DATA: GalleryItem[] = [
   {
     id: 'gal-1',
     title: 'Imperial Ivory Sherwani Lookbook',
-    tag: 'Styled Inspiration',
+    tag: 'Styled Look',
     category: 'styled',
     image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=85',
     caption: 'Fabric styling demonstration showing KF-ZAR-901 tailored into a royal high-collar achkan.',
@@ -13,7 +13,7 @@ export const GALLERY_DATA: GalleryItem[] = [
   {
     id: 'gal-2',
     title: 'Macro Cutdana & Zari Weft',
-    tag: 'Macro Embroidery',
+    tag: 'Fabric Close-up',
     category: 'embroidery',
     image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1200&q=85',
     caption: '10x macro view of antique micro-spangles and bullion stitch density.',
@@ -31,8 +31,8 @@ export const GALLERY_DATA: GalleryItem[] = [
   {
     id: 'gal-4',
     title: 'Resham Floral Medallion Swatch',
-    tag: 'Fabric Swatch',
-    category: 'swatch',
+    tag: 'Fabric Close-up',
+    category: 'embroidery',
     image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1200&q=85',
     caption: 'Uncut roll swatch of Burgundy Resham on raw silk foundation.',
     aspect: 'tall',
@@ -40,17 +40,17 @@ export const GALLERY_DATA: GalleryItem[] = [
   {
     id: 'gal-5',
     title: 'Regal Jodhpuri Bandhgala Styling',
-    tag: 'Styled Inspiration',
+    tag: 'Styled Look',
     category: 'styled',
     image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=85',
-    caption: 'Evening Bandhgala tailored from KF-RES-903 micro-velvet brocade.',
+    caption: 'Evening Bandhgala tailored from KF-RES-903 resham-embroidered micro-velvet.',
     aspect: 'tall',
   },
   {
     id: 'gal-6',
     title: 'Reverse Seam & Backside Lockstitch',
-    tag: 'Quality Standard',
-    category: 'craft',
+    tag: 'Workshop & Craft',
+    category: 'workshop',
     image: 'https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=1200&q=85',
     caption: 'Pristine reverse-side thread trimming ensuring no skin chafing or seam fraying.',
     aspect: 'square',
@@ -58,7 +58,7 @@ export const GALLERY_DATA: GalleryItem[] = [
   {
     id: 'gal-7',
     title: 'Contemporary Indo-Western Coat',
-    tag: 'Styled Inspiration',
+    tag: 'Styled Look',
     category: 'styled',
     image: 'https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?auto=format&fit=crop&w=1200&q=85',
     caption: 'Modern asymmetric silhouette crafted using KF-SEQ-904 midnight sequin fabric.',
@@ -67,7 +67,7 @@ export const GALLERY_DATA: GalleryItem[] = [
   {
     id: 'gal-8',
     title: 'Master Craftsman Hand Inspection',
-    tag: 'Artisan Workshop',
+    tag: 'Workshop & Craft',
     category: 'workshop',
     image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=1200&q=85',
     caption: 'Final inspection over calibrated light-tables prior to roll packing.',

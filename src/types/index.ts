@@ -2,7 +2,7 @@ export interface FabricItem {
   id: string;
   name: string;
   code: string;
-  category: 'sherwani' | 'kurta' | 'jodhpuri' | 'indo-western' | 'brocade' | 'designer';
+  category: 'sherwani' | 'kurta' | 'jodhpuri' | 'indo-western' | 'designer';
   categoryLabel: string;
   embroideryType: 'bead' | 'zari' | 'thread' | 'sequin' | 'cutdana' | 'multi';
   embroideryTypeLabel: string;
@@ -14,6 +14,8 @@ export interface FabricItem {
   moq: string;
   readyStock: boolean;
   featured: boolean;
+  /** Admin-chosen premium design: shows an "Exclusive" badge on the website. */
+  exclusive?: boolean;
   description: string;
   artisanStory: string;
   mainImage: string;

@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Eye, X, ArrowUpRight, Sparkles, Filter } from 'lucide-react';
 import { GalleryItem } from '@/types';
 import { useEnquiry } from '@/context/EnquiryContext';
 import { useGallery } from '@/context/SiteContentContext';
+import { GALLERY_SECTIONS } from '@/lib/gallery-sections';
 
 export default function GalleryPage() {
   // Managed in Admin → Gallery (built-in photos until the first item is published).
@@ -14,13 +15,24 @@ export default function GalleryPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeLightboxItem, setActiveLightboxItem] = useState<GalleryItem | null>(null);
 
+  // Close the photo with Esc, and stop the page scrolling behind it.
+  useEffect(() => {
+    if (!activeLightboxItem) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setActiveLightboxItem(null);
+    window.addEventListener('keydown', onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [activeLightboxItem]);
+
+  // The three sections are defined in src/lib/gallery-sections.ts; tabs with no photos are hidden.
   const categories = [
-    { id: 'all', label: 'All Photographic Archives' },
-    { id: 'styled', label: 'Styled Inspiration' },
-    { id: 'embroidery', label: 'Macro Embroidery' },
-    { id: 'workshop', label: 'Surat Workshop' },
-    { id: 'swatch', label: 'Fabric Swatches' },
-  ];
+    { id: 'all', label: 'All Photographs' },
+    ...GALLERY_SECTIONS.map((s) => ({ id: s.id, label: s.label })),
+  ].filter((cat) => cat.id === 'all' || GALLERY_DATA.some((item) => item.category === cat.id));
 
   const filteredItems =
     selectedCategory === 'all'
@@ -38,7 +50,7 @@ export default function GalleryPage() {
           Atelier Photographic Gallery
         </h1>
         <p className="text-xs sm:text-sm md:text-base text-[#30241F]/80 font-sans max-w-3xl leading-relaxed">
-          An editorial visual exploration of unstitched fabric swatches, high-magnification embroidery macro details, workshop machine bays, and tailored menswear styling inspiration.
+          Finished menswear styled from our fabrics, close-ups of the embroidery and fabric, and a look inside our Surat workshop.
         </p>
 
         {/* Filter Tabs */}
@@ -101,15 +113,26 @@ export default function GalleryPage() {
 
       {/* Lightbox Modal */}
       {activeLightboxItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#252321]/90 backdrop-blur-md">
-          <div className="relative max-w-4xl w-full bg-[#FAF8F3] border border-[#AD8A53] shadow-2xl overflow-hidden p-6 max-h-[95vh] flex flex-col">
-            <button
-              onClick={() => setActiveLightboxItem(null)}
-              className="absolute top-4 right-4 text-[#30241F] hover:text-[#713B43] p-2 z-10"
-              aria-label="Close lightbox"
-            >
-              <X className="w-6 h-6" />
-            </button>
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#252321]/90 backdrop-blur-md"
+          role="dialog"
+          aria-modal="true"
+          aria-label={activeLightboxItem.title}
+          onClick={() => setActiveLightboxItem(null)}
+        >
+          {/* Close button: fixed to the screen corner, always visible over any photo */}
+          <button
+            onClick={() => setActiveLightboxItem(null)}
+            className="fixed top-4 right-4 z-[60] flex items-center gap-2 rounded-full bg-[#FAF8F3] px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-[#30241F] shadow-lg ring-1 ring-[#AD8A53]/40 transition-colors hover:bg-[#30241F] hover:text-[#FAF8F3]"
+            aria-label="Close photo"
+          >
+            <X className="w-5 h-5" />
+            Close
+          </button>
+          <div
+            className="relative max-w-4xl w-full bg-[#FAF8F3] border border-[#AD8A53] shadow-2xl overflow-hidden p-6 max-h-[95vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
 
             <div className="relative aspect-[16/10] w-full overflow-hidden bg-black mb-4 border border-[#AD8A53]/30">
               <img
@@ -132,17 +155,20 @@ export default function GalleryPage() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => {
-                    setActiveLightboxItem(null);
-                    openEnquiryModal();
-                  }}
-                  className="px-5 py-2.5 bg-[#30241F] text-[#FAF8F3] text-xs uppercase tracking-widest font-semibold hover:bg-[#252321]"
-                >
-                  Enquire on This Style
-                </button>
-              </div>
+              {/* Workshop & Craft photos are behind-the-scenes, not products, so they get no enquiry button. */}
+              {activeLightboxItem.category !== 'workshop' && (
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      setActiveLightboxItem(null);
+                      openEnquiryModal();
+                    }}
+                    className="px-5 py-2.5 bg-[#30241F] text-[#FAF8F3] text-xs uppercase tracking-widest font-semibold hover:bg-[#252321]"
+                  >
+                    Enquire on This Style
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

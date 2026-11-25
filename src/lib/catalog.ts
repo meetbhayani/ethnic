@@ -1,8 +1,9 @@
 import 'server-only';
 import { createClient } from '@supabase/supabase-js';
 import { FabricItem, GalleryItem } from '@/types';
+import type { CraftTechnique } from '@/lib/craftsmanship';
 import { FABRICS_DATA } from '@/data/fabrics';
-import { FabricRow, rowToFabric } from '@/lib/fabrics';
+import { DEFAULT_HIDDEN_CATEGORIES, FabricRow, rowToFabric } from '@/lib/fabrics';
 
 /** Cache tag used by /api/revalidate so admin edits appear on the site immediately. */
 export const CATALOG_TAG = 'catalog';
@@ -24,8 +25,28 @@ function publicClient() {
   });
 }
 
-/** Published fabrics, read with the public key (RLS only returns published rows). */
+/**
+ * Categories switched off in Admin → Products → "Categories on website".
+ * Falls back to DEFAULT_HIDDEN_CATEGORIES until supabase/migrations/20261126_category_visibility.sql is run.
+ */
+export async function getHiddenCategories(): Promise<string[]> {
+  const db = publicClient();
+  if (!db) return DEFAULT_HIDDEN_CATEGORIES;
+  const { data, error } = await db.from('category_settings').select('category').eq('show_on_site', false);
+  if (error || !data) return DEFAULT_HIDDEN_CATEGORIES;
+  return data.map((r) => r.category as string);
+}
+
+/**
+ * Fabrics shown on the website: published products outside hidden categories.
+ * Read with the public key (RLS only returns published rows).
+ */
 export async function getPublishedFabrics(): Promise<FabricItem[]> {
+  const [all, hidden] = await Promise.all([loadPublishedFabrics(), getHiddenCategories()]);
+  return hidden.length ? all.filter((f) => !hidden.includes(f.category)) : all;
+}
+
+async function loadPublishedFabrics(): Promise<FabricItem[]> {
   const db = publicClient();
   if (!db) return FABRICS_DATA;
   const { data, error } = await db
@@ -79,4 +100,33 @@ export async function getGalleryItems(): Promise<GalleryItem[] | null> {
     .order('created_at', { ascending: true });
   if (error || !data || data.length === 0) return null;
   return data as GalleryItem[];
+}
+
+// ---------------------------------------------------------------------------
+// Craftsmanship page (Admin → Craftsmanship)
+// Both fall back to built-in content until supabase/migrations/20261127_craftsmanship.sql
+// is run and the admin publishes content.
+// ---------------------------------------------------------------------------
+
+/** Published craft techniques in display order; null when none are published yet. */
+export async function getCraftTechniques(): Promise<CraftTechnique[] | null> {
+  const db = publicClient();
+  if (!db) return null;
+  const { data, error } = await db
+    .from('craft_techniques')
+    .select('id,title,subtitle,description,best_for,machine_work,hand_work,features,image')
+    .eq('is_published', true)
+    .order('sort_order', { ascending: true })
+    .order('created_at', { ascending: true });
+  if (error || !data || data.length === 0) return null;
+  return data as CraftTechnique[];
+}
+
+/** Editable page text saved under `key` in site_content; null when not saved yet. */
+export async function getSiteContent<T>(key: string): Promise<Partial<T> | null> {
+  const db = publicClient();
+  if (!db) return null;
+  const { data, error } = await db.from('site_content').select('value').eq('key', key).maybeSingle();
+  if (error || !data) return null;
+  return data.value as Partial<T>;
 }

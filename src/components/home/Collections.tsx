@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useHomeFabrics } from './useHomeFabrics';
+import { useCategoryShown } from '@/context/SiteContentContext';
 import { Eyebrow, Reveal, SplitWords, Tilt } from './motion';
 
 const COLLECTIONS = [
@@ -32,12 +33,6 @@ const COLLECTIONS = [
     fallbackId: 'teal-floral-applique',
   },
   {
-    category: 'brocade',
-    title: 'Royal Brocades',
-    line: 'Lattices and trellises with the depth of a palace wall.',
-    fallbackId: 'red-sequin-lattice',
-  },
-  {
     category: 'designer',
     title: 'Designer Couture',
     line: 'Statement panels and all-over jaals for signature collections.',
@@ -47,8 +42,10 @@ const COLLECTIONS = [
 
 export default function Collections() {
   // Each card shows a real product from that category (Admin → Products).
+  // Categories switched off in Admin → Products are left out.
   const { pick } = useHomeFabrics();
-  const items = COLLECTIONS.map((c, i) => ({ ...c, fabric: pick(c.fallbackId, (f) => f.category === c.category, i) }));
+  const isCategoryShown = useCategoryShown();
+  const items = COLLECTIONS.filter((c) => isCategoryShown(c.category)).map((c, i) => ({ ...c, fabric: pick(c.fallbackId, (f) => f.category === c.category, i) }));
   const rail = useRef<HTMLDivElement | null>(null);
   const [progress, setProgress] = useState(0);
   const drag = useRef({ down: false, startX: 0, startScroll: 0, moved: false });

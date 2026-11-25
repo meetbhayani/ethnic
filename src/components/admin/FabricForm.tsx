@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, ImagePlus, Star, Trash2, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ImagePlus, Star, Trash2, ChevronLeft, ChevronRight, ExternalLink, Check } from 'lucide-react';
 import { useAdmin } from './AdminProvider';
 import { Button, Card, CardHeader, Field, Switch, inputCls, cx } from './ui';
 import {
@@ -13,6 +13,8 @@ import {
   EMBROIDERY_LABELS,
   fabricToRow,
   idFromCode,
+  PHOTO_SLOTS,
+  photoSlotLabel,
 } from '@/lib/fabrics';
 import { FABRIC_IMAGES_BUCKET } from '@/lib/supabase/client';
 import { compressImage, errorMessage, makeSwatchTile, storagePathFromUrl } from '@/lib/admin-images';
@@ -46,6 +48,7 @@ interface FormState {
   artisanStory: string;
   readyStock: boolean;
   featured: boolean;
+  exclusive: boolean;
   isPublished: boolean;
   sortOrder: number;
   colors: { name: string; hex: string }[];
@@ -66,6 +69,7 @@ function initialState(f: AdminFabric | null): FormState {
     artisanStory: f?.artisanStory || '',
     readyStock: f?.readyStock ?? true,
     featured: f?.featured ?? false,
+    exclusive: f?.exclusive ?? false,
     isPublished: f?.isPublished ?? true,
     sortOrder: f?.sortOrder ?? 0,
     colors: f?.availableColors?.length ? f.availableColors : [PRESET_COLORS[0]],
@@ -232,6 +236,7 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
         moq: form.moq.trim(),
         readyStock: form.readyStock,
         featured: form.featured,
+        exclusive: form.exclusive,
         description: form.description.trim(),
         artisanStory: form.artisanStory.trim(),
         mainImage: urls[0],
@@ -246,19 +251,34 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
         sortOrder: Number(form.sortOrder) || 0,
       });
 
+      // .select() returns the saved row, so a write silently blocked by permissions (0 rows) is caught too.
       const write = (r: Partial<typeof row>) =>
-        isEdit ? supabase.from('fabrics').update(r).eq('id', id) : supabase.from('fabrics').insert(r);
-      let { error: dbErr } = await write(row);
+        isEdit
+          ? supabase.from('fabrics').update(r).eq('id', id).select('id,is_exclusive')
+          : supabase.from('fabrics').insert(r).select('id,is_exclusive');
+      let { data: saved, error: dbErr } = await write(row);
       let tileColumnMissing = false;
       // Database without the swatch_tile column yet (migration not run): save everything else.
       if (dbErr && /swatch_tile/.test(dbErr.message || '')) {
         tileColumnMissing = true;
         const { swatch_tile: _omit, ...rest } = row;
-        ({ error: dbErr } = await write(rest));
+        ({ data: saved, error: dbErr } = await write(rest));
       }
       if (dbErr) {
         if (dbErr.code === '23505') throw new Error(`Design code ${code} already exists. Use a different code.`);
+        if (/is_exclusive/.test(dbErr.message || '')) {
+          throw new Error(
+            `Exclusive could not be saved (${dbErr.message}). In Supabase → SQL Editor run supabase/migrations/20261126_exclusive.sql, then save again.`
+          );
+        }
         throw dbErr;
+      }
+      if (!saved?.length) {
+        throw new Error('The product was not saved. Your admin session may have expired: sign out, sign in again and retry.');
+      }
+      // Confirm the database really stored the Exclusive choice.
+      if (!!saved[0].is_exclusive !== form.exclusive) {
+        throw new Error('The product saved, but the Exclusive switch did not. Please try again; if it repeats, tell your developer.');
       }
 
       // If the tile could not be stored, remove its upload instead of the old tile.
@@ -351,7 +371,7 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
           <Card>
             <CardHeader
               title="Photos"
-              description="First photo is the cover. Suggested order: front, close-up, macro stitch, back side, styled look."
+              description="Each position has a label on the website. Use the arrows to put each photo in the right position. Empty positions are simply not shown."
             />
             <div className="p-5">
               <div
@@ -370,12 +390,18 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
                       idx === 0 ? 'border-[#AD8A53] ring-2 ring-[#AD8A53]/40' : 'border-stone-200'
                     )}
                   >
-                    <img src={p.url} alt={`Photo ${idx + 1}`} className="h-full w-full object-cover" />
-                    {idx === 0 && (
-                      <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded bg-[#30241F] px-1.5 py-0.5 text-[10px] font-semibold text-white">
-                        <Star className="h-3 w-3 fill-white" /> Cover
-                      </span>
-                    )}
+                    <img src={p.url} alt={photoSlotLabel(idx)} className="h-full w-full object-cover" />
+                    {/* Slot label: the name this photo gets on the website's product page */}
+                    <span
+                      className={cx(
+                        'absolute left-2 top-2 inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-semibold text-white shadow',
+                        idx === 0 ? 'bg-[#30241F]' : idx < PHOTO_SLOTS.length ? 'bg-stone-800/80' : 'bg-stone-500/80'
+                      )}
+                    >
+                      {idx === 0 ? <Star className="h-3 w-3 fill-white" /> : <span className="opacity-70">{idx + 1}</span>}
+                      {photoSlotLabel(idx)}
+                      {idx === 0 && <span className="font-normal opacity-70">· Cover</span>}
+                    </span>
                     <div className="absolute inset-x-0 bottom-0 flex justify-between bg-gradient-to-t from-black/60 to-transparent p-1.5 opacity-100 transition sm:opacity-0 sm:group-hover:opacity-100">
                       <div className="flex gap-1">
                         <IconBtn label="Move left" onClick={() => movePhoto(idx, -1)} disabled={idx === 0}>
@@ -398,9 +424,36 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
                 >
                   <ImagePlus className="h-6 w-6" />
                   <span className="text-xs font-medium">{processing ? 'Optimising…' : 'Add photos'}</span>
-                  <span className="text-[10px]">or drag & drop</span>
+                  <span className="text-[10px]">
+                    {photos.length < PHOTO_SLOTS.length ? `Next: ${photoSlotLabel(photos.length)}` : 'or drag & drop'}
+                  </span>
                 </button>
               </div>
+
+              {/* Which slots are filled; empty ones are not shown on the website */}
+              <div className="mt-4 flex flex-wrap gap-2">
+                {PHOTO_SLOTS.map((slot, i) => {
+                  const filled = i < photos.length;
+                  return (
+                    <span
+                      key={slot.label}
+                      title={slot.hint}
+                      className={cx(
+                        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs',
+                        filled ? 'border-emerald-200 bg-emerald-50 text-emerald-800' : 'border-stone-200 bg-stone-50 text-stone-500'
+                      )}
+                    >
+                      {filled ? <Check className="h-3 w-3" /> : <span className="h-3 w-3 rounded-full border border-dashed border-stone-400" />}
+                      {i + 1}. {slot.label}
+                    </span>
+                  );
+                })}
+              </div>
+              {photos.length < PHOTO_SLOTS.length && (
+                <p className="mt-2 text-xs text-stone-500">
+                  Not shown on the website yet: {PHOTO_SLOTS.slice(photos.length).map((s) => s.label).join(', ')}.
+                </p>
+              )}
               <input
                 ref={fileRef}
                 type="file"
@@ -477,7 +530,13 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
             <CardHeader title="Visibility" />
             <div className="space-y-4 p-5">
               <ToggleRow label="Visible on website" hint="Hidden products stay in admin only." checked={form.isPublished} onChange={(v) => set('isPublished', v)} />
-              <ToggleRow label="Featured on home page" checked={form.featured} onChange={(v) => set('featured', v)} />
+              <ToggleRow label="Featured on home page" hint="Listed in the Featured Designs section on the home page." checked={form.featured} onChange={(v) => set('featured', v)} />
+              <ToggleRow
+                label="Exclusive"
+                hint="Shows a gold “Exclusive” badge on the website. Use for premium or limited designs."
+                checked={form.exclusive}
+                onChange={(v) => set('exclusive', v)}
+              />
               <ToggleRow label="Ready stock" hint="Off = made to order." checked={form.readyStock} onChange={(v) => set('readyStock', v)} />
               <Field label="Sort order" hint="Lower numbers appear first.">
                 <input type="number" value={form.sortOrder} onChange={(e) => set('sortOrder', Number(e.target.value))} className={inputCls} />

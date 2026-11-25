@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, Sparkles, Eye, CheckCircle2, ChevronLeft, ChevronRight, Layers } from 'lucide-react';
+import { ArrowUpRight, Sparkles, Eye, CheckCircle2, ChevronLeft, ChevronRight, Layers, Gem } from 'lucide-react';
 import { FabricItem } from '@/types';
+import { productPhotos } from '@/lib/fabrics';
 import { useEnquiry } from '@/context/EnquiryContext';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
@@ -14,19 +15,8 @@ interface FabricCardProps {
 export default function FabricCard({ fabric }: FabricCardProps) {
   const { openEnquiryModal, generateWhatsAppUrl } = useEnquiry();
 
-  // Consolidate all available product images
-  const allImages = React.useMemo(() => {
-    if (fabric.images && fabric.images.length > 0) {
-      return fabric.images;
-    }
-    return [
-      fabric.mainImage,
-      fabric.closeUpImage,
-      fabric.macroImage,
-      fabric.styledModelImage,
-      fabric.backsideImage,
-    ].filter(Boolean);
-  }, [fabric]);
+  // The product's real photos (Admin → Products), without repeats.
+  const allImages = React.useMemo(() => productPhotos(fabric).map((p) => p.src), [fabric]);
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
@@ -103,9 +93,17 @@ export default function FabricCard({ fabric }: FabricCardProps) {
           </>
         )}
 
-        {/* Category Pill */}
-        <div className="absolute top-2.5 left-2.5 bg-[#252321]/80 backdrop-blur-sm text-[#FAF8F3] px-2 py-0.5 text-[11px] uppercase tracking-widest font-sans border border-[#AD8A53]/30 z-10">
-          {fabric.categoryLabel}
+        {/* Category Pill + Exclusive badge (set in Admin → Products) */}
+        <div className="absolute top-2.5 left-2.5 z-10 flex flex-col items-start gap-1.5">
+          <div className="bg-[#252321]/80 backdrop-blur-sm text-[#FAF8F3] px-2 py-0.5 text-[11px] uppercase tracking-widest font-sans border border-[#AD8A53]/30">
+            {fabric.categoryLabel}
+          </div>
+          {fabric.exclusive && (
+            <div className="inline-flex items-center gap-1 bg-gradient-to-r from-[#AD8A53] to-[#C9A86A] text-[#252321] px-2 py-0.5 text-[11px] uppercase tracking-widest font-sans font-bold shadow-sm">
+              <Gem className="w-3 h-3" />
+              Exclusive
+            </div>
+          )}
         </div>
 
         {/* Hover Quick Overlay Actions */}

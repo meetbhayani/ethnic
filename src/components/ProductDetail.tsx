@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
+  Gem,
   Sparkles,
   ShieldCheck,
   CheckCircle2,
@@ -16,21 +17,18 @@ import {
 import { useEnquiry } from '@/context/EnquiryContext';
 import FabricCard from '@/components/FabricCard';
 import { FabricItem } from '@/types';
+import { productPhotos } from '@/lib/fabrics';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 /** Interactive product view. Data is loaded on the server by app/(site)/collections/[id]/page.tsx. */
 export default function ProductDetail({ fabric, relatedFabrics }: { fabric: FabricItem; relatedFabrics: FabricItem[] }) {
   const { openEnquiryModal, generateWhatsAppUrl } = useEnquiry();
-  const [activeImageTab, setActiveImageTab] = useState<'main' | 'close' | 'macro' | 'back' | 'styled'>('main');
   const [orderQuantity, setOrderQuantity] = useState('25 Metres');
 
-  const imageMap = {
-    main: fabric.mainImage,
-    close: fabric.closeUpImage,
-    macro: fabric.macroImage,
-    back: fabric.backsideImage,
-    styled: fabric.styledModelImage,
-  };
+  // Only the photos uploaded in Admin → Products, each labelled by its slot (Fabric Face, Close-up, …).
+  const photos = productPhotos(fabric);
+  const [activePhoto, setActivePhoto] = useState(0);
+  const current = photos[activePhoto] ?? photos[0] ?? { src: fabric.mainImage, label: 'Fabric Face', badge: 'Primary Fabric Texture' };
 
   const directWhatsAppLink = generateWhatsAppUrl({
     productCode: fabric.code,
@@ -61,18 +59,14 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
           {/* Main Visual Frame */}
           <div className="relative aspect-[4/5] bg-[#F4EFE6] border border-[#AD8A53]/30 overflow-hidden shadow-xl">
             <img
-              src={imageMap[activeImageTab]}
-              alt={`${fabric.name} - ${activeImageTab} view`}
+              src={current.src}
+              alt={`${fabric.name} - ${current.label}`}
               className="w-full h-full object-cover transition-all duration-700"
             />
 
             {/* Active Perspective Badge */}
             <div className="absolute top-4 left-4 bg-[#252321]/90 backdrop-blur-sm text-[#FAF8F3] text-[11px] uppercase tracking-widest px-3 py-1 font-mono border border-[#AD8A53]/30">
-              {activeImageTab === 'main' && 'Primary Fabric Texture'}
-              {activeImageTab === 'close' && 'Detailed Embroidery Stitches'}
-              {activeImageTab === 'macro' && '10x Macro Stitch & Bead Density'}
-              {activeImageTab === 'back' && 'Reverse Backside Seam & Thread-Trimming'}
-              {activeImageTab === 'styled' && 'Styling Inspiration (Unstitched Fabric)'}
+              {current.badge}
             </div>
 
             {fabric.readyStock && (
@@ -84,32 +78,32 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
           </div>
 
           {/* Perspective Selector Thumbnails */}
-          <div className="grid grid-cols-5 gap-2">
-            {[
-              { id: 'main', label: 'Fabric Face', img: fabric.mainImage },
-              { id: 'close', label: 'Close-up', img: fabric.closeUpImage },
-              { id: 'macro', label: '10x Macro', img: fabric.macroImage },
-              { id: 'back', label: 'Backside', img: fabric.backsideImage },
-              { id: 'styled', label: 'Styled Look', img: fabric.styledModelImage },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveImageTab(tab.id as any)}
-                className={`flex flex-col items-center p-1 border transition-all ${
-                  activeImageTab === tab.id
-                    ? 'border-[#713B43] bg-[#F4EFE6] ring-1 ring-[#713B43]'
-                    : 'border-[#AD8A53]/25 bg-[#FAF8F3] hover:border-[#AD8A53]'
-                }`}
-              >
-                <div className="aspect-square w-full overflow-hidden bg-gray-100 mb-1">
-                  <img src={tab.img} alt={tab.label} className="w-full h-full object-cover" />
-                </div>
-                <span className="text-[11px] uppercase tracking-wider font-sans text-[#30241F]">
-                  {tab.label}
-                </span>
-              </button>
-            ))}
-          </div>
+          {/* Hidden when the product has a single photo; columns keep thumbnails a steady size. */}
+          {photos.length > 1 && (
+            <div
+              className="grid gap-2"
+              style={{ gridTemplateColumns: `repeat(${Math.min(Math.max(photos.length, 4), 5)}, minmax(0, 1fr))` }}
+            >
+              {photos.map((photo, i) => (
+                <button
+                  key={photo.src + i}
+                  type="button"
+                  onClick={() => setActivePhoto(i)}
+                  aria-pressed={activePhoto === i}
+                  className={`flex flex-col items-center p-1 border transition-all ${
+                    activePhoto === i
+                      ? 'border-[#713B43] bg-[#F4EFE6] ring-1 ring-[#713B43]'
+                      : 'border-[#AD8A53]/25 bg-[#FAF8F3] hover:border-[#AD8A53]'
+                  }`}
+                >
+                  <div className="aspect-square w-full overflow-hidden bg-gray-100 mb-1">
+                    <img src={photo.src} alt={photo.label} className="w-full h-full object-cover" />
+                  </div>
+                  <span className="text-[11px] uppercase tracking-wider font-sans text-[#30241F]">{photo.label}</span>
+                </button>
+              ))}
+            </div>
+          )}
 
           <p className="text-[12px] text-[#7A6A58] italic text-center pt-1 font-sans">
             * All images show unstitched fabric rolls from our Surat workshop. Garment shots indicate tailored draping suitability.
@@ -127,6 +121,13 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
                 {fabric.categoryLabel}
               </span>
             </div>
+
+            {fabric.exclusive && (
+              <span className="mb-3 inline-flex items-center gap-1.5 bg-gradient-to-r from-[#AD8A53] to-[#C9A86A] px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-[#252321] shadow-sm">
+                <Gem className="h-3.5 w-3.5" />
+                Exclusive Design
+              </span>
+            )}
 
             <h1 className="font-editorial text-3xl sm:text-4xl text-[#30241F] mb-2 leading-tight">
               {fabric.name}

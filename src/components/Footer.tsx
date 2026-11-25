@@ -4,10 +4,13 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, Mail, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
 import { useEnquiry } from '@/context/EnquiryContext';
+import { useCategoryShown, useCraftLinks } from '@/context/SiteContentContext';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 export default function Footer() {
   const { generateWhatsAppUrl } = useEnquiry();
+  const isCategoryShown = useCategoryShown();
+  const craftLinks = useCraftLinks();
 
   return (
     <footer className="bg-[#252321] text-[#FAF8F3] border-t border-[#30241F] pt-16 pb-12">
@@ -92,16 +95,13 @@ export default function Footer() {
                   Indo-Western Fabrics
                 </Link>
               </li>
-              <li>
-                <Link href="/collections?category=brocade" className="hover:text-[#FAF8F3] transition-colors">
-                  Benarasi Tissue Brocades
-                </Link>
-              </li>
-              <li>
-                <Link href="/collections?category=designer" className="hover:text-[#FAF8F3] transition-colors">
-                  Designer Ethnic Fabrics
-                </Link>
-              </li>
+              {isCategoryShown('designer') && (
+                <li>
+                  <Link href="/collections?category=designer" className="hover:text-[#FAF8F3] transition-colors">
+                    Designer Ethnic Fabrics
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 
@@ -111,26 +111,14 @@ export default function Footer() {
               Embroidery Crafts
             </h4>
             <ul className="space-y-2.5 font-sans text-[#C9BBA7]">
-              <li>
-                <Link href="/craftsmanship#zari-dabka" className="hover:text-[#FAF8F3] transition-colors">
-                  Antique Zari & Dabka
-                </Link>
-              </li>
-              <li>
-                <Link href="/craftsmanship#cutdana-bead" className="hover:text-[#FAF8F3] transition-colors">
-                  Japanese Cutdana & Beads
-                </Link>
-              </li>
-              <li>
-                <Link href="/craftsmanship#resham-thread" className="hover:text-[#FAF8F3] transition-colors">
-                  Resham Silk Threadwork
-                </Link>
-              </li>
-              <li>
-                <Link href="/craftsmanship#sequin-embroidery" className="hover:text-[#FAF8F3] transition-colors">
-                  Matte & Smoked Micro-Sequin
-                </Link>
-              </li>
+              {/* Technique sections from Admin → Craftsmanship */}
+              {craftLinks.slice(0, 5).map((c) => (
+                <li key={c.anchor}>
+                  <Link href={`/craftsmanship#${c.anchor}`} className="hover:text-[#FAF8F3] transition-colors">
+                    {c.title}
+                  </Link>
+                </li>
+              ))}
               <li>
                 <Link href="/job-work" className="hover:text-[#FAF8F3] transition-colors">
                   Custom Job-Work Bay

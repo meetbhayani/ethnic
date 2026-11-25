@@ -2,10 +2,18 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Package, Plus, Search, Pencil, Trash2, ExternalLink } from 'lucide-react';
+import { Package, Plus, Search, Pencil, Trash2, ExternalLink, EyeOff } from 'lucide-react';
 import { useAdmin } from '@/components/admin/AdminProvider';
 import { Button, ButtonLink, Card, EmptyState, LoadingBlock, PageHeader, Switch, inputCls, timeAgo, cx } from '@/components/admin/ui';
-import { CATEGORY_LABELS, FabricRow } from '@/lib/fabrics';
+import { CATEGORY_LABELS, DEFAULT_HIDDEN_CATEGORIES, FabricRow, RETIRED_CATEGORY_LABELS, isRetiredCategory } from '@/lib/fabrics';
+import { isMissingTable } from '@/lib/admin-images';
+import MigrationNotice from '@/components/admin/MigrationNotice';
+import { FabricItem } from '@/types';
+
+const CATEGORY_MIGRATION = 'supabase/migrations/20261126_category_visibility.sql';
+
+/** The category a product appears under on the website (retired categories show as Sherwani). */
+const siteCategory = (r: FabricRow): FabricItem['category'] => (isRetiredCategory(r.category) ? 'sherwani' : r.category);
 import { FABRIC_IMAGES_BUCKET } from '@/lib/supabase/client';
 import { storagePathFromUrl } from '@/lib/admin-images';
 
@@ -16,6 +24,41 @@ export default function ProductsPage() {
   const [category, setCategory] = useState('all');
   const [visibility, setVisibility] = useState('all');
   const [busyId, setBusyId] = useState<string | null>(null);
+  // Categories switched off on the website (Admin → Products → "Categories on website").
+  const [hiddenCats, setHiddenCats] = useState<string[]>(DEFAULT_HIDDEN_CATEGORIES);
+  const [catTableMissing, setCatTableMissing] = useState(false);
+  const [catBusy, setCatBusy] = useState<string | null>(null);
+
+  const loadCategories = useCallback(async () => {
+    const { data, error } = await supabase.from('category_settings').select('category,show_on_site');
+    if (error) {
+      if (isMissingTable(error)) setCatTableMissing(true);
+      else toast('error', `Could not load category settings: ${error.message}`);
+      return;
+    }
+    setCatTableMissing(false);
+    setHiddenCats((data || []).filter((r) => !r.show_on_site).map((r) => r.category as string));
+  }, [supabase, toast]);
+
+  useEffect(() => {
+    loadCategories();
+  }, [loadCategories]);
+
+  const toggleCategory = async (cat: string, show: boolean) => {
+    setCatBusy(cat);
+    setHiddenCats((h) => (show ? h.filter((c) => c !== cat) : [...h, cat]));
+    const { error } = await supabase
+      .from('category_settings')
+      .upsert({ category: cat, show_on_site: show, updated_at: new Date().toISOString() });
+    setCatBusy(null);
+    if (error) {
+      toast('error', `Could not update category: ${error.message}`);
+      return loadCategories();
+    }
+    const label = CATEGORY_LABELS[cat as FabricItem['category']];
+    toast('success', show ? `${label} is now shown on the website.` : `${label} and its products are now hidden from the website.`);
+    revalidateSite();
+  };
 
   const load = useCallback(async () => {
     const { data, error } = await supabase
@@ -35,7 +78,7 @@ export default function ProductsPage() {
     if (!rows) return [];
     const q = search.trim().toLowerCase();
     return rows.filter((r) => {
-      if (category !== 'all' && r.category !== category) return false;
+      if (category !== 'all' && siteCategory(r) !== category) return false;
       if (visibility === 'published' && !r.is_published) return false;
       if (visibility === 'hidden' && r.is_published) return false;
       return !q || [r.code, r.name, r.base_fabric, r.color].some((v) => v?.toLowerCase().includes(q));
@@ -45,10 +88,26 @@ export default function ProductsPage() {
   const patch = async (row: FabricRow, change: Partial<FabricRow>, msg: string) => {
     setBusyId(row.id);
     setRows((prev) => prev?.map((r) => (r.id === row.id ? { ...r, ...change } : r)) || null);
-    const { error } = await supabase.from('fabrics').update(change).eq('id', row.id);
+    // .select() returns the saved row, so a write silently blocked by permissions (0 rows) is caught too.
+    const { data, error } = await supabase.from('fabrics').update(change).eq('id', row.id).select('*');
     setBusyId(null);
+    if (!error && !data?.length) {
+      toast('error', `${row.code} was not saved. Your admin session may have expired: sign out, sign in again and retry.`);
+      return load();
+    }
+    // Confirm the database stored exactly what was switched.
+    const stored = data?.[0] as Partial<FabricRow> | undefined;
+    if (!error && stored && Object.entries(change).some(([k, v]) => stored[k as keyof FabricRow] !== v)) {
+      toast('error', `${row.code}: the change did not stick in the database. Please try again.`);
+      return load();
+    }
     if (error) {
-      toast('error', `Could not update ${row.code}: ${error.message}`);
+      toast(
+        'error',
+        /is_exclusive/.test(error.message || '')
+          ? 'Exclusive tag needs a one-time setup: run supabase/migrations/20261126_exclusive.sql in the Supabase SQL Editor.'
+          : `Could not update ${row.code}: ${error.message}`
+      );
       return load();
     }
     toast('success', msg);
@@ -78,13 +137,54 @@ export default function ProductsPage() {
     <>
       <PageHeader
         title="Products"
-        description={`${rows.length} fabrics • ${rows.filter((r) => r.is_published).length} visible on the website`}
+        description={`${rows.length} fabrics • ${
+          rows.filter((r) => r.is_published && !hiddenCats.includes(siteCategory(r))).length
+        } visible on the website`}
         actions={
           <ButtonLink href="/admin/products/new" variant="primary">
             <Plus className="h-4 w-4" /> Add product
           </ButtonLink>
         }
       />
+
+      {catTableMissing && (
+        <MigrationNotice
+          file={CATEGORY_MIGRATION}
+          until="Until then Designer Ethnic stays hidden on the website and the category switches below are locked."
+        />
+      )}
+
+      <Card className="mb-6">
+        <div className="border-b border-stone-200 px-5 py-4">
+          <h2 className="text-sm font-semibold text-stone-900">Categories on website</h2>
+          <p className="mt-0.5 text-xs text-stone-500">
+            Switch a category off to hide it from the website: its filter tab, menu and footer links, home page card and all its
+            products. Products stay here in Admin and come back when you switch it on.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-px bg-stone-200 sm:grid-cols-2 lg:grid-cols-5">
+          {Object.entries(CATEGORY_LABELS).map(([cat, label]) => {
+            const shown = !hiddenCats.includes(cat);
+            const count = rows.filter((r) => siteCategory(r) === cat).length;
+            return (
+              <div key={cat} className={cx('flex items-center justify-between gap-3 bg-white px-5 py-3.5', !shown && 'bg-stone-50')}>
+                <div className="min-w-0">
+                  <p className={cx('truncate text-sm font-medium', shown ? 'text-stone-900' : 'text-stone-500')}>{label}</p>
+                  <p className={cx('text-xs', shown ? 'text-stone-500' : 'text-amber-700')}>
+                    {shown ? 'Shown' : 'Hidden'} · {count} product{count === 1 ? '' : 's'}
+                  </p>
+                </div>
+                <Switch
+                  label={`Show ${label} on website`}
+                  checked={shown}
+                  disabled={catTableMissing || catBusy === cat}
+                  onChange={(v) => toggleCategory(cat, v)}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </Card>
 
       <Card>
         <div className="flex flex-col gap-3 border-b border-stone-200 p-4 md:flex-row">
@@ -136,6 +236,7 @@ export default function ProductsPage() {
                   <th className="px-4 py-3">MOQ</th>
                   <th className="px-4 py-3 text-center">Ready stock</th>
                   <th className="px-4 py-3 text-center">Featured</th>
+                  <th className="px-4 py-3 text-center">Exclusive</th>
                   <th className="px-4 py-3 text-center">Visible</th>
                   <th className="px-4 py-3">Updated</th>
                   <th className="px-4 py-3 text-right">
@@ -160,11 +261,24 @@ export default function ProductsPage() {
                           <p className="font-mono text-xs text-stone-500">
                             {r.code}
                             {!r.is_published && <span className="ml-2 font-sans text-amber-700">Hidden</span>}
+                            {r.is_published && hiddenCats.includes(siteCategory(r)) && (
+                              <span className="ml-2 inline-flex items-center gap-1 font-sans text-amber-700" title="This product's category is switched off in “Categories on website” above.">
+                                <EyeOff className="h-3 w-3" /> Category hidden on website
+                              </span>
+                            )}
                           </p>
                         </div>
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-stone-600">{CATEGORY_LABELS[r.category]}</td>
+                    <td className="px-4 py-3 text-stone-600">
+                      {isRetiredCategory(r.category) ? (
+                        <span className="text-amber-700" title="This category is no longer on the website. Edit this product to choose a new one.">
+                          {RETIRED_CATEGORY_LABELS[r.category]} (retired)
+                        </span>
+                      ) : (
+                        CATEGORY_LABELS[r.category]
+                      )}
+                    </td>
                     <td className="px-4 py-3 text-stone-600">{r.moq}</td>
                     <td className="px-4 py-3 text-center">
                       <Switch
@@ -180,6 +294,14 @@ export default function ProductsPage() {
                         checked={r.featured}
                         disabled={busyId === r.id}
                         onChange={(v) => patch(r, { featured: v }, `${r.code} ${v ? 'featured on home page' : 'removed from home page'}.`)}
+                      />
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <Switch
+                        label={`Exclusive: ${r.code}`}
+                        checked={!!r.is_exclusive}
+                        disabled={busyId === r.id}
+                        onChange={(v) => patch(r, { is_exclusive: v }, `${r.code} ${v ? 'is now tagged Exclusive' : 'is no longer Exclusive'}.`)}
                       />
                     </td>
                     <td className="px-4 py-3 text-center">

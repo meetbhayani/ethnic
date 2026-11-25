@@ -1,9 +1,7 @@
-import { CRAFTS_DATA } from '@/data/crafts';
-
 /**
  * Fixed image spots on the website that admins can replace (Admin → Site Images).
  * A spot shows `defaultSrc` until an admin uploads a replacement.
- * Fabric photos are not listed here: they come from Admin → Products.
+ * Fabric photos come from Admin → Products; Craftsmanship photos from Admin → Craftsmanship.
  */
 export interface SiteImageSlot {
   key: string;
@@ -32,14 +30,6 @@ export const SITE_IMAGE_SLOTS: SiteImageSlot[] = [
     defaultSrc: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1200&q=85',
     shape: '4:3 landscape',
   },
-  ...CRAFTS_DATA.map((c) => ({
-    key: `craft.${c.id}`,
-    label: c.title,
-    group: 'Craftsmanship page',
-    where: `Craftsmanship page — ${c.title} section`,
-    defaultSrc: c.image,
-    shape: '4:3 landscape',
-  })),
   ...PRESET_DEFAULTS.map((p) => ({
     key: `tryon.${p.id}`,
     label: p.name,

@@ -83,7 +83,7 @@ export default function WholesaleB2BPage() {
           <Building2 className="w-6 h-6 text-[#AD8A53]" />
           <h3 className="font-editorial text-2xl text-[#30241F]">Sherwani Manufacturers</h3>
           <p className="text-xs text-[#30241F]/80 font-sans leading-relaxed">
-            Access 44&quot; heavy zardozi brocades, continuous panel rolls, and coordinated border trims engineered for high-volume automated cutting bays.
+            Access 44&quot; heavy zardozi embroidered fabrics, continuous panel rolls, and coordinated border trims engineered for high-volume automated cutting bays.
           </p>
           <span className="text-[12px] text-[#713B43] uppercase tracking-wider font-semibold block pt-2">
             MOQ: 25M ready / 100M custom
@@ -123,7 +123,7 @@ export default function WholesaleB2BPage() {
           <div className="w-12 h-[2px] bg-[#AD8A53]" />
 
           <p className="text-xs sm:text-sm text-[#30241F]/80 font-sans leading-relaxed">
-            We provide physical swatch folders featuring actual 6&quot;x6&quot; cuttings of our running Sherwani brocades, cutdana beads, and resham threadwork directly to verified commercial buyers across India.
+            We provide physical swatch folders featuring actual 6&quot;x6&quot; cuttings of our running Sherwani fabrics, cutdana beads, and resham threadwork directly to verified commercial buyers across India.
           </p>
 
           <div className="space-y-3 font-sans text-xs text-[#30241F]">
