@@ -2,7 +2,7 @@
 
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import type { Session, SupabaseClient } from '@supabase/supabase-js';
-import { CheckCircle2, AlertCircle, X, Lock } from 'lucide-react';
+import { CheckCircle2, AlertCircle, X, Lock, Mail } from 'lucide-react';
 import { getSupabaseBrowser } from '@/lib/supabase/client';
 import { Button, Spinner, inputCls } from './ui';
 
@@ -30,6 +30,8 @@ interface AdminContextValue {
   signOut: () => Promise<void>;
   /** Purge the website's cached product pages after a catalogue change. */
   revalidateSite: () => Promise<void>;
+  /** fetch() to this site's /api routes with the admin's login token attached. */
+  apiFetch: (path: string, init?: RequestInit) => Promise<Response>;
 }
 
 const AdminContext = createContext<AdminContextValue | null>(null);
@@ -40,7 +42,7 @@ export function useAdmin() {
   return ctx;
 }
 
-type AuthState = 'loading' | 'signed-out' | 'not-admin' | 'admin';
+type AuthState = 'loading' | 'signed-out' | 'not-admin' | 'admin' | 'recovery';
 
 export default function AdminProvider({ children }: { children: React.ReactNode }) {
   const supabase = getSupabaseBrowser();
@@ -50,6 +52,7 @@ export default function AdminProvider({ children }: { children: React.ReactNode 
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [confirmState, setConfirmState] = useState<(ConfirmOptions & { resolve: (v: boolean) => void }) | null>(null);
   const toastId = useRef(0);
+  const recovering = useRef(false);
 
   // ---- auth -------------------------------------------------------------
   const checkAdmin = useCallback(
@@ -63,9 +66,27 @@ export default function AdminProvider({ children }: { children: React.ReactNode 
   );
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => checkAdmin(data.session));
+    // A reset-password email link lands here with "type=recovery" in the address.
+    if (/type=recovery/.test(window.location.hash)) recovering.current = true;
+    supabase.auth.getSession().then(({ data }) => {
+      if (recovering.current && data.session) {
+        setSession(data.session);
+        setAuthState('recovery');
+        return;
+      }
+      recovering.current = false;
+      checkAdmin(data.session);
+    });
     const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
       if (event === 'TOKEN_REFRESHED') return;
+      // Opened from a "reset password" email: ask for a new password before anything else.
+      if (event === 'PASSWORD_RECOVERY') {
+        recovering.current = true;
+        setSession(s);
+        setAuthState('recovery');
+        return;
+      }
+      if (recovering.current) return;
       setTimeout(() => checkAdmin(s), 0); // don't call Supabase inside the auth callback
     });
     return () => sub.subscription.unsubscribe();
@@ -117,6 +138,17 @@ export default function AdminProvider({ children }: { children: React.ReactNode 
     }
   }, [supabase]);
 
+  const apiFetch = useCallback(
+    async (path: string, init: RequestInit = {}) => {
+      const { data } = await supabase.auth.getSession();
+      const headers = new Headers(init.headers);
+      if (data.session?.access_token) headers.set('Authorization', `Bearer ${data.session.access_token}`);
+      if (init.body && !headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
+      return fetch(path, { ...init, headers });
+    },
+    [supabase]
+  );
+
   const closeConfirm = (value: boolean) => {
     confirmState?.resolve(value);
     setConfirmState(null);
@@ -128,6 +160,18 @@ export default function AdminProvider({ children }: { children: React.ReactNode 
       <div className="flex min-h-screen items-center justify-center gap-3 bg-stone-50 text-sm text-stone-500">
         <Spinner /> Checking your session…
       </div>
+    );
+  }
+
+  if (authState === 'recovery') {
+    return (
+      <NewPasswordScreen
+        email={session?.user.email || ''}
+        onDone={() => {
+          recovering.current = false;
+          supabase.auth.getSession().then(({ data }) => checkAdmin(data.session));
+        }}
+      />
     );
   }
 
@@ -152,7 +196,7 @@ export default function AdminProvider({ children }: { children: React.ReactNode 
 
   return (
     <AdminContext.Provider
-      value={{ supabase, email: session?.user.email || '', newEnquiryCount, refreshCounts, toast, confirm, signOut, revalidateSite }}
+      value={{ supabase, email: session?.user.email || '', newEnquiryCount, refreshCounts, toast, confirm, signOut, revalidateSite, apiFetch }}
     >
       {children}
 
@@ -222,10 +266,19 @@ function AuthFrame({ children }: { children: React.ReactNode }) {
 
 function LoginScreen() {
   const supabase = getSupabaseBrowser();
+  const [mode, setMode] = useState<'signin' | 'forgot'>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // An expired or already-used reset link comes back with an error in the address.
+  const [error, setError] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null;
+    const params = new URLSearchParams(window.location.hash.slice(1) || window.location.search.slice(1));
+    if (!params.get('error_description')) return null;
+    window.history.replaceState(null, '', window.location.pathname);
+    return 'That reset link has expired or was already used. Click “Forgot password?” to get a new one.';
+  });
+  const [sentTo, setSentTo] = useState<string | null>(null);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -235,6 +288,79 @@ function LoginScreen() {
     setBusy(false);
     if (error) setError(error.message === 'Invalid login credentials' ? 'Incorrect email or password.' : error.message);
   };
+
+  const sendReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    setError(null);
+    // The email link brings the admin back here; AdminProvider then asks for a new password.
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/admin`,
+    });
+    setBusy(false);
+    if (error) {
+      setError(/rate limit/i.test(error.message) ? 'Too many reset emails were sent. Please wait a while and try again.' : error.message);
+      return;
+    }
+    setSentTo(email.trim());
+  };
+
+  if (mode === 'forgot') {
+    return (
+      <AuthFrame>
+        {sentTo ? (
+          <div className="space-y-4 text-center">
+            <Mail className="mx-auto h-8 w-8 text-[#AD8A53]" />
+            <h1 className="text-lg font-semibold text-stone-900">Check your email</h1>
+            <p className="text-sm text-stone-600">
+              If <strong>{sentTo}</strong> is an admin account, a link to reset the password is on its way. Open it on this
+              device and choose a new password.
+            </p>
+            <p className="text-xs text-stone-500">No email after a few minutes? Check spam, or ask another admin for help.</p>
+            <Button
+              variant="secondary"
+              className="w-full"
+              onClick={() => {
+                setMode('signin');
+                setSentTo(null);
+              }}
+            >
+              Back to sign in
+            </Button>
+          </div>
+        ) : (
+          <form onSubmit={sendReset} className="space-y-4">
+            <div>
+              <h1 className="text-lg font-semibold text-stone-900">Reset password</h1>
+              <p className="text-sm text-stone-500">Enter your admin email and we’ll send you a link to choose a new password.</p>
+            </div>
+            <label className="block">
+              <span className="mb-1.5 block text-sm font-medium text-stone-700">Email</span>
+              <input type="email" required autoFocus autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} />
+            </label>
+            {error && (
+              <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+                {error}
+              </p>
+            )}
+            <Button type="submit" variant="primary" className="w-full" disabled={busy}>
+              {busy ? 'Sending…' : 'Send reset link'}
+            </Button>
+            <button
+              type="button"
+              onClick={() => {
+                setMode('signin');
+                setError(null);
+              }}
+              className="w-full text-center text-sm text-stone-600 hover:text-stone-900"
+            >
+              Back to sign in
+            </button>
+          </form>
+        )}
+      </AuthFrame>
+    );
+  }
 
   return (
     <AuthFrame>
@@ -248,7 +374,19 @@ function LoginScreen() {
           <input type="email" required autoFocus autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} />
         </label>
         <label className="block">
-          <span className="mb-1.5 block text-sm font-medium text-stone-700">Password</span>
+          <span className="mb-1.5 flex items-center justify-between text-sm font-medium text-stone-700">
+            Password
+            <button
+              type="button"
+              onClick={() => {
+                setMode('forgot');
+                setError(null);
+              }}
+              className="text-xs font-medium text-[#7a5d30] hover:underline"
+            >
+              Forgot password?
+            </button>
+          </span>
           <input
             type="password"
             required
@@ -266,9 +404,58 @@ function LoginScreen() {
         <Button type="submit" variant="primary" className="w-full" disabled={busy}>
           {busy ? 'Signing in…' : 'Sign in'}
         </Button>
-        <p className="text-center text-xs text-stone-500">
-          Forgot your password? Reset it in Supabase → Authentication → Users.
-        </p>
+      </form>
+    </AuthFrame>
+  );
+}
+
+/** Shown after opening a reset-password email link: choose a new password. */
+function NewPasswordScreen({ email, onDone }: { email: string; onDone: () => void }) {
+  const supabase = getSupabaseBrowser();
+  const [pw, setPw] = useState('');
+  const [pw2, setPw2] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    if (pw.length < 8) return setError('Use at least 8 characters.');
+    if (pw !== pw2) return setError('Passwords do not match.');
+    setBusy(true);
+    const { error } = await supabase.auth.updateUser({ password: pw });
+    setBusy(false);
+    if (error) return setError(error.message);
+    // Drop the reset link from the address bar, then continue into the admin.
+    window.history.replaceState(null, '', window.location.pathname);
+    onDone();
+  };
+
+  return (
+    <AuthFrame>
+      <form onSubmit={submit} className="space-y-4">
+        <div>
+          <h1 className="text-lg font-semibold text-stone-900">Choose a new password</h1>
+          <p className="text-sm text-stone-500">
+            For <strong>{email}</strong>. Use at least 8 characters.
+          </p>
+        </div>
+        <label className="block">
+          <span className="mb-1.5 block text-sm font-medium text-stone-700">New password</span>
+          <input type="password" required autoFocus autoComplete="new-password" value={pw} onChange={(e) => setPw(e.target.value)} className={inputCls} />
+        </label>
+        <label className="block">
+          <span className="mb-1.5 block text-sm font-medium text-stone-700">Confirm new password</span>
+          <input type="password" required autoComplete="new-password" value={pw2} onChange={(e) => setPw2(e.target.value)} className={inputCls} />
+        </label>
+        {error && (
+          <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+            {error}
+          </p>
+        )}
+        <Button type="submit" variant="primary" className="w-full" disabled={busy}>
+          {busy ? 'Saving…' : 'Save new password'}
+        </Button>
       </form>
     </AuthFrame>
   );
