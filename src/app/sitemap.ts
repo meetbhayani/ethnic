@@ -7,7 +7,6 @@ const STATIC_PAGES: { path: string; priority: number; changeFrequency: MetadataR
   { path: '', priority: 1, changeFrequency: 'weekly' },
   { path: '/collections', priority: 0.9, changeFrequency: 'daily' },
   { path: '/wholesale-b2b', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/job-work', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/craftsmanship', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.7, changeFrequency: 'yearly' },
   { path: '/about', priority: 0.5, changeFrequency: 'yearly' },

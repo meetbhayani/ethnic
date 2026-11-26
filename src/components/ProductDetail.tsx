@@ -23,7 +23,7 @@ import WhatsAppIcon from '@/components/WhatsAppIcon';
 /** Interactive product view. Data is loaded on the server by app/(site)/collections/[id]/page.tsx. */
 export default function ProductDetail({ fabric, relatedFabrics }: { fabric: FabricItem; relatedFabrics: FabricItem[] }) {
   const { openEnquiryModal, generateWhatsAppUrl } = useEnquiry();
-  const [orderQuantity, setOrderQuantity] = useState('25 Metres');
+  const [orderQuantity, setOrderQuantity] = useState('10–15 Metres (MOQ)');
 
   // Only the photos uploaded in Admin → Products, each labelled by its slot (Fabric Face, Close-up, …).
   const photos = productPhotos(fabric);
@@ -224,6 +224,7 @@ export default function ProductDetail({ fabric, relatedFabrics }: { fabric: Fabr
                   className="bg-[#FAF8F3] border border-[#AD8A53]/40 px-3 py-2 text-xs font-sans text-[#30241F] focus:outline-none focus:border-[#AD8A53] w-full"
                 >
                   <option value="2-Metre Sample Strike-off">2-Metre Sample Strike-off</option>
+                  <option value="10–15 Metres (MOQ)">10–15 Metres (MOQ)</option>
                   <option value="25 Metres (Trial Roll)">25 Metres (Trial Roll)</option>
                   <option value="50 Metres">50 Metres</option>
                   <option value="100 Metres (Bulk Run)">100 Metres (Bulk Run)</option>

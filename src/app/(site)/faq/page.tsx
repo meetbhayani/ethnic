@@ -18,7 +18,6 @@ export default function FAQPage() {
     { id: 'Products & Fabric Offerings', label: 'Products & Fabrics' },
     { id: 'Orders & Pricing', label: 'Orders, MOQs & Prices' },
     { id: 'Samples & Swatches', label: 'Samples & Swatches' },
-    { id: 'Custom Job Work & Design', label: 'Custom Job-Work' },
     { id: 'AI Virtual Try-On', label: 'AI Try-On' },
     { id: 'Dispatch & Logistics', label: 'Dispatch & Shipping' },
   ];
@@ -49,7 +48,7 @@ export default function FAQPage() {
           Commercial Buyer FAQ
         </h1>
         <p className="text-xs sm:text-sm text-[#30241F]/80 font-sans max-w-2xl mx-auto leading-relaxed">
-          Comprehensive answers to common procurement, sampling, MOQ, custom embroidery, and AI try-on inquiries.
+          Comprehensive answers to common procurement, sampling, MOQ, dispatch, and AI try-on inquiries.
         </p>
 
         {/* Search Input */}
@@ -57,7 +56,7 @@ export default function FAQPage() {
           <Search className="w-4 h-4 text-[#AD8A53] absolute left-3.5 top-3" />
           <input
             type="text"
-            placeholder="Search FAQ questions (e.g. MOQ, Job Work, Pricing, AI)..."
+            placeholder="Search FAQ questions (e.g. MOQ, Swatches, Pricing, AI)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-[#F4EFE6] border border-[#AD8A53]/40 pl-10 pr-4 py-2.5 text-xs font-sans text-[#30241F] focus:outline-none focus:border-[#AD8A53]"

@@ -86,7 +86,7 @@ export default function AboutPage() {
             <Building2 className="w-5 h-5 text-[#AD8A53]" />
             <h3 className="font-semibold text-sm text-[#30241F]">Unstitched Fabric Supplier</h3>
             <p className="text-[#30241F]/80 leading-relaxed">
-              We sell fabric by the metre and execute custom job-work. We do not compete with our menswear boutique clients by selling stitched garments.
+              We sell fabric by the metre. We do not compete with our menswear boutique clients by selling stitched garments.
             </p>
           </div>
 

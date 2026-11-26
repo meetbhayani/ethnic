@@ -193,7 +193,7 @@ export default function FabricCard({ fabric }: FabricCardProps) {
             <div className="flex items-center justify-between text-[13px]">
               <span className="text-[#7A6A58] font-medium">Wholesale MOQ:</span>
               <span className="font-bold text-[#AD8A53]">
-                {fabric.moq || '25 Metres'}
+                {fabric.moq || '10–15 Metres'}
               </span>
             </div>
           </div>

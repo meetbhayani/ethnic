@@ -146,7 +146,7 @@ export default function FeaturedDesigns() {
                 </div>
                 <div className="bg-[#F4EFE6] px-3 py-2.5">
                   <dt className="text-[11px] uppercase tracking-widest text-[#AD8A53]">MOQ</dt>
-                  <dd className="font-semibold text-[#30241F] mt-0.5">{active.moq || '25 Metres'}</dd>
+                  <dd className="font-semibold text-[#30241F] mt-0.5">{active.moq || '10–15 Metres'}</dd>
                 </div>
               </dl>
               <div className="mt-5 grid grid-cols-2 gap-2">

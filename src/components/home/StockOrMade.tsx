@@ -13,7 +13,7 @@ const MODES = {
     headline: 'In the warehouse. On its way.',
     text: 'Running catalogue designs, already embroidered and inspected. Choose a design code, confirm the metres, and we dispatch.',
     facts: [
-      { icon: Ruler, k: 'Minimum order', v: '20–25 m per design' },
+      { icon: Ruler, k: 'Minimum order', v: '10–15 m per design' },
       { icon: Truck, k: 'Dispatch', v: '24–48 business hours' },
       { icon: Boxes, k: 'Best for', v: 'Retail restocks & fast seasons' },
     ],
@@ -24,9 +24,9 @@ const MODES = {
   custom: {
     label: 'Made to Order',
     headline: 'Your design. Our machines.',
-    text: 'Your colours, your base fabric, your motif — or a catalogue design re-worked for your label. Sample first, then production.',
+    text: 'A catalogue design re-worked for your label — your colours, your choice of base, your placement. Sample first, then production.',
     facts: [
-      { icon: Ruler, k: 'Minimum order', v: '100–150 m per design' },
+      { icon: Ruler, k: 'Minimum order', v: '10–15 m per design' },
       { icon: Clock, k: 'Lead time', v: '10–25 business days' },
       { icon: Palette, k: 'Customise', v: 'Colour, base, motif, placement' },
     ],
@@ -170,12 +170,12 @@ export default function StockOrMade() {
                 {mode === 'ready' ? 'Check availability' : 'Discuss a custom design'}
               </a>
               <a
-                href={mode === 'ready' ? '/collections' : '/job-work'}
+                href={mode === 'ready' ? '/collections' : '/wholesale-b2b'}
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-[#AD8A53] text-[#30241F] hover:bg-[#F4EFE6] text-[13px] uppercase tracking-widest font-semibold"
               >
                 {mode === 'ready' ? 'Browse catalogue' : (
                   <>
-                    <Wand2 className="w-4 h-4 text-[#AD8A53]" /> Job-work details
+                    <Wand2 className="w-4 h-4 text-[#AD8A53]" /> Wholesale details
                   </>
                 )}
                 <ArrowUpRight className="w-4 h-4" />

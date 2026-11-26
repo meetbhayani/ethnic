@@ -45,7 +45,7 @@ create table if not exists public.fabrics (
                           ('ivory','gold','burgundy','emerald','navy','black','sandstone')),
   width                 text not null default '44 Inches',
   suitable_for          text[] not null default '{}',
-  moq                   text not null default '25 Metres',
+  moq                   text not null default '10–15 Metres',
   ready_stock           boolean not null default true,
   featured              boolean not null default false,
   description           text not null default '',

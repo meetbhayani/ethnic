@@ -20,13 +20,13 @@ import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const INTENTS = [
   { id: 'ready', label: 'Ready-stock fabric', sentence: 'I would like to buy ready-stock fabric' },
-  { id: 'custom', label: 'Custom embroidery', sentence: 'I have a custom embroidery / job-work requirement' },
+  { id: 'custom', label: 'Made to order', sentence: 'I would like a made-to-order version of one of your designs' },
   { id: 'swatch', label: 'Swatch kit / samples', sentence: 'I would like a swatch kit or sample cuts' },
   { id: 'partner', label: 'Wholesale partnership', sentence: 'I would like to discuss a long-term wholesale partnership' },
 ] as const;
 
 const GARMENTS = ['Sherwani', 'Kurta', 'Jodhpuri', 'Indo-Western', 'Not sure yet'];
-const QUANTITIES = ['Sample cut', '25 metres (MOQ)', '50 metres', '100+ metres'];
+const QUANTITIES = ['Sample cut', '10–15 metres (MOQ)', '50 metres', '100+ metres'];
 
 const HOW_IT_WORKS = [
   { icon: MousePointerClick, title: 'Choose what you need', text: 'Tell us the purpose, garment and quantity.' },

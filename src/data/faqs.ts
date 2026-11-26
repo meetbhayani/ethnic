@@ -16,7 +16,7 @@ export const FAQS_DATA: FAQItem[] = [
     id: 'faq-2',
     category: 'Products & Fabric Offerings',
     question: 'Do you sell stitched Sherwanis, Kurtas, or finished garments?',
-    answer: 'No. We are strictly a textile and embroidery house based in Surat, Gujarat. We supply fabrics by the metre and provide custom embroidery job-work. Finished garments shown in our lookbooks and editorial imagery are purely styling representations to demonstrate how our fabrics drape when crafted into tailored menswear.',
+    answer: 'No. We are strictly a textile and embroidery house based in Surat, Gujarat. We supply fabrics by the metre. Finished garments shown in our lookbooks and editorial imagery are purely styling representations to demonstrate how our fabrics drape when crafted into tailored menswear.',
   },
   {
     id: 'faq-3',
@@ -28,19 +28,13 @@ export const FAQS_DATA: FAQItem[] = [
     id: 'faq-4',
     category: 'Orders & Pricing',
     question: 'What is your Minimum Order Quantity (MOQ)?',
-    answer: 'For running ready-stock catalogue designs, our typical MOQ starts at 20 to 25 metres per design/colorway. For custom embroidery developments and exclusive job-work runs, the minimum requirement is generally 100 to 150 metres per pattern, depending on the complexity of the design.',
+    answer: 'Our MOQ is just 10 to 15 metres per design/colourway — for running ready-stock catalogue designs as well as made-to-order colourways and exclusive runs.',
   },
   {
     id: 'faq-5',
     category: 'Samples & Swatches',
     question: 'Can I order fabric swatches or sample cuts before placing a bulk order?',
     answer: 'Yes. We provide sample swatch books and 1-to-2-metre strike-off cuts to verified boutique owners, retailers, and fashion labels. You can request a swatch kit through our Wholesale & B2B page or directly via WhatsApp by specifying the design codes of interest.',
-  },
-  {
-    id: 'faq-6',
-    category: 'Custom Job Work & Design',
-    question: 'Can you execute custom embroidery on our own provided fabrics?',
-    answer: 'Absolutely. We offer complete custom embroidery and job-work services. Clients can either send their own base fabrics (such as pure silks, velvets, or suiting blends) to our Surat facility, or select from our verified base fabric inventory. Our digitizing and sampling team can develop patterns based on your sketches or reference swatches.',
   },
   {
     id: 'faq-7',
@@ -58,6 +52,6 @@ export const FAQS_DATA: FAQItem[] = [
     id: 'faq-9',
     category: 'Trust & Visiting',
     question: 'Can we visit your showroom and facility in Surat?',
-    answer: 'Yes, we warmly welcome commercial buyers, boutique owners, and designers to our Surat facility by prior appointment. You can inspect hundreds of running swatches, observe our machine embroidery bays, and discuss custom developments directly with our technical team.',
+    answer: 'Yes, we warmly welcome commercial buyers, boutique owners, and designers to our Surat facility by prior appointment. You can inspect hundreds of running swatches, observe our machine embroidery bays, and discuss made-to-order requirements directly with our technical team.',
   },
 ];

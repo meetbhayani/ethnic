@@ -66,8 +66,8 @@ export default function AboutBrand() {
           </Reveal>
           <Reveal delay={250}>
             <p>
-              We supply unstitched fabric by the metre and take on custom embroidery job-work for labels across
-              India and abroad. Modern multi-head machines give us scale and consistency; experienced hands give
+              We supply unstitched fabric by the metre to retailers, wholesalers and labels across India and
+              abroad. Modern multi-head machines give us scale and consistency; experienced hands give
               every roll its finish.
             </p>
           </Reveal>
@@ -92,7 +92,7 @@ export default function AboutBrand() {
         {[
           ['Unstitched', 'Fabric by the metre'],
           ['B2B only', 'Trade partners, not retail'],
-          ['Job-work', 'Your design, our machines'],
+          ['Surat-made', 'Designed & embroidered in-house'],
           ['Worldwide', 'Insured cargo dispatch'],
         ].map(([k, v], i) => (
           <Reveal key={k} delay={i * 90} className="bg-[#FAF8F3] p-5 sm:p-7">

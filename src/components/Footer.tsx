@@ -42,7 +42,7 @@ export default function Footer() {
                 Important Business Clarification
               </p>
               <p className="text-xs text-[#C9BBA7] leading-relaxed">
-                Khodal Fashion supplies <strong>unstitched embroidered fabrics</strong> by the metre and executes <strong>custom embroidery job-work</strong>. We do not manufacture or sell finished stitched garments (Sherwanis or Kurtas). Lookbook images represent fabric styling inspiration.
+                Khodal Fashion supplies <strong>unstitched embroidered fabrics</strong> by the metre. We do not manufacture or sell finished stitched garments (Sherwanis or Kurtas). Lookbook images represent fabric styling inspiration.
               </p>
             </div>
 
@@ -120,11 +120,6 @@ export default function Footer() {
                 </li>
               ))}
               <li>
-                <Link href="/job-work" className="hover:text-[#FAF8F3] transition-colors">
-                  Custom Job-Work Bay
-                </Link>
-              </li>
-              <li>
                 <Link href="/gallery" className="hover:text-[#FAF8F3] transition-colors">
                   Macro Craftsmanship Gallery
                 </Link>
@@ -141,11 +136,6 @@ export default function Footer() {
               <li>
                 <Link href="/wholesale-b2b" className="hover:text-[#FAF8F3] transition-colors">
                   Wholesale Buyer Portal
-                </Link>
-              </li>
-              <li>
-                <Link href="/job-work" className="hover:text-[#FAF8F3] transition-colors">
-                  Custom Embroidery Services
                 </Link>
               </li>
               <li>
@@ -236,7 +226,7 @@ export default function Footer() {
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-[#C9BBA7]/70 font-sans gap-4">
           <p>© {new Date().getFullYear()} KHODAL FASHION. All Rights Reserved. Surat, Gujarat, India.</p>
           <p className="text-center md:text-right text-[13px]">
-            Master Craftsmen in Royal Men’s Ethnic Embroidered Fabrics & Custom Job-Work.
+            Master Craftsmen in Royal Men’s Ethnic Embroidered Fabrics.
           </p>
         </div>
       </div>

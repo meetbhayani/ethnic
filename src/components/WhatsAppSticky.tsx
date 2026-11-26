@@ -35,7 +35,7 @@ export default function WhatsAppSticky() {
             </button>
           </div>
           <p className="text-xs text-[#30241F] leading-tight mb-2.5">
-            Instant B2B fabric pricing, swatch kit dispatch, or custom embroidery job-work?
+            Instant B2B fabric pricing, swatch kit dispatch, or ready-stock availability?
           </p>
           <a
             href={directUrl}

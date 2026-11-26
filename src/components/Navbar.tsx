@@ -70,7 +70,6 @@ export default function Navbar() {
   ].filter((c) => isCategoryShown(c.href.split('category=')[1])); // hide categories switched off in Admin → Products
 
   const serviceLinks = [
-    { label: 'Custom Job-Work Bay', href: '/job-work', desc: 'CAD digitizing & custom multi-needle embroidery' },
     { label: 'Wholesale B2B Portal', href: '/wholesale-b2b', desc: 'Direct mill pricing & tier volume rates' },
     { label: 'Atelier Swatch Kit', href: '/wholesale-b2b#swatch-kit', desc: 'Physical cutting books dispatched across India' },
   ];
@@ -100,7 +99,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
             <span className="w-1.5 h-1.5 rounded-full bg-[#AD8A53] shrink-0" />
             <span className="font-sans font-medium text-[#FAF8F3]/90 text-[11px] sm:text-[12px] truncate">
-              Surat Textile House • Men&apos;s Ethnic Embroidered Fabrics & Job-Work
+              Surat Textile House • Men&apos;s Ethnic Embroidered Fabrics
             </span>
           </div>
           <div className="hidden md:flex items-center space-x-5 text-[#FAF8F3] shrink-0 text-[12px]">
@@ -228,7 +227,7 @@ export default function Navbar() {
                 Craftsmanship
               </Link>
 
-              {/* Services Dropdown (Job-Work & Wholesale B2B) */}
+              {/* Services Dropdown (Wholesale B2B & Swatch Kit) */}
               <div
                 className="relative py-2"
                 onMouseEnter={() => {
@@ -242,7 +241,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   className={`text-[12px] uppercase tracking-[0.1em] font-sans font-medium transition-colors whitespace-nowrap inline-flex items-center gap-1 ${
-                    pathname === '/job-work' || pathname === '/wholesale-b2b'
+                    pathname === '/wholesale-b2b'
                       ? 'text-[#713B43] font-semibold'
                       : 'text-[#30241F]/85 hover:text-[#AD8A53]'
                   }`}
@@ -254,7 +253,7 @@ export default function Navbar() {
                 {servicesDropdown && (
                   <div className="absolute top-full left-0 w-64 bg-[#FAF8F3] border border-[#AD8A53]/35 shadow-xl p-3 animate-fadeIn z-50">
                     <div className="text-[11px] uppercase tracking-wider text-[#AD8A53] font-semibold pb-1.5 mb-2 border-b border-[#AD8A53]/20">
-                      Commercial & Job-Work
+                      Commercial & Wholesale
                     </div>
                     <div className="space-y-1">
                       {serviceLinks.map((item) => (
@@ -481,16 +480,6 @@ export default function Navbar() {
               }`}
             >
               <span>Craftsmanship & Embroidery</span>
-              <ArrowUpRight className="w-4 h-4 text-[#AD8A53]/60" />
-            </Link>
-
-            <Link
-              href="/job-work"
-              className={`text-base font-serif tracking-wide flex items-center justify-between py-2 border-b border-[#AD8A53]/10 ${
-                pathname === '/job-work' ? 'text-[#713B43] font-semibold' : 'text-[#30241F]'
-              }`}
-            >
-              <span>Custom Job-Work Bay</span>
               <ArrowUpRight className="w-4 h-4 text-[#AD8A53]/60" />
             </Link>
 

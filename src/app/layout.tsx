@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: '%s | Khodal Fashion',
   },
   description:
-    'Surat textile house supplying men’s ethnic embroidered fabrics for Sherwanis, Kurtas, Jodhpuri suits and Indo-Western wear. Wholesale and custom embroidery job-work.',
+    'Surat textile house supplying men’s ethnic embroidered fabrics for Sherwanis, Kurtas, Jodhpuri suits and Indo-Western wear. Wholesale supply, swatch kits and volume pricing.',
   keywords: [
     'mens ethnic fabric',
     'mens embroidered fabric',
@@ -30,14 +30,14 @@ export const metadata: Metadata = {
     'jodhpuri fabric surat',
     'zari embroidery fabric',
     'mens kurta fabric wholesale',
-    'embroidery job work surat',
+    'embroidered fabric wholesaler surat',
     'khodal fashion surat',
   ],
   authors: [{ name: 'Khodal Fashion' }],
   alternates: { canonical: '/' },
   openGraph: {
     title: 'Khodal Fashion | Men’s Ethnic Embroidered Fabrics, Surat',
-    description: 'Wholesale men’s ethnic embroidered fabrics & custom embroidery job-work from Surat, Gujarat.',
+    description: 'Wholesale men’s ethnic embroidered fabrics from Surat, Gujarat.',
     url: SITE_URL,
     siteName: 'Khodal Fashion',
     locale: 'en_IN',

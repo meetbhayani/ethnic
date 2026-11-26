@@ -22,7 +22,7 @@ export default function WholesaleB2BPage() {
   const [contactPerson, setContactPerson] = useState('');
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
-  const [quantity, setQuantity] = useState('50 Metres');
+  const [quantity, setQuantity] = useState('10 to 50 Metres (Trial Roll)');
   const [notes, setNotes] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -86,7 +86,7 @@ export default function WholesaleB2BPage() {
             Access 44&quot; heavy zardozi embroidered fabrics, continuous panel rolls, and coordinated border trims engineered for high-volume automated cutting bays.
           </p>
           <span className="text-[12px] text-[#713B43] uppercase tracking-wider font-semibold block pt-2">
-            MOQ: 25M ready / 100M custom
+            MOQ: 10–15 m per design
           </span>
         </div>
 
@@ -94,7 +94,7 @@ export default function WholesaleB2BPage() {
           <Users className="w-6 h-6 text-[#AD8A53]" />
           <h3 className="font-editorial text-2xl text-[#30241F]">Boutiques & Designers</h3>
           <p className="text-xs text-[#30241F]/80 font-sans leading-relaxed">
-            Order flexible trial lengths (from 20 metres) for bespoke bridal groom capsules, festive Sangeet lookbooks, and luxury pop-up exhibits.
+            Order flexible trial lengths (from 10–15 metres) for bespoke bridal groom capsules, festive Sangeet lookbooks, and luxury pop-up exhibits.
           </p>
           <span className="text-[12px] text-[#713B43] uppercase tracking-wider font-semibold block pt-2">
             Swatch Kits Available
@@ -268,7 +268,7 @@ export default function WholesaleB2BPage() {
                     onChange={(e) => setQuantity(e.target.value)}
                     className="w-full bg-[#F4EFE6] border border-[#AD8A53]/40 px-3 py-2 text-xs text-[#30241F] focus:outline-none focus:border-[#AD8A53]"
                   >
-                    <option value="25 to 50 Metres (Trial Roll)">25 to 50 Metres (Trial Roll)</option>
+                    <option value="10 to 50 Metres (Trial Roll)">10 to 50 Metres (Trial Roll)</option>
                     <option value="50 to 150 Metres">50 to 150 Metres</option>
                     <option value="150 to 500 Metres (Regular Buyer)">150 to 500 Metres (Regular Buyer)</option>
                     <option value="500+ Metres (Bulk Commercial)">500+ Metres (Bulk Commercial)</option>

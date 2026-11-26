@@ -61,7 +61,7 @@ export function EnquiryProvider({
   const [modalData, setModalData] = useState<EnquiryModalData>({
     isOpen: false,
     fabric: undefined,
-    defaultQty: '25 Metres',
+    defaultQty: '10–15 Metres',
   });
 
   const refreshFabrics = useCallback(async () => {
@@ -96,7 +96,7 @@ export function EnquiryProvider({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshFabrics]);
 
-  const openEnquiryModal = (fabric?: FabricItem, defaultQty = '25 Metres') => {
+  const openEnquiryModal = (fabric?: FabricItem, defaultQty = '10–15 Metres') => {
     setModalData({ isOpen: true, fabric, defaultQty });
   };
 

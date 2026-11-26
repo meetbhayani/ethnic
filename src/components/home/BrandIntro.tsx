@@ -72,12 +72,12 @@ export default function BrandIntro() {
               <p className="text-[12px] sm:text-[13px] uppercase tracking-widest text-[#30241F]/75 mt-1">Curated designs</p>
             </div>
             <div>
-              <Counter to={20} suffix=" m" className="font-editorial text-3xl sm:text-4xl text-[#713B43]" />
-              <p className="text-[12px] sm:text-[13px] uppercase tracking-widest text-[#30241F]/75 mt-1">Ready-stock MOQ</p>
+              <Counter to={10} suffix="–15 m" className="font-editorial text-3xl sm:text-4xl text-[#713B43]" />
+              <p className="text-[12px] sm:text-[13px] uppercase tracking-widest text-[#30241F]/75 mt-1">MOQ per design</p>
             </div>
             <div>
-              <Counter to={100} suffix=" m" className="font-editorial text-3xl sm:text-4xl text-[#713B43]" />
-              <p className="text-[12px] sm:text-[13px] uppercase tracking-widest text-[#30241F]/75 mt-1">Custom MOQ</p>
+              <Counter to={48} suffix=" h" className="font-editorial text-3xl sm:text-4xl text-[#713B43]" />
+              <p className="text-[12px] sm:text-[13px] uppercase tracking-widest text-[#30241F]/75 mt-1">Ready-stock dispatch</p>
             </div>
           </Reveal>
         </div>

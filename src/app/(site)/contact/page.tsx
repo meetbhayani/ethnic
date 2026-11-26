@@ -69,7 +69,7 @@ export default function ContactPage() {
           Connect with Khodal Fashion
         </h1>
         <p className="text-xs sm:text-sm md:text-base text-[#30241F]/80 font-sans max-w-3xl leading-relaxed">
-          We welcome commercial buyers, Sherwani manufacturers, boutique owners, and fashion labels. Reach out directly to discuss fabric availability, custom embroidery job-work, or schedule a physical showroom visit in Surat.
+          We welcome commercial buyers, Sherwani manufacturers, boutique owners, and fashion labels. Reach out directly to discuss fabric availability, wholesale pricing, or schedule a physical showroom visit in Surat.
         </p>
       </div>
 
@@ -255,7 +255,6 @@ export default function ContactPage() {
                 >
                   <option value="Bulk Fabric Pricing">Bulk Fabric Pricing & Ready-Stock Availability</option>
                   <option value="Physical Swatch Book Request">Physical Swatch Book Request</option>
-                  <option value="Custom Embroidery Job-Work">Custom Embroidery Job-Work</option>
                   <option value="Schedule Surat Facility Visit">Schedule Surat Facility Visit</option>
                   <option value="Export & International Logistics">Export & International Logistics</option>
                 </select>

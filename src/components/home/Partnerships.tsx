@@ -32,8 +32,8 @@ const PARTNERS = [
   {
     icon: PencilRuler,
     who: 'Designers',
-    line: 'Bring us a sketch — we digitise, sample and produce it for your label.',
-    perks: ['Custom embroidery job-work', 'Colour & base of your choice', 'Strike-off before bulk'],
+    line: 'Catalogue designs re-coloured and produced in runs for your label.',
+    perks: ['Made-to-order colourways', 'Colour & base of your choice', 'Strike-off before bulk'],
     fallbackId: 'teal-floral-applique',
   },
 ];

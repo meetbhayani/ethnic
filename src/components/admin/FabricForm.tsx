@@ -63,7 +63,7 @@ function initialState(f: AdminFabric | null): FormState {
     colorFamily: f?.colorFamily || 'ivory',
     baseFabric: f?.baseFabric || '',
     width: f?.width || '44 Inches',
-    moq: f?.moq || '25 Metres',
+    moq: f?.moq || '10–15 Metres',
     suitableFor: (f?.suitableFor || []).join(', '),
     description: f?.description || '',
     artisanStory: f?.artisanStory || '',
@@ -587,7 +587,7 @@ export default function FabricForm({ initial }: { initial: AdminFabric | null })
                 <input value={form.width} onChange={(e) => set('width', e.target.value)} placeholder="44 Inches" className={inputCls} />
               </Field>
               <Field label="Minimum order (MOQ)" required>
-                <input required value={form.moq} onChange={(e) => set('moq', e.target.value)} placeholder="25 Metres" className={inputCls} />
+                <input required value={form.moq} onChange={(e) => set('moq', e.target.value)} placeholder="10–15 Metres" className={inputCls} />
               </Field>
               <Field label="Suitable for" hint="Comma separated, e.g. Sherwani, Achkan">
                 <input value={form.suitableFor} onChange={(e) => set('suitableFor', e.target.value)} className={inputCls} />

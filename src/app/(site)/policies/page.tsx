@@ -78,7 +78,7 @@ export default function PoliciesPage() {
             4. Enquiry & Order Policy
           </h2>
           <p className="mb-3">
-            <strong>Minimum Order Quantities (MOQ):</strong> Running ready-stock catalogue weaves maintain a minimum requirement of 20 to 25 metres per design/colorway. For custom embroidery job-work, the minimum production run is typically 100 metres per motif development.
+            <strong>Minimum Order Quantities (MOQ):</strong> The minimum order is 10 to 15 metres per design/colourway, for both running ready-stock catalogue weaves and made-to-order colourways.
           </p>
           <p className="mb-3">
             <strong>Strike-Off Approvals:</strong> For custom runs, production begins only upon written or WhatsApp sign-off of physical strike-off swatches.

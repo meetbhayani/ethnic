@@ -12,7 +12,7 @@ export default function EnquiryModal() {
   const [contactPerson, setContactPerson] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [quantity, setQuantity] = useState(modalData.defaultQty || '25 Metres');
+  const [quantity, setQuantity] = useState(modalData.defaultQty || '10–15 Metres');
   const [notes, setNotes] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -26,7 +26,7 @@ export default function EnquiryModal() {
       setSubmitting(false);
       setFormError(null);
       setNotes('');
-      setQuantity(modalData.defaultQty || '25 Metres');
+      setQuantity(modalData.defaultQty || '10–15 Metres');
     }
   }, [modalData.isOpen, modalData.fabric, modalData.defaultQty]);
 
@@ -125,7 +125,7 @@ export default function EnquiryModal() {
                 Official B2B Inquiry Desk
               </span>
               <h2 className="font-editorial text-2xl sm:text-3xl text-[#30241F] mt-1">
-                {fabric ? `Request Price for ${fabric.name}` : 'Commercial Fabric & Job-Work Inquiry'}
+                {fabric ? `Request Price for ${fabric.name}` : 'Commercial Fabric Inquiry'}
               </h2>
               {fabric && (
                 <div className="mt-2 flex items-center gap-3 text-xs">
@@ -206,7 +206,7 @@ export default function EnquiryModal() {
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. 25 Metres (or 2-metre sample cut)"
+                  placeholder="e.g. 10–15 Metres (or 2-metre sample cut)"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                   className="w-full bg-[#F4EFE6] border border-[#AD8A53]/40 px-3.5 py-2 text-xs font-sans text-[#30241F] focus:outline-none focus:border-[#AD8A53]"
