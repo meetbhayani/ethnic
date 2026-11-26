@@ -9,11 +9,41 @@ import {
   Download,
   CheckCircle2,
   AlertCircle,
-  Eye,
   Info,
   SlidersHorizontal,
-  Key,
 } from 'lucide-react';
+
+// Shrinks an uploaded photo in the browser so it uploads fast and stays under the server limit.
+function resizePhoto(file: File, maxSide = 1280): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return reject(new Error('canvas'));
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL('image/jpeg', 0.9));
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error('load'));
+    };
+    img.src = url;
+  });
+}
+
+const PROGRESS_STEPS = [
+  'Reading the model photo…',
+  'Studying the fabric’s embroidery and colours…',
+  'Tailoring the garment from the fabric…',
+  'Adding drape, folds and lighting…',
+  'Almost there…',
+];
 import { useEnquiry } from '@/context/EnquiryContext';
 import { useSiteImageResolver } from '@/context/SiteContentContext';
 import { FabricItem } from '@/types';
@@ -39,25 +69,37 @@ function AITryOnContent() {
   const [generationProgress, setGenerationProgress] = useState<number>(0);
   const [generationStep, setGenerationStep] = useState<string>('');
   const [generatedPreviewUrl, setGeneratedPreviewUrl] = useState<string | null>(null);
-  const [generationMeta, setGenerationMeta] = useState<{ provider?: string; isLive?: boolean; message?: string }>({});
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Before / After slider state
   const [compareSplit, setCompareSplit] = useState<number>(50);
   const [showCompare, setShowCompare] = useState<boolean>(false);
 
-  // Backend API status state
-  const [apiStatus, setApiStatus] = useState<{ configured: boolean; provider: string } | null>(null);
+  // Whether the try-on service is switched on (server has an API key)
+  const [available, setAvailable] = useState<boolean | null>(null);
+  const [limitReached, setLimitReached] = useState(false);
 
   useEffect(() => {
     fetch('/api/ai-tryon')
       .then((res) => res.json())
       .then((data) => {
-        setApiStatus({ configured: data.configured, provider: data.provider });
+        setAvailable(Boolean(data.available) && !data.limitReached);
+        setLimitReached(Boolean(data.limitReached));
       })
-      .catch(() => {
-        setApiStatus({ configured: false, provider: 'Google Gemini' });
-      });
+      .catch(() => setAvailable(false));
   }, []);
+
+  // Progress messages while the image is being made (real generation takes ~10–30 s).
+  useEffect(() => {
+    if (!isGenerating) return;
+    const started = Date.now();
+    const t = setInterval(() => {
+      const s = (Date.now() - started) / 1000;
+      setGenerationProgress(Math.min(92, Math.round(100 * (1 - Math.exp(-s / 8)))));
+      setGenerationStep(PROGRESS_STEPS[Math.min(PROGRESS_STEPS.length - 1, Math.floor(s / 3))]);
+    }, 400);
+    return () => clearInterval(t);
+  }, [isGenerating]);
 
   const presetModels = [
     {
@@ -82,19 +124,21 @@ function AITryOnContent() {
     },
   ];
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        alert('File size exceeds 5MB limit. Please upload a smaller image.');
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setUploadedImage(event.target?.result as string);
-        setSelectedPresetModel('custom-upload');
-      };
-      reader.readAsDataURL(file);
+    e.target.value = '';
+    if (!file) return;
+    setErrorMessage(null);
+    if (file.size > 15 * 1024 * 1024) {
+      setErrorMessage('That photo is too large. Please choose one under 15 MB.');
+      return;
+    }
+    try {
+      setUploadedImage(await resizePhoto(file));
+      setSelectedPresetModel('custom-upload');
+      setGeneratedPreviewUrl(null);
+    } catch {
+      setErrorMessage('We could not read that photo. Please try a JPG, PNG or WebP image.');
     }
   };
 
@@ -106,71 +150,43 @@ function AITryOnContent() {
   // Real backend generation trigger
   const triggerGeneration = async () => {
     if (!consentGiven) {
-      alert('Please accept the AI upload and visualization terms before proceeding.');
+      setErrorMessage('Please tick the box above to accept the AI preview terms first.');
       return;
     }
 
+    setErrorMessage(null);
+    setShowCompare(false);
+    setGenerationProgress(3);
+    setGenerationStep(PROGRESS_STEPS[0]);
     setIsGenerating(true);
-    setGenerationProgress(15);
-    setGenerationStep('Analyzing model pose & garment boundaries...');
 
-    const stepTimer1 = setTimeout(() => {
-      setGenerationProgress(45);
-      setGenerationStep(`Conditioning ${selectedFabric.code} texture & Surat embroidery weave...`);
-    }, 800);
-
-    const stepTimer2 = setTimeout(() => {
-      setGenerationProgress(75);
-      setGenerationStep('Applying daylight illumination & realistic silk fold shadows...');
-    }, 1800);
+    const usingUpload = selectedPresetModel === 'custom-upload' && uploadedImage;
 
     try {
+      // The server looks up the fabric photo and preset model photo itself;
+      // only an uploaded client photo is sent from the browser.
       const response = await fetch('/api/ai-tryon', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // Only the fabric ID is sent; the server looks up the fabric itself.
-        // The uploaded photo never leaves the browser.
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           outfitStyle,
           previewMode,
           fabricId: selectedFabric.id,
+          ...(usingUpload ? { uploadedImage } : { presetId: selectedPresetModel }),
         }),
       });
-
       const data = await response.json().catch(() => ({}));
 
-      clearTimeout(stepTimer1);
-      clearTimeout(stepTimer2);
-
-      if (!response.ok) {
-        setIsGenerating(false);
-        setGenerationProgress(0);
-        alert(data.error || 'Could not generate a preview right now. Please try again later.');
+      if (!response.ok || !data.imageUrl) {
+        setErrorMessage(data.error || 'The preview could not be generated right now. Please try again.');
         return;
       }
-
       setGenerationProgress(100);
-      setGenerationStep('Finalizing royal drape render...');
-
-      setTimeout(() => {
-        setIsGenerating(false);
-        if (data.imageUrl) {
-          setGeneratedPreviewUrl(data.imageUrl);
-          setGenerationMeta({
-            provider: data.provider,
-            isLive: data.isLive,
-            message: data.message,
-          });
-        }
-      }, 500);
-    } catch (err) {
-      clearTimeout(stepTimer1);
-      clearTimeout(stepTimer2);
+      setGeneratedPreviewUrl(data.imageUrl);
+    } catch {
+      setErrorMessage('Connection problem — please check your internet and try again.');
+    } finally {
       setIsGenerating(false);
-      // Fallback
-      setGeneratedPreviewUrl(selectedFabric.styledModelImage || selectedFabric.mainImage);
     }
   };
 
@@ -194,24 +210,20 @@ function AITryOnContent() {
             AI Virtual Try-On Preview
           </h1>
           <p className="text-xs sm:text-sm text-[#30241F]/80 font-sans mt-2 max-w-2xl leading-relaxed">
-            Experience our men&apos;s ethnic embroidered fabrics in realistic three-dimensional silhouette previews. Powered by Google Gemini &amp; Imagen 3 deep tailoring synthesis.
+            Pick a model or upload a photo, choose a garment and one of our fabrics — the AI tailors that exact fabric onto the person so you can see the embroidery as it would be worn.
           </p>
         </div>
 
-        {/* Live Backend Key Status Badge */}
-        <div className="shrink-0">
-          {apiStatus?.configured ? (
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-[13px] font-sans rounded shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Google Gemini &amp; Imagen 3: <strong>Live AI Connected</strong></span>
-            </div>
-          ) : (
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 border border-amber-300 text-amber-900 text-[13px] font-sans rounded shadow-sm">
-              <Key className="w-3.5 h-3.5 text-amber-700" />
-              <span>Backend Ready • Add <strong>GEMINI_API_KEY</strong> in <code>.env.local</code></span>
-            </div>
-          )}
-        </div>
+        {available === false && (
+          <div className="shrink-0 inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 border border-amber-300 text-amber-900 text-[13px] font-sans rounded shadow-sm">
+            <AlertCircle className="w-3.5 h-3.5 text-amber-700" />
+            <span>
+              {limitReached
+                ? 'Today’s AI previews are used up — back tomorrow morning. Contact us on WhatsApp for styled previews.'
+                : 'Try-On is temporarily unavailable — contact us on WhatsApp for styled previews.'}
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
@@ -256,7 +268,7 @@ function AITryOnContent() {
             <div className="border-t border-[#AD8A53]/15 pt-3">
               <label className="flex items-center justify-center gap-2 w-full py-2.5 px-4 border border-dashed border-[#AD8A53]/60 bg-[#F4EFE6]/60 hover:bg-[#F4EFE6] cursor-pointer text-xs font-sans text-[#30241F] transition-colors">
                 <Upload className="w-4 h-4 text-[#AD8A53]" />
-                <span>Upload Custom Client Photo (Max 5MB)</span>
+                <span>Upload Client Photo (clear, full-length, one person)</span>
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/webp"
@@ -389,17 +401,24 @@ function AITryOnContent() {
                 className="accent-[#AD8A53] mt-0.5"
               />
               <span className="text-[13px] text-[#30241F]/80 leading-tight">
-                I understand AI previews are conceptual visual aids and do not replace physical swatch approval. Any photo I upload stays in my browser and is not sent to Khodal Fashion’s servers.
+                I understand AI previews are conceptual visual aids and do not replace physical swatch approval. I have the right to use any photo I upload; it is sent to an open-source AI model run by Cloudflare only to create this preview and is not stored by Khodal Fashion.
               </span>
             </label>
           </div>
 
+          {errorMessage && (
+            <p role="alert" className="flex items-start gap-2 text-xs text-[#713B43] bg-rose-50 border border-[#713B43]/30 px-3 py-2 font-sans">
+              <AlertCircle className="w-4 h-4 shrink-0 mt-px" />
+              <span>{errorMessage}</span>
+            </p>
+          )}
+
           {/* Primary Action Button */}
           <button
             onClick={triggerGeneration}
-            disabled={isGenerating}
+            disabled={isGenerating || available === false}
             className={`w-full py-4 text-xs uppercase tracking-widest font-sans font-semibold transition-all shadow-md flex items-center justify-center gap-2 ${
-              isGenerating
+              isGenerating || available === false
                 ? 'bg-[#C9BBA7] text-[#FAF8F3] cursor-not-allowed'
                 : 'bg-[#AD8A53] hover:bg-[#91703E] text-[#FAF8F3]'
             }`}
@@ -430,9 +449,10 @@ function AITryOnContent() {
                 </div>
                 <div>
                   <h3 className="font-editorial text-2xl text-[#FAF8F3]">
-                    Synthesizing Royal Drape
+                    Tailoring {selectedFabric.code}
                   </h3>
-                  <p className="text-xs text-[#7A6A58] font-mono mt-1">{generationStep}</p>
+                  <p className="text-xs text-[#C9BBA7] font-sans mt-1">{generationStep}</p>
+                  <p className="text-[12px] text-[#7A6A58] font-sans mt-1">Usually takes 5–20 seconds</p>
                 </div>
                 <div className="w-48 h-1.5 bg-[#30241F] rounded-full overflow-hidden">
                   <div
@@ -519,12 +539,12 @@ function AITryOnContent() {
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-400" />
                     <span className="font-mono text-[12px] text-[#AD8A53] font-semibold uppercase">
-                      {generationMeta.provider || 'AI RENDER COMPLETE'}
+                      AI Try-On Preview
                     </span>
                   </div>
                   <p className="font-serif text-[17px] text-[#FAF8F3] mt-0.5">{selectedFabric.name}</p>
-                  <p className="text-[12px] text-[#7A6A58]">
-                    Mapped on {outfitStyle.toUpperCase()} • Tone-on-tone illumination
+                  <p className="text-[12px] text-[#C9BBA7]">
+                    {selectedFabric.code} • {previewMode === 'fabric-only' ? 'Fabric drape' : outfitStyle.replace('-', ' ')}
                   </p>
                 </div>
 
@@ -536,9 +556,7 @@ function AITryOnContent() {
                   <div className="flex items-center gap-2">
                     <a
                       href={generatedPreviewUrl}
-                      download={`khodal-${selectedFabric.code}-ai-preview.jpg`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      download={`khodal-${selectedFabric.code}-ai-preview`}
                       className="px-3 py-1.5 bg-[#FAF8F3] hover:bg-[#F4EFE6] text-[#30241F] text-[12px] uppercase tracking-wider font-semibold flex items-center gap-1 shadow"
                     >
                       <Download className="w-3 h-3" />
@@ -574,7 +592,8 @@ function AITryOnContent() {
                     </p>
                     <button
                       onClick={triggerGeneration}
-                      className="w-full py-2 bg-[#30241F] text-[#FAF8F3] text-xs uppercase tracking-widest font-semibold"
+                      disabled={available === false}
+                      className="w-full py-2 bg-[#30241F] text-[#FAF8F3] text-xs uppercase tracking-widest font-semibold disabled:opacity-50"
                     >
                       Generate AI Preview Now
                     </button>

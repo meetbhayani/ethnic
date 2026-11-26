@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase/server';
+import { senderAddress } from '@/lib/email';
 
 const ENQUIRY_TYPES = ['fabric-price', 'custom-jobwork', 'wholesale-b2b', 'swatch-kit'] as const;
 
@@ -37,16 +38,17 @@ async function sendAlertEmail(row: Record<string, string | null>) {
     .map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;color:#777">${escapeHtml(k)}</td><td>${escapeHtml(String(v))}</td></tr>`)
     .join('');
 
-  await fetch('https://api.resend.com/emails', {
+  const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from: process.env.ENQUIRY_FROM_EMAIL || 'Khodal Fashion Website <onboarding@resend.dev>',
+      from: senderAddress(),
       to: [to],
       subject: `New enquiry: ${row.business_name} (${row.enquiry_type})`,
       html: `<h2>New website enquiry</h2><table>${lines}</table>`,
     }),
   });
+  if (!res.ok) throw new Error(`Resend ${res.status}: ${(await res.text()).slice(0, 300)}`);
 }
 
 export async function POST(req: NextRequest) {

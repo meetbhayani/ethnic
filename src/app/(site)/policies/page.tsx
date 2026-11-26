@@ -63,10 +63,10 @@ export default function PoliciesPage() {
               <strong>Illustrative Nature:</strong> AI previews are conceptual visual aids. They do not guarantee exact physical drape, weight (GSM), stiffening interlining compatibility, or 100% color-match to physical yarn.
             </li>
             <li>
-              <strong>Consent & Image Security:</strong> Images uploaded by users are processed ephemerally solely for the active session rendering and are not utilized for public artificial intelligence model training.
+              <strong>Consent & Image Security:</strong> Upload only photos you have the right to use. An uploaded photo is sent, together with the selected fabric photo, to an open-source AI model (FLUX.2 [klein]) run by Cloudflare Workers AI, which does not retain the data, solely to create the requested preview.
             </li>
             <li>
-              <strong>Session Purging:</strong> All temporary user uploads are queued for automated deletion within 24 hours of session inactivity.
+              <strong>No Storage:</strong> Khodal Fashion does not save uploaded photos or generated previews on its servers. The preview exists only in your browser until you close the page or save it.
             </li>
           </ul>
         </section>

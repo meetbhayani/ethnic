@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Inbox, Package, PackageCheck, TrendingUp, Plus, ArrowRight, ExternalLink } from 'lucide-react';
+import { Inbox, Package, PackageCheck, TrendingUp, Plus, ArrowRight, ExternalLink, Sparkles, AlertTriangle } from 'lucide-react';
 import { useAdmin } from '@/components/admin/AdminProvider';
 import {
   ButtonLink,
@@ -37,14 +37,33 @@ interface FabricLite {
   featured: boolean;
 }
 
+interface TryonDay {
+  day: string;
+  previews: number;
+  failures: number;
+  warned_at: string | null;
+  limit_hit_at: string | null;
+}
+
 const DAY = 24 * 60 * 60 * 1000;
+// Keep in sync with ESTIMATED_DAILY_PREVIEWS in src/lib/tryon-usage.ts
+const TRYON_DAILY_ESTIMATE = 60;
 
 export default function DashboardPage() {
   const { supabase, toast } = useAdmin();
   const [enquiries, setEnquiries] = useState<EnquiryLite[] | null>(null);
   const [fabrics, setFabrics] = useState<FabricLite[]>([]);
+  const [tryon, setTryon] = useState<TryonDay[] | null>(null);
 
   const load = useCallback(async () => {
+    // Try-on usage is optional (table comes from migrations/20261129_tryon_usage.sql).
+    supabase
+      .from('tryon_usage')
+      .select('day, previews, failures, warned_at, limit_hit_at')
+      .order('day', { ascending: false })
+      .limit(7)
+      .then(({ data, error }) => setTryon(error ? null : ((data as TryonDay[]) || [])));
+
     const [e, f] = await Promise.all([
       supabase
         .from('enquiries')
@@ -81,6 +100,9 @@ export default function DashboardPage() {
   }));
   const maxType = Math.max(1, ...byType.map((t) => t.count));
 
+  const todayUtc = new Date().toISOString().slice(0, 10);
+  const tryonToday = tryon?.find((d) => d.day === todayUtc) || null;
+
   return (
     <>
       <PageHeader
@@ -97,6 +119,30 @@ export default function DashboardPage() {
           </>
         }
       />
+
+      {/* AI Try-On allowance alert */}
+      {tryonToday?.limit_hit_at ? (
+        <div role="alert" className="mb-6 flex items-start gap-3 rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800">
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+          <div>
+            <p className="font-semibold">AI Try-On is paused for today — the free Cloudflare allowance is used up.</p>
+            <p className="mt-0.5">
+              {tryonToday.previews} previews were made today. Visitors are asked to contact you on WhatsApp instead.
+              Previews restart automatically at 5:30 AM IST. Nothing is charged.
+            </p>
+          </div>
+        </div>
+      ) : tryonToday?.warned_at ? (
+        <div role="status" className="mb-6 flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+          <div>
+            <p className="font-semibold">AI Try-On is running low today.</p>
+            <p className="mt-0.5">
+              {tryonToday.previews} of about {TRYON_DAILY_ESTIMATE} free previews used. If the allowance runs out, previews pause until 5:30 AM IST.
+            </p>
+          </div>
+        </div>
+      ) : null}
 
       {/* Stat cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -171,6 +217,55 @@ export default function DashboardPage() {
         </Card>
 
         <div className="space-y-6">
+          {/* AI Try-On usage */}
+          {tryon && (
+            <Card>
+              <CardHeader
+                title="AI Try-On usage"
+                description={`Free Cloudflare allowance ≈ ${TRYON_DAILY_ESTIMATE} previews/day, resets 5:30 AM IST.`}
+              />
+              <div className="p-5">
+                <div className="flex items-center gap-3">
+                  <span
+                    className={cx(
+                      'rounded-md p-2',
+                      tryonToday?.limit_hit_at ? 'bg-rose-50 text-rose-600' : tryonToday?.warned_at ? 'bg-amber-50 text-amber-700' : 'bg-stone-100 text-stone-600'
+                    )}
+                  >
+                    <Sparkles className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <p className="text-2xl font-semibold tabular-nums">
+                      {tryonToday?.previews ?? 0}
+                      <span className="text-base font-normal text-stone-500"> / ~{TRYON_DAILY_ESTIMATE} today</span>
+                    </p>
+                    <p className="text-xs text-stone-500">
+                      {tryonToday?.limit_hit_at ? 'Allowance used up — paused until tomorrow' : 'Previews available'}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-3 h-2 rounded-full bg-stone-100">
+                  <div
+                    className={cx('h-2 rounded-full', tryonToday?.limit_hit_at ? 'bg-rose-500' : tryonToday?.warned_at ? 'bg-amber-500' : 'bg-[#AD8A53]')}
+                    style={{ width: `${tryonToday?.limit_hit_at ? 100 : Math.min(100, ((tryonToday?.previews ?? 0) / TRYON_DAILY_ESTIMATE) * 100)}%` }}
+                  />
+                </div>
+                {tryon.length > 0 && (
+                  <ul className="mt-4 space-y-1 text-sm">
+                    {tryon.map((d) => (
+                      <li key={d.day} className="flex justify-between text-stone-600">
+                        <span>{new Date(`${d.day}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', timeZone: 'UTC' })}</span>
+                        <span className="tabular-nums">
+                          {d.previews} previews{d.limit_hit_at ? ' • limit reached' : ''}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </Card>
+          )}
+
           {/* Pipeline */}
           <Card>
             <CardHeader title="Enquiry pipeline" description="All enquiries by status." />
